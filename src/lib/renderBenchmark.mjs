@@ -17,9 +17,6 @@ function validateRendererResult(result, path, errors) {
       if (!finitePositive(result[field])) errors.push(`${path}.${field} must be a positive finite number for an ok result`)
     }
     if (!Number.isInteger(result.samples) || result.samples < 1) errors.push(`${path}.samples must be a positive integer for an ok result`)
-    if (finitePositive(result.averageMs) && finitePositive(result.p95Ms) && result.p95Ms < result.averageMs) {
-      errors.push(`${path}.p95Ms must not be lower than averageMs`)
-    }
   }
 }
 
@@ -47,6 +44,8 @@ export function validateRenderBenchmarkCapture(value) {
   const benchmark = value.benchmark
   if (!benchmark || typeof benchmark !== 'object') errors.push('benchmark payload is required')
   else {
+    if (benchmark.benchmarkVersion !== 2) errors.push('benchmark.benchmarkVersion must equal 2')
+    if (benchmark.syncMode !== 'explicit-gpu-completion') errors.push('benchmark.syncMode must equal explicit-gpu-completion')
     if (!benchmark.timestamp || Number.isNaN(Date.parse(benchmark.timestamp))) errors.push('benchmark.timestamp must be an ISO-8601 timestamp')
     if (typeof benchmark.userAgent !== 'string' || !benchmark.userAgent.trim()) errors.push('benchmark.userAgent is required')
     if (!Number.isInteger(benchmark.instances) || benchmark.instances < 1) errors.push('benchmark.instances must be a positive integer')
