@@ -16,7 +16,7 @@ export function FabCaseStudies() {
       <div className="research-heading"><div><span className="eyebrow">Public integration case studies</span><h2>Where EUV meets the fab</h2><p>These cards separate scanner technology, foundry adoption and mask/source lifecycle concerns. Every hard fact is linked to the shared evidence dataset; private recipes, line layouts, yield details and internal control procedures stay explicitly unknown.</p></div><div className="case-count"><strong>{fabCases.length}</strong><span>evidence-bounded cases</span></div></div>
       <div className="case-grid">{fabCases.map((item) => {
         const linkedClaims = item.claimIds.map((id) => claimById.get(id)).filter(Boolean)
-        return <article key={item.id} className="fab-case" data-fab-case={item.id}>
+        return <article id={`fab-case-${item.id}`} key={item.id} className="fab-case" data-fab-case={item.id}>
           <div className="case-meta"><span>{kindLabel[item.kind]}</span><b>{item.organization}</b><em>{item.year}</em></div>
           <h3>{item.title}</h3>
           <p>{item.summary}</p>
