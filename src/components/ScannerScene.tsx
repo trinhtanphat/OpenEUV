@@ -54,43 +54,55 @@ export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsy
       mesh.position.set(config.base[0], config.base[1], config.base[2])
       mesh.castShadow = true
       mesh.userData.id = config.id
+      mesh.userData.assetLoaded = false
       root.add(mesh)
       objects.set(config.id, mesh)
     })
 
-    const sourceFallback = objects.get('source')!
-    const sourceMaterial = sourceFallback.material as THREE.MeshStandardMaterial
-    sourceMaterial.opacity = 0.16
-    const loader = new GLTFLoader()
-    loader.load('/models/euv-source-collector-concept.gltf', (gltf) => {
-      const model = gltf.scene
-      model.scale.setScalar(0.42)
-      model.rotation.y = Math.PI / 2
-      model.position.set(0, -0.12, 0)
-      model.traverse((node) => {
-        if (node instanceof THREE.Mesh) {
-          node.castShadow = true
-          node.receiveShadow = true
-        }
-      })
-      sourceFallback.add(model)
-    }, undefined, () => {
-      sourceMaterial.opacity = 0.82
+    const projectionDetails = new THREE.Group()
+    objects.get('projection')!.add(projectionDetails)
+    const mirrorMaterial = new THREE.MeshPhysicalMaterial({ color: 0xc4b5fd, metalness: 0.9, roughness: 0.08, clearcoat: 1 })
+    ;[[-0.45, 0.8, -0.25], [0.45, 0.2, 0.25], [-0.45, -0.45, -0.25]].forEach(([x, y, rz]) => {
+      const mirror = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.08, 40), mirrorMaterial)
+      mirror.position.set(x, y, 0)
+      mirror.rotation.set(Math.PI / 2, 0, rz)
+      projectionDetails.add(mirror)
     })
+
+    const loader = new GLTFLoader()
+    const loadConceptAsset = (id: 'source' | 'reticle' | 'projection', url: string, scale: number, rotationY = 0, offset: [number, number, number] = [0, 0, 0]) => {
+      const fallback = objects.get(id)!
+      loader.load(url, (gltf) => {
+        const model = gltf.scene
+        model.scale.setScalar(scale)
+        model.rotation.y = rotationY
+        model.position.set(offset[0], offset[1], offset[2])
+        model.name = `OpenEUV-${id}-concept-asset`
+        model.traverse((node) => {
+          node.userData.subsystem = id
+          if (node instanceof THREE.Mesh) {
+            node.castShadow = true
+            node.receiveShadow = true
+          }
+        })
+        fallback.add(model)
+        fallback.userData.assetLoaded = true
+        if (id === 'projection') projectionDetails.visible = false
+      }, undefined, () => {
+        fallback.userData.assetLoaded = false
+        if (id === 'projection') projectionDetails.visible = true
+      })
+    }
+
+    loadConceptAsset('source', '/models/euv-source-collector-concept.gltf', 0.42, Math.PI / 2, [0, -0.12, 0])
+    loadConceptAsset('reticle', '/models/euv-reticle-concept.gltf', 0.34, 0, [0, 0.08, 0])
+    loadConceptAsset('projection', '/models/euv-projection-concept.gltf', 0.58, 0, [0, 0, 0])
 
     const vacuum = new THREE.Mesh(new THREE.BoxGeometry(9.8, 0.34, 2.85), material('vacuum'))
     vacuum.position.set(0, -1.35, -0.1)
     vacuum.userData.id = 'vacuum'
     root.add(vacuum)
     objects.set('vacuum', vacuum)
-
-    const mirrorMaterial = new THREE.MeshPhysicalMaterial({ color: 0xc4b5fd, metalness: 0.9, roughness: 0.08, clearcoat: 1 })
-    ;[[-0.45, 0.8, -0.25], [0.45, 0.2, 0.25], [-0.45, -0.45, -0.25]].forEach(([x, y, rz]) => {
-      const mirror = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.08, 40), mirrorMaterial)
-      mirror.position.set(x, y, 0)
-      mirror.rotation.set(Math.PI / 2, 0, rz)
-      objects.get('projection')!.add(mirror)
-    })
 
     const wafer = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.82, 0.06, 64), new THREE.MeshPhysicalMaterial({ color: 0x67e8f9, metalness: 0.45, roughness: 0.18, iridescence: 0.85 }))
     wafer.position.set(0, 0.26, 0)
@@ -165,7 +177,8 @@ export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsy
         const mesh = objects.get(config.id)!
         mesh.position.x += ((config.base[0] + amount * config.factor) - mesh.position.x) * 0.1
         const meshMaterial = mesh.material as THREE.MeshStandardMaterial
-        meshMaterial.opacity = config.id === 'source' ? (config.id === selectedId ? 0.3 : 0.12) : (config.id === selectedId ? 1 : 0.82)
+        const hasAsset = mesh.userData.assetLoaded === true
+        meshMaterial.opacity = hasAsset ? (config.id === selectedId ? 0.28 : 0.09) : (config.id === selectedId ? 1 : 0.82)
         meshMaterial.emissiveIntensity = config.id === selectedId ? 0.34 : 0.035
       })
       const vacuumMesh = objects.get('vacuum')!
@@ -207,5 +220,5 @@ export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsy
     }
   }, [])
 
-  return <div className="scanner-canvas" ref={mountRef}><div className="canvas-help">drag to orbit · wheel to zoom · click a module</div><div className="canvas-caption">Conceptual public-source reconstruction · source uses original OpenEUV glTF · not ASML CAD</div></div>
+  return <div className="scanner-canvas" ref={mountRef}><div className="asset-layer-note">OpenEUV original concept assets: source · reticle · projection</div><div className="canvas-help">drag to orbit · wheel to zoom · click a module</div><div className="canvas-caption">Public-source conceptual reconstruction · original OpenEUV glTF assets · not ASML CAD</div></div>
 }
