@@ -44,6 +44,14 @@ The report is coverage bookkeeping. It does not rank:
 
 OpenEUV evidence classes keep their existing meaning; source frequency is not evidence strength.
 
+## Patent metadata adapter guard
+
+`src/data/patents.ts` remains the runtime TypeScript source of truth. The CLI reads it without evaluating application code through `src/lib/patentSourceParser.mjs`.
+
+The parser is brace-aware, ignores braces inside quoted strings and locates the data array **after the assignment operator**, so a TypeScript annotation such as `PatentRecord[]` cannot be mistaken for the record array. The CLI fails instead of silently reporting zero patent records if parsing no longer matches the source.
+
+`tests/patent-source-parser.test.mjs` checks both repository data and formatting edge cases. This keeps provenance coverage from silently changing because of harmless TypeScript formatting.
+
 ## Attach it to a research discussion
 
 When a PR or issue changes evidence, fab context, patent metadata or public datasets:
@@ -58,7 +66,9 @@ A known research gap is not automatically a failure. Missing direct source links
 ## Implementation
 
 - `src/lib/provenanceReport.mjs` — deterministic summary + Markdown rendering.
-- `tools/provenance-report.mjs` — repository-local CLI and patent metadata adapter.
+- `src/lib/patentSourceParser.mjs` — non-evaluating TypeScript patent-record adapter.
+- `tools/provenance-report.mjs` — repository-local CLI.
 - `tests/provenance-report.test.mjs` — source-domain/organization, review state, missing-source, rationale, fab, unknown and license-gap coverage.
+- `tests/patent-source-parser.test.mjs` — parser regression coverage against the real patent source and formatting variants.
 
 The command is intentionally local; GitHub Actions remains disabled unless the project owner explicitly changes that policy.
