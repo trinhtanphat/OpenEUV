@@ -38,6 +38,7 @@ function scanForbidden(value, path = '$', errors = []) {
 
 export function buildResearchSnapshot({
   generatedAt,
+  build = { version: 'unknown', commit: 'unknown', source: 'unknown' },
   claims = [],
   unknowns = [],
   fabCases = [],
@@ -47,9 +48,10 @@ export function buildResearchSnapshot({
 } = {}) {
   if (!generatedAt || Number.isNaN(Date.parse(generatedAt))) throw new Error('generatedAt must be a valid ISO-8601 timestamp')
   return clonePublic({
-    schemaVersion: 1,
+    schemaVersion: 2,
     project: 'OpenEUV',
     generatedAt,
+    build,
     scope: 'public-repository-metadata-only',
     privacy: {
       clientTelemetryIncluded: false,
@@ -69,10 +71,11 @@ export function buildResearchSnapshot({
 
 export function validateResearchSnapshot(snapshot) {
   const errors = []
-  if (snapshot?.schemaVersion !== 1) errors.push('schemaVersion must equal 1')
+  if (snapshot?.schemaVersion !== 2) errors.push('schemaVersion must equal 2')
   if (snapshot?.project !== 'OpenEUV') errors.push('project must equal OpenEUV')
   if (!snapshot?.generatedAt || Number.isNaN(Date.parse(snapshot.generatedAt))) errors.push('generatedAt must be a valid timestamp')
   if (snapshot?.scope !== 'public-repository-metadata-only') errors.push('scope must be public-repository-metadata-only')
+  if (!snapshot?.build || typeof snapshot.build.version !== 'string' || typeof snapshot.build.commit !== 'string' || typeof snapshot.build.source !== 'string') errors.push('build provenance must contain version, commit and source')
   if (!Array.isArray(snapshot?.evidence?.claims)) errors.push('evidence.claims must be an array')
   if (!Array.isArray(snapshot?.evidence?.unknowns)) errors.push('evidence.unknowns must be an array')
   if (!Array.isArray(snapshot?.fabCases)) errors.push('fabCases must be an array')
