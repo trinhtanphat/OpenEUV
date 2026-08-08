@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { LearningCheckpointCard } from './LearningCheckpointCard'
 import { learningPath } from '../data/learningPath'
 import type { Language } from '../i18n'
 
@@ -10,11 +11,11 @@ export function LearningPath({ language }: { language: Language }) {
     <section className="research-section learning-path" id="learning-path" data-language={language}>
       <div className="research-heading">
         <div>
-          <span className="eyebrow">{language === 'vi' ? 'Basic → advanced' : 'Basic → advanced'}</span>
+          <span className="eyebrow">Basic → advanced</span>
           <h2>{language === 'vi' ? 'Lộ trình học EUV từ nền tảng đến nghiên cứu' : 'EUV learning path from foundations to research'}</h2>
           <p>{language === 'vi'
-            ? 'Mỗi level nối kiến thức với lab tương tác và một loại contribution cụ thể, để người mới cũng có đường vào dự án.'
-            : 'Each level connects theory to interactive labs and a concrete contributor path, giving beginners a clear way into the project.'}</p>
+            ? 'Mỗi level nối kiến thức với lab tương tác, checkpoint tự kiểm tra và một loại contribution cụ thể, để người mới cũng có đường vào dự án.'
+            : 'Each level connects theory to interactive labs, a self-check checkpoint and a concrete contributor path, giving beginners a clear way into the project.'}</p>
         </div>
         <div className="learning-level-badge"><strong>L{active.level}</strong><span>{active.id}</span></div>
       </div>
@@ -56,6 +57,8 @@ export function LearningPath({ language }: { language: Language }) {
           </div>
         </div>
       </article>
+
+      <LearningCheckpointCard language={language} levelId={active.id} />
     </section>
   )
 }
