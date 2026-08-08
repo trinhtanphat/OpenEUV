@@ -27,6 +27,7 @@ runValidator('fab-case validator', 'scripts/validate-fab-cases.mjs')
 runValidator('renderer capture validator', 'scripts/analyze-render-benchmarks.mjs', ['--validate-only'])
 runValidator('cross-dataset graph audit', 'scripts/audit-repository-integrity.mjs')
 runValidator('provenance coverage audit', 'tools/provenance-report.mjs', ['--json'])
+runValidator('learning checkpoint validator', 'scripts/validate-learning-checkpoints.mjs')
 
 const [claims, unknowns, reviews, manifest, conceptLabels, conceptLabelsV4] = await Promise.all([
   readJson('evidence/claims.json'),
@@ -63,6 +64,7 @@ const requiredDocs = [
   'docs/DEPLOYMENT.md',
   'docs/EVIDENCE_REVIEW_CAMPAIGN.md',
   'docs/SILICON_OPTICAL_DATA_GAP.md',
+  'docs/PROVENANCE_REPORT.md',
 ]
 const missingDocs = []
 for (const relativePath of requiredDocs) {
