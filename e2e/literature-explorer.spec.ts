@@ -39,3 +39,21 @@ test('Atlas Search finds a literature DOI and opens the exact paper card', async
   await expect(page.locator('[data-literature-doi="10.48550/arxiv.1912.09075"]')).toBeVisible()
   await expect.poll(async () => page.evaluate(() => window.location.hash)).toBe('#literature-10-48550-arxiv-1912-09075')
 })
+
+test('citation export uses only currently filtered literature records', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+  await page.goto('/#literature')
+  await page.locator('[data-literature-search]').fill('10.1117/12.2515678')
+  await expect(page.locator('[data-literature-doi]')).toHaveCount(1)
+
+  await page.locator('[data-copy-bibtex]').click()
+  await expect(page.locator('[data-literature-export-status]')).toContainText(/1 paper/)
+  const clipboard = await page.evaluate(() => navigator.clipboard.readText())
+  expect(clipboard).toContain('10.1117/12.2515678')
+  expect(clipboard).not.toContain('10.48550/arxiv.1912.09075')
+
+  const downloadPromise = page.waitForEvent('download')
+  await page.locator('[data-download-csl]').click()
+  const download = await downloadPromise
+  expect(download.suggestedFilename()).toBe('openeuv-literature.csl.json')
+})
