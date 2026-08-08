@@ -1,0 +1,37 @@
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import { prepareAtlasSearchItem, scoreAtlasSearchItem, searchAtlas, tokenizeAtlasSearch } from '../src/lib/atlasSearch.mjs'
+
+const index = [
+  prepareAtlasSearchItem({ id: 'evidence:HIGHNA-NA-001', type: 'evidence', title: 'HIGHNA-NA-001', subtitle: 'High-NA increases numerical aperture to 0.55', keywords: ['ZEISS', 'projection'], href: '#evidence-HIGHNA-NA-001' }),
+  prepareAtlasSearchItem({ id: 'patent:EP4239410A1', type: 'patent', title: 'EP4239410A1 — Reticle stage', subtitle: 'ASML Netherlands B.V.', keywords: ['reticle', 'stage'], href: '#patent-EP4239410A1' }),
+  prepareAtlasSearchItem({ id: 'fab:tsmc', type: 'fab-case', title: 'TSMC N7+ EUV volume production', subtitle: 'TSMC · 2019', keywords: ['foundry', 'N7+'], href: '#fab-case-tsmc' }),
+  prepareAtlasSearchItem({ id: 'glossary:numerical-aperture', type: 'glossary', title: 'Numerical aperture (NA)', subtitle: 'Khẩu độ số', keywords: ['khau do so', 'optics'], href: '#glossary' }),
+]
+
+test('tokenization is deterministic and accent-insensitive', () => {
+  assert.deepEqual(tokenizeAtlasSearch('Khẩu độ số / NA'), ['khau', 'do', 'so', '/', 'na'])
+})
+
+test('exact evidence or patent IDs outrank generic keyword matches', () => {
+  const results = searchAtlas(index, 'EP4239410A1')
+  assert.equal(results[0].id, 'patent:EP4239410A1')
+  assert.ok(results[0].score >= 100)
+})
+
+test('organization and bilingual technical terms remain searchable', () => {
+  assert.equal(searchAtlas(index, 'TSMC')[0].id, 'fab:tsmc')
+  assert.equal(searchAtlas(index, 'khẩu độ')[0].id, 'glossary:numerical-aperture')
+  assert.equal(searchAtlas(index, 'ZEISS projection')[0].id, 'evidence:HIGHNA-NA-001')
+})
+
+test('all query tokens receive a coverage bonus', () => {
+  const full = scoreAtlasSearchItem(index[0], 'high na projection')
+  const partial = scoreAtlasSearchItem(index[0], 'projection unrelated-token')
+  assert.ok(full > partial)
+})
+
+test('empty queries return no results and limits are respected', () => {
+  assert.deepEqual(searchAtlas(index, '   '), [])
+  assert.equal(searchAtlas(index, 'stage', { limit: 1 }).length, 1)
+})
