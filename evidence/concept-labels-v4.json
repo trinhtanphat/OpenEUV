@@ -1,0 +1,58 @@
+[
+  {
+    "node": "CollectorHandoff",
+    "subsystem": "illuminator",
+    "label": "Collector handoff",
+    "geometryStatus": "public-inference",
+    "claimIds": ["HIGHNA-ILLUMINATION-001"],
+    "note": "Public sources establish illumination as a major subsystem. This handoff plate is original teaching geometry, not a documented commercial interface."
+  },
+  {
+    "node": "FieldMirrorConcept-1",
+    "subsystem": "illuminator",
+    "label": "Illumination mirror concept",
+    "geometryStatus": "illustrative",
+    "claimIds": ["HIGHNA-ILLUMINATION-001", "PATENT-REFLECTIVE-MEMBER-001"],
+    "note": "Reflective EUV illumination is public; mirror count, prescription, dimensions and placement shown here are illustrative."
+  },
+  {
+    "node": "PupilShapingConcept",
+    "subsystem": "illuminator",
+    "label": "Pupil-shaping concept",
+    "geometryStatus": "illustrative",
+    "claimIds": ["HIGHNA-ILLUMINATION-001"],
+    "note": "A teaching marker for illumination shaping. OpenEUV does not reconstruct proprietary pupil-shaping mechanisms or settings."
+  },
+  {
+    "node": "MaskHandoffPlane",
+    "subsystem": "illuminator",
+    "label": "Mask handoff plane",
+    "geometryStatus": "public-inference",
+    "claimIds": ["PATENT-REFLECTIVE-MEMBER-001"],
+    "note": "Conceptual boundary between illumination and reflective-mask domains; exact production geometry remains unknown."
+  },
+  {
+    "node": "VacuumPlatform",
+    "subsystem": "vacuum",
+    "label": "Vacuum platform concept",
+    "geometryStatus": "illustrative",
+    "claimIds": ["EUV-VACUUM-001"],
+    "note": "ASML publicly states the EUV light path is kept in high vacuum. The platform shape and proportions are original teaching geometry."
+  },
+  {
+    "node": "OpticalPathEnvelope",
+    "subsystem": "vacuum",
+    "label": "Vacuum optical-path envelope",
+    "geometryStatus": "illustrative",
+    "claimIds": ["EUV-VACUUM-001"],
+    "note": "The vacuum requirement for the EUV path is documented; this envelope only visualizes that function and is not a chamber drawing."
+  },
+  {
+    "node": "AirlockConcept",
+    "subsystem": "vacuum",
+    "label": "Interface / airlock concept",
+    "geometryStatus": "illustrative",
+    "claimIds": ["EUV-VACUUM-001", "INFERRED-SCANNER-MODULE-MAP-001"],
+    "note": "Illustrative systems-interface marker. It does not claim the location, dimensions or design of a commercial airlock."
+  }
+]
