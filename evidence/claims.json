@@ -133,6 +133,36 @@
     ]
   },
   {
+    "id": "TSMC-EUV-MASK-DRYCLEAN-2020",
+    "component": "mask-lifecycle",
+    "claim": "TSMC reported in 2020 that its dry-clean technique for EUV masks reduced fall-on particles by more than 99%, while replacing a traditional wet-clean step for the reported use case.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "TSMC Develops the World's First Dry-Clean Technique for EUV Mask", "url": "https://esg.tsmc.com/en-US/articles/129" }
+    ]
+  },
+  {
+    "id": "IMEC-CNT-PELLICLE-2020",
+    "component": "mask-lifecycle",
+    "claim": "imec reported in 2020 that full-field CNT-based pellicles were mounted on reticles and exposed in an NXE:3300 EUV scanner, with tested single-pass EUV transmission up to 97%.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "imec demonstrates CNT pellicle utilization on EUV scanner", "url": "https://www.imec-int.com/en/press/imec-demonstrates-cnt-pellicle-utilization-euv-scanner" }
+    ]
+  },
+  {
+    "id": "ZEISS-AIMS-EUV-MASK-2023",
+    "component": "mask-lifecycle",
+    "claim": "ZEISS states that AIMS systems are used for photomask qualification and that the AIMS EUV generation can inspect EUV masks.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "ZEISS - 30 Years of AIMS, the industry standard for mask qualification", "url": "https://www.zeiss.com/semiconductor-manufacturing-technology/smt-magazine/30-years-of-photomask-qualification.html" }
+    ]
+  },
+  {
     "id": "PATENT-RETICLE-STAGE-001",
     "component": "reticle",
     "claim": "A published ASML patent application describes an EUV reticle stage supporting a reflective reticle with configurable shielding elements.",
