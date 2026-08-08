@@ -81,6 +81,37 @@ export function ScannerScene({ selected, exploded, onSelect, highlightedNode = n
       objects.set(config.id, mesh)
     })
 
+    const addConceptBox = (
+      parent: THREE.Object3D,
+      subsystem: string,
+      name: string,
+      position: [number, number, number],
+      scale: [number, number, number],
+      rotation: [number, number, number] = [0, 0, 0],
+    ) => {
+      const nodeMaterial = new THREE.MeshStandardMaterial({
+        color: palette[subsystem] ?? 0x7dd3fc,
+        metalness: 0.72,
+        roughness: 0.25,
+        transparent: true,
+        opacity: 0.74,
+        emissive: 0x000000,
+        emissiveIntensity: 0,
+      })
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), nodeMaterial)
+      mesh.name = name
+      mesh.position.set(position[0], position[1], position[2])
+      mesh.scale.set(scale[0], scale[1], scale[2])
+      mesh.rotation.set(rotation[0], rotation[1], rotation[2])
+      mesh.castShadow = quality.shadowMaps
+      mesh.receiveShadow = quality.shadowMaps
+      mesh.userData.subsystem = subsystem
+      mesh.userData.conceptNodeName = name
+      parent.add(mesh)
+      conceptNodes.set(name, mesh)
+      return mesh
+    }
+
     const sourceAnimation = new THREE.Group()
     objects.get('source')!.add(sourceAnimation)
     const conceptualDroplet = new THREE.Mesh(new THREE.SphereGeometry(0.07, lodMode === 'low' ? 10 : 18, lodMode === 'low' ? 10 : 18), new THREE.MeshBasicMaterial({ color: 0xfff0a8 }))
@@ -88,6 +119,16 @@ export function ScannerScene({ selected, exploded, onSelect, highlightedNode = n
     const conceptualPlasma = new THREE.Mesh(new THREE.SphereGeometry(0.14, lodMode === 'low' ? 12 : 22, lodMode === 'low' ? 12 : 22), new THREE.MeshBasicMaterial({ color: 0x9deeff, transparent: true, opacity: 0.72 }))
     conceptualPlasma.position.set(0.08, 0.06, 0)
     sourceAnimation.add(conceptualDroplet, conceptualPlasma)
+
+    const illuminationDetails = new THREE.Group()
+    illuminationDetails.name = 'OpenEUV-illumination-procedural-concept'
+    objects.get('illuminator')!.add(illuminationDetails)
+    addConceptBox(illuminationDetails, 'illuminator', 'CollectorHandoff', [-0.36, 0.36, 0], [0.08, 0.62, 0.72])
+    addConceptBox(illuminationDetails, 'illuminator', 'FieldMirrorConcept-1', [-0.08, 0.28, -0.22], [0.42, 0.055, 0.32], [0.1, 0.15, 0.18])
+    addConceptBox(illuminationDetails, 'illuminator', 'FieldMirrorConcept-2', [0.12, 0.02, 0.18], [0.36, 0.055, 0.29], [-0.08, -0.12, -0.12])
+    if (lodMode !== 'low') addConceptBox(illuminationDetails, 'illuminator', 'FieldMirrorConcept-3', [0.28, -0.24, -0.15], [0.31, 0.05, 0.25], [0.08, 0.1, 0.14])
+    addConceptBox(illuminationDetails, 'illuminator', 'PupilShapingConcept', [0.03, 0.45, 0], [0.34, 0.06, 0.34])
+    addConceptBox(illuminationDetails, 'illuminator', 'MaskHandoffPlane', [0.4, -0.34, 0], [0.08, 0.56, 0.75])
 
     const projectionDetails = new THREE.Group()
     objects.get('projection')!.add(projectionDetails)
@@ -136,6 +177,17 @@ export function ScannerScene({ selected, exploded, onSelect, highlightedNode = n
     vacuum.userData.id = 'vacuum'
     root.add(vacuum)
     objects.set('vacuum', vacuum)
+
+    const vacuumDetails = new THREE.Group()
+    vacuumDetails.name = 'OpenEUV-vacuum-procedural-concept'
+    vacuum.add(vacuumDetails)
+    addConceptBox(vacuumDetails, 'vacuum', 'VacuumPlatform', [0, 0.06, 0], [8.7, 0.09, 2.45])
+    addConceptBox(vacuumDetails, 'vacuum', 'OpticalPathEnvelope', [0, 0.48, 0], [7.7, 0.07, 1.55])
+    addConceptBox(vacuumDetails, 'vacuum', 'SourceInterfaceConcept', [-3.55, 0.42, 0], [0.12, 0.65, 1.5])
+    addConceptBox(vacuumDetails, 'vacuum', 'ReticleInterfaceConcept', [-1.15, 0.58, 0], [0.12, 0.48, 1.34])
+    addConceptBox(vacuumDetails, 'vacuum', 'ProjectionInterfaceConcept', [1.15, 0.42, 0], [0.12, 0.7, 1.48])
+    addConceptBox(vacuumDetails, 'vacuum', 'WaferInterfaceConcept', [3.0, 0.28, 0], [0.12, 0.46, 1.38])
+    if (lodMode !== 'low') addConceptBox(vacuumDetails, 'vacuum', 'AirlockConcept', [4.05, 0.48, 0], [0.55, 0.62, 1.42])
 
     const wafer = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.82, 0.06, lodMode === 'low' ? 32 : 64), new THREE.MeshPhysicalMaterial({ color: 0x67e8f9, metalness: 0.45, roughness: 0.18, iridescence: 0.85 }))
     wafer.position.set(0, 0.26, 0)
@@ -241,7 +293,7 @@ export function ScannerScene({ selected, exploded, onSelect, highlightedNode = n
         const highlighted = nodeName === nodeToHighlight
         const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material]
         materials.forEach((entry) => {
-          if (entry instanceof THREE.MeshStandardMaterial) {
+          if (entry instanceof THREE.MeshStandardMaterial || entry instanceof THREE.MeshPhysicalMaterial) {
             entry.emissive.setHex(highlighted ? 0x67e8f9 : 0x000000)
             entry.emissiveIntensity = highlighted ? 0.55 : 0
           }
@@ -287,5 +339,5 @@ export function ScannerScene({ selected, exploded, onSelect, highlightedNode = n
     }
   }, [lodMode])
 
-  return <div className="scanner-canvas" ref={mountRef}><div className="asset-layer-note">OpenEUV concept assets · source animation is illustrative, not timing/scale accurate · LOD {lodMode}</div><div className="canvas-help">drag to orbit · wheel to zoom · click a module, concept node or evidence label</div><div className="canvas-caption">Public-source conceptual reconstruction · original OpenEUV glTF assets · not ASML CAD</div></div>
+  return <div className="scanner-canvas" ref={mountRef}><div className="asset-layer-note">OpenEUV original glTF + procedural concept geometry · source animation is illustrative · LOD {lodMode}</div><div className="canvas-help">drag to orbit · wheel to zoom · click a module, concept node or evidence label</div><div className="canvas-caption">Public-source conceptual reconstruction · not ASML CAD · undocumented geometry stays illustrative</div></div>
 }
