@@ -102,6 +102,20 @@ OpenEUV develops a public-source engineering atlas, not a reproduction of propri
 - [x] Structured GitHub Issue Forms for evidence, 3D, bugs and real-device benchmarks.
 - [x] GitHub Actions intentionally disabled by project-owner decision.
 
+## Completed — V5 navigation, provenance, QA & learning
+
+- [x] Local-only global atlas search across subsystems, evidence/unknowns, patents, fab cases, Assembly Explorer, learning levels, labs and glossary.
+- [x] EN/VI search labels, accent-insensitive tokenization and keyboard Arrow/Enter/Escape navigation.
+- [x] Evidence claim → usage provenance trace for concept nodes, Assembly stages and fab cases without inferred relationships.
+- [x] Unified repository preflight separating invariant failures from external research readiness.
+- [x] Cross-dataset integrity audit for claim IDs, concept nodes, fab sources, review targets, dataset paths/IDs and patent subsystem IDs.
+- [x] Human-readable + JSON provenance coverage report by evidence class/component/source organization/domain/review state.
+- [x] Patent/fab/license-gap coverage in the provenance report with robust brace-aware TypeScript patent parsing.
+- [x] V5 normalized mirror-vs-transmission / vacuum-need educational concept lab using public evidence boundaries only.
+- [x] Evidence-aware EN/VI learning checkpoints covering L0→L5 with session-only progress and no telemetry/persistence.
+- [x] Machine-readable checkpoint dataset, validator, dataset-manifest registration and browser/unit coverage.
+- [x] Duplicate V5 search/source-coverage/browser-test implementations consolidated into canonical paths.
+
 ## Open external dependency — #27 real renderer measurements
 
 Software/methodology is complete. Remaining acceptance work requires **real hardware**:
