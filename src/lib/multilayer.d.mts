@@ -9,6 +9,8 @@ export type OpticalMedium = {
   k: number
 }
 
+export type Polarization = 's' | 'p' | 'unpolarized'
+
 export function multilayerReflectivity(input: {
   wavelengthNm: number
   angleDeg?: number
@@ -17,10 +19,16 @@ export function multilayerReflectivity(input: {
   materialB: OpticalLayer
   substrate?: OpticalMedium
   incident?: OpticalMedium
+  polarization?: Polarization
 }): {
   reflectivity: number
   percent: number
+  sReflectivity: number
+  pReflectivity: number
+  sPercent: number
+  pPercent: number
   physicalPeriodNm: number
+  polarization: Polarization
 }
 
 export function braggPeriodNm(wavelengthNm: number, angleDeg?: number): number
