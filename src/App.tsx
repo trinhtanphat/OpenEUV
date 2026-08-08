@@ -13,17 +13,38 @@ import { subsystemVi, t, type Language } from './i18n'
 import { subsystems } from './data/subsystems'
 
 const confidenceLabel = { official: 'Officially documented', patent: 'Patent-supported', academic: 'Academic', inferred: 'Public-source inference', unknown: 'Unknown' }
+const tourStops = ['source', 'reticle', 'projection', 'wafer'] as const
 
 export default function App() {
   const [selectedId, setSelectedId] = useState('projection')
   const [selectedNode, setSelectedNode] = useState<string | null>(null)
   const [exploded, setExploded] = useState(0.18)
   const [language, setLanguage] = useState<Language>('en')
+  const [tourIndex, setTourIndex] = useState<number | null>(null)
+  const [cameraFocus, setCameraFocus] = useState<string | null>(null)
   const selected = useMemo(() => subsystems.find((item) => item.id === selectedId) ?? subsystems[0], [selectedId])
   const localized = language === 'vi' ? subsystemVi[selected.id] : undefined
   const selectSubsystem = (id: string, nodeName?: string) => {
     setSelectedId(id)
     setSelectedNode(nodeName ?? null)
+  }
+  const setTourStop = (index: number) => {
+    const normalized = Math.max(0, Math.min(tourStops.length - 1, index))
+    const stop = tourStops[normalized]
+    setTourIndex(normalized)
+    setCameraFocus(stop)
+    selectSubsystem(stop)
+  }
+  const startTour = () => setTourStop(0)
+  const nextTour = () => setTourStop(tourIndex === null ? 0 : (tourIndex + 1) % tourStops.length)
+  const overviewCamera = () => {
+    setTourIndex(null)
+    setCameraFocus('overview')
+    setSelectedNode(null)
+  }
+  const freeOrbit = () => {
+    setTourIndex(null)
+    setCameraFocus(null)
   }
 
   return (
@@ -41,8 +62,8 @@ export default function App() {
       </section>
 
       <section className="explorer" id="explorer">
-        <div className="section-heading"><div><div className="eyebrow">Interactive public-source reconstruction</div><h2>Exploded EUV scanner</h2><p className="muted">Conceptual digital twin with public-source evidence boundaries. Geometry not established by lawful sources remains explicitly illustrative.</p></div><div className="exploded-control"><span>{t(language, 'assembled')}</span><input aria-label="Exploded view" type="range" min="0" max="1" step="0.01" value={exploded} onChange={(e) => setExploded(Number(e.target.value))} /><span>{t(language, 'exploded')}</span></div></div>
-        <div className="explorer-grid"><ScannerScene selected={selected} exploded={exploded} onSelect={selectSubsystem} /><aside className="subsystem-panel"><div className="subsystem-nav">{subsystems.map((item) => <button key={item.id} data-subsystem-id={item.id} onClick={() => selectSubsystem(item.id)} className={item.id === selected.id ? 'active' : ''}><span>{item.short}</span>{language === 'vi' ? subsystemVi[item.id]?.title ?? item.title : item.title}</button>)}</div><div className="subsystem-detail"><div className={`confidence ${selected.confidence}`}>{confidenceLabel[selected.confidence]}</div><h3>{localized?.title ?? selected.title}</h3><div className="subtitle">{localized?.subtitle ?? selected.subtitle}</div><p>{selected.description}</p><h4>What we know</h4><ul>{selected.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul><h4>Open contributor questions</h4><ul className="questions">{selected.openQuestions.map((question) => <li key={question}>{question}</li>)}</ul><EvidenceInspector subsystemId={selected.id} nodeName={selectedNode} /></div></aside></div>
+        <div className="section-heading"><div><div className="eyebrow">Interactive public-source reconstruction</div><h2>Exploded EUV scanner</h2><p className="muted">Conceptual digital twin with public-source evidence boundaries. Geometry not established by lawful sources remains explicitly illustrative.</p></div><div className="explorer-actions"><div className="exploded-control"><span>{t(language, 'assembled')}</span><input aria-label="Exploded view" type="range" min="0" max="1" step="0.01" value={exploded} onChange={(e) => setExploded(Number(e.target.value))} /><span>{t(language, 'exploded')}</span></div><div className="tour-controls" aria-label="Guided scanner tour"><button data-tour-action="start" onClick={startTour}>Start tour</button><button data-tour-action="next" onClick={nextTour}>Next</button><button data-tour-action="overview" onClick={overviewCamera}>Overview</button><button data-tour-action="free" onClick={freeOrbit}>Free orbit</button>{tourIndex !== null && <span data-tour-stop={tourStops[tourIndex]}>Tour · {tourStops[tourIndex]}</span>}</div></div></div>
+        <div className="explorer-grid"><ScannerScene selected={selected} exploded={exploded} onSelect={selectSubsystem} highlightedNode={selectedNode} focusId={cameraFocus} /><aside className="subsystem-panel"><div className="subsystem-nav">{subsystems.map((item) => <button key={item.id} data-subsystem-id={item.id} onClick={() => selectSubsystem(item.id)} className={item.id === selected.id ? 'active' : ''}><span>{item.short}</span>{language === 'vi' ? subsystemVi[item.id]?.title ?? item.title : item.title}</button>)}</div><div className="subsystem-detail"><div className={`confidence ${selected.confidence}`}>{confidenceLabel[selected.confidence]}</div><h3>{localized?.title ?? selected.title}</h3><div className="subtitle">{localized?.subtitle ?? selected.subtitle}</div><p>{selected.description}</p><h4>What we know</h4><ul>{selected.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul><h4>Open contributor questions</h4><ul className="questions">{selected.openQuestions.map((question) => <li key={question}>{question}</li>)}</ul><EvidenceInspector subsystemId={selected.id} nodeName={selectedNode} onNodeSelect={setSelectedNode} /></div></aside></div>
       </section>
 
       <section className="feature-strip"><div><span className="feature-icon">◫</span><strong>3D Atlas</strong><span>Interactive subsystem reconstruction</span></div><div><span className="feature-icon">λ</span><strong>Physics labs</strong><span>NA, anamorphic, masks and multilayers</span></div><div><span className="feature-icon">⌘</span><strong>Evidence graph</strong><span>CI-validated claims and unknowns</span></div><div><span className="feature-icon">≡</span><strong>Patent map</strong><span>Public disclosures by subsystem</span></div></section>
