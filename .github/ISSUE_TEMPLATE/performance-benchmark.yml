@@ -1,0 +1,55 @@
+name: Real-device renderer benchmark
+description: Coordinate or discuss a method-v2 WebGL/WebGPU capture from real hardware.
+title: "[PERF] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hardware measurements must use OpenEUV benchmark method v2 and real hardware. Playwright, synthetic unit-test fixtures, estimated numbers, or fabricated captures are not benchmark evidence. Do not include serial numbers, usernames, IP addresses, machine IDs, or account identifiers.
+  - type: dropdown
+    id: device_class
+    attributes:
+      label: Device class
+      options:
+        - desktop
+        - laptop
+        - tablet
+        - phone
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS + version
+      placeholder: e.g. Windows 11 24H2
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser + version
+      placeholder: e.g. Chrome 151
+    validations:
+      required: true
+  - type: input
+    id: hardware
+    attributes:
+      label: Public CPU/GPU description
+      description: Model/family only; no serial numbers or device IDs.
+  - type: textarea
+    id: capture
+    attributes:
+      label: Capture/result location or observation
+      description: Prefer committing the schema-ready JSON under benchmarks/raw/. If not yet committed, describe what you plan to measure rather than pasting sensitive logs.
+  - type: checkboxes
+    id: method
+    attributes:
+      label: Method confirmation
+      options:
+        - label: The capture uses benchmarkVersion 2 and syncMode explicit-gpu-completion.
+          required: true
+        - label: The result comes from real hardware, not an emulator/test fixture/estimated data.
+          required: true
+        - label: I reviewed the capture for private identifiers before sharing it.
+          required: true
