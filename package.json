@@ -10,7 +10,7 @@
     "typecheck": "tsc -b --pretty false",
     "test": "node --test tests/*.test.mjs",
     "e2e": "playwright test",
-    "validate:evidence": "node scripts/validate-evidence.mjs",
+    "validate:evidence": "node scripts/validate-evidence.mjs && node scripts/validate-evidence-reviews.mjs",
     "validate:benchmarks": "node scripts/analyze-render-benchmarks.mjs --validate-only",
     "benchmark:analyze": "node scripts/analyze-render-benchmarks.mjs",
     "benchmark:analyze:json": "node scripts/analyze-render-benchmarks.mjs --json",
