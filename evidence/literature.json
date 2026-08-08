@@ -7,6 +7,7 @@
     "sourceName": "arXiv",
     "sourceUrl": "https://arxiv.org/abs/1212.1258",
     "summary": "Public study of periodic Mo/Si multilayer structure for EUV optics, useful for understanding how multilayer structure and interfaces affect reflective performance.",
+    "publicationType": "preprint",
     "topics": ["multilayer", "optics"],
     "claimIds": ["ACADEMIC-MOSI-MULTILAYER-001"],
     "labIds": ["multilayer-lab"]
@@ -19,6 +20,7 @@
     "sourceName": "arXiv",
     "sourceUrl": "https://arxiv.org/abs/1912.09075",
     "summary": "Public refined reflective-mask stack model derived from EUV and X-ray reflectivity measurements and used for rigorous high-NA EUV imaging simulations.",
+    "publicationType": "preprint",
     "topics": ["mask", "multilayer", "high-na"],
     "claimIds": ["ACADEMIC-EUV-MASK-MODEL-001"],
     "labIds": ["mask-3d-lab", "multilayer-lab"]
@@ -31,6 +33,7 @@
     "sourceName": "Fraunhofer Publica / SPIE",
     "sourceUrl": "https://publica.fraunhofer.de/entities/publication/5d3fe14f-c4c6-45b4-81e2-4953e50f5560",
     "summary": "Public conference work analyzing non-telecentricity, contrast fading and best-focus shifts from mask 3D effects in high-NA EUV imaging and exploring image-enhancement concepts.",
+    "publicationType": "conference",
     "topics": ["mask", "high-na", "imaging"],
     "claimIds": ["ACADEMIC-EUV-MASK-MODEL-001", "HIGHNA-NA-001"],
     "labIds": ["mask-3d-lab", "aberration-lab"]
@@ -43,6 +46,7 @@
     "sourceName": "Journal of Photopolymer Science and Technology / J-STAGE",
     "sourceUrl": "https://www.jstage.jst.go.jp/article/photopolymer/35/1/35_35/_article",
     "summary": "Open-access review of stochastic issues in EUV photoresist materials, useful for connecting photon/material randomness to defectivity without treating the article as a process recipe.",
+    "publicationType": "journal",
     "topics": ["resist", "stochastics", "fab"],
     "claimIds": [],
     "labIds": ["fourier-imaging-lab"]
@@ -55,6 +59,7 @@
     "sourceName": "Fraunhofer Publica / SPIE",
     "sourceUrl": "https://publica.fraunhofer.de/entities/publication/cb64bf49-6da1-4147-9016-f27d1ac5c996",
     "summary": "Public 2026 conference paper exploring when rigorously modeled mask 3D effects can improve imaging fidelity in high-NA and hyper-NA EUV under specific modeled conditions.",
+    "publicationType": "conference",
     "topics": ["mask", "high-na", "imaging"],
     "claimIds": ["HIGHNA-NA-001"],
     "labIds": ["mask-3d-lab", "fourier-imaging-lab"]
