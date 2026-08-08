@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { atlasSearchIndex, type AtlasSearchItem } from '../data/atlasSearchIndex'
 import { searchAtlas } from '../lib/atlasSearch.mjs'
+import { browserPrefersReducedMotion, preferredScrollBehavior } from '../lib/motionPreference.mjs'
 import type { Language } from '../i18n'
 
 const typeLabel: Record<AtlasSearchItem['type'], { en: string; vi: string }> = {
@@ -26,7 +27,8 @@ export function AtlasSearch({ language }: { language: Language }) {
       const target = document.querySelector<HTMLElement>(item.targetSelector)
       if (target instanceof HTMLButtonElement) target.click()
       const scrollTarget = target ?? document.querySelector<HTMLElement>(item.href)
-      requestAnimationFrame(() => scrollTarget?.scrollIntoView({ behavior: 'smooth', block: 'center' }))
+      const reducedMotion = browserPrefersReducedMotion(window.matchMedia.bind(window))
+      requestAnimationFrame(() => scrollTarget?.scrollIntoView({ behavior: preferredScrollBehavior(reducedMotion), block: 'center' }))
       window.history.replaceState(null, '', item.href)
     } else {
       window.location.hash = item.href.replace(/^#/, '')
