@@ -9,6 +9,7 @@ import { ExplorerSection } from './components/ExplorerSection'
 import { FabCaseStudies } from './components/FabCaseStudies'
 import { FabFlow } from './components/FabFlow'
 import { LearningPath } from './components/LearningPath'
+import { LiteratureExplorer } from './components/LiteratureExplorer'
 import { PatentExplorer } from './components/PatentExplorer'
 import { ResearchStatusPanel } from './components/ResearchStatusPanel'
 import { ResearchWorkbench } from './components/ResearchWorkbench'
@@ -34,6 +35,7 @@ export default function App() {
         <ResearchWorkbench language={language} />
         <div className="two-col"><ResolutionSimulator /><BuildMachine /></div>
         <PatentExplorer />
+        <LiteratureExplorer language={language} />
         <FabFlow />
         <FabCaseStudies />
         <TsmcTimeline />
