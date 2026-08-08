@@ -2,23 +2,25 @@
 
 **A public-source, interactive engineering atlas for Extreme Ultraviolet (EUV) lithography.**
 
-OpenEUV turns a complex lithography ecosystem into an explorable browser project: original concept 3D geometry, evidence-linked labels, an Assembly Explorer, L0→L5 learning, optics/physics labs, global atlas search, patent-family research, fab/mask-lifecycle case studies, provenance/review tooling and explicit unknowns.
+OpenEUV turns a complex lithography ecosystem into an explorable browser project: original concept 3D geometry, evidence-linked labels, an Assembly Explorer, L0→L5 learning, optics/physics labs, global atlas search, patent-family research, fab/mask-lifecycle case studies, provenance/review tooling, privacy-safe research export and explicit unknowns.
 
 > **Important:** OpenEUV is an independent educational/research project. It is not affiliated with ASML, ZEISS, TSMC, Samsung, Intel, Micron, SK hynix, Rapidus, imec or their partners. The reconstruction is conceptual and is **not** commercial CAD, a service manual, a production recipe, a fab blueprint or hazardous real-world operating guidance.
 
-## V5 highlights
+## V6 highlights
 
-V5 connects the existing atlas into a more usable research/learning system:
+V6 makes the existing research graph easier to inspect, navigate and export without adding telemetry:
 
-- **Global local-only search** across subsystems, evidence/unknowns, patents, fab cases, Assembly stages, L0→L5 levels, labs and glossary.
-- **Evidence provenance trace** from a claim to explicit 3D-node, Assembly and fab-case usages.
-- **Provenance coverage report** in human-readable and JSON form, including evidence class/component/source/review coverage, patent completeness, fab sources and license/data gaps.
-- **Unified repository preflight + cross-dataset integrity audit** used by `npm run check`.
-- **Mirror/vacuum concept lab** explaining the public reason EUV uses reflective optics and a controlled vacuum path with normalized educational controls only.
-- **Evidence-aware L0→L5 checkpoints** in EN/VI, with session-only progress and no accounts, analytics or answer persistence.
-- **Robust patent-source parser** used by provenance tooling so TypeScript formatting cannot silently erase patent coverage.
+- **In-browser provenance overview** using the same `summarizeProvenance()` logic as the local CLI.
+- **Privacy-safe research snapshot** that bundles repository-public claims, unknowns, fab cases, dataset metadata, review coverage and provenance coverage.
+- **Browser copy/download + reproducible CLI export** with an explicit caller-supplied timestamp.
+- **Skip-to-content + semantic header/main landmarks** and focus-visible navigation.
+- **Reduced-motion-aware search navigation** plus CSS guards for nonessential animation/smooth scrolling.
+- **Keyboard-only browser coverage** for search/learning checkpoints.
+- Snapshot privacy filtering rejects normalized variants such as `User-Agent`, `IP_Address` and `Device-Memory`; no browser/client telemetry is included.
 
-See [`ROADMAP.md`](ROADMAP.md), [`docs/PROVENANCE_COVERAGE_REPORT.md`](docs/PROVENANCE_COVERAGE_REPORT.md) and [`docs/LEARNING_CHECKPOINTS.md`](docs/LEARNING_CHECKPOINTS.md).
+V5 features remain part of the current system: global local-only search, evidence provenance traces, unified preflight/integrity auditing, mirror/vacuum learning, L0→L5 checkpoints and robust patent-source parsing.
+
+See [`ROADMAP.md`](ROADMAP.md), [`docs/V6_ACCESSIBILITY_EXPORT.md`](docs/V6_ACCESSIBILITY_EXPORT.md), [`docs/PROVENANCE_COVERAGE_REPORT.md`](docs/PROVENANCE_COVERAGE_REPORT.md) and [`docs/LEARNING_CHECKPOINTS.md`](docs/LEARNING_CHECKPOINTS.md).
 
 ## Interactive 3D atlas
 
@@ -44,7 +46,7 @@ The learning path runs:
 
 `L0 semiconductor foundations → L1 optics/NA/Fourier imaging → L2 EUV physics/multilayers → L3 scanner systems → L4 High-NA/image-quality concepts → L5 evidence/patent/computational research`
 
-V5 adds one machine-readable EN/VI knowledge checkpoint per level. Answers live only in current React page state; reload clears progress and nothing is sent or persisted.
+One machine-readable EN/VI knowledge checkpoint is provided per level. Answers live only in current React page state; reload clears progress and nothing is sent or persisted.
 
 See [`docs/ASSEMBLY_EXPLORER.md`](docs/ASSEMBLY_EXPLORER.md), [`docs/LEARNING_PATH.md`](docs/LEARNING_PATH.md) and [`docs/LEARNING_CHECKPOINTS.md`](docs/LEARNING_CHECKPOINTS.md).
 
@@ -63,20 +65,13 @@ See [`docs/ASSEMBLY_EXPLORER.md`](docs/ASSEMBLY_EXPLORER.md), [`docs/LEARNING_PA
 
 These are learning models, not commercial scanner/process predictors.
 
-## Search & research navigation
+## Search, accessibility & navigation
 
 Atlas search runs entirely in the browser. It does not call an external search service, send telemetry or persist user queries.
 
-It supports:
+It supports exact claim/patent IDs, subsystem/organization/technical-term search, EN/VI labels, Vietnamese accent-insensitive tokenization, result-type badges, deep links and Arrow Up/Down/Enter/Escape keyboard behavior.
 
-- exact claim/patent IDs;
-- subsystem/organization/technical-term search;
-- EN/VI labels and Vietnamese accent-insensitive tokenization;
-- result-type badges;
-- direct lab/evidence/patent/fab deep links;
-- Arrow Up/Down, Enter and Escape keyboard behavior.
-
-See [`docs/ATLAS_SEARCH.md`](docs/ATLAS_SEARCH.md).
+V6 adds a first-focusable skip link, semantic main landmark and reduced-motion-aware stateful navigation. See [`docs/ATLAS_SEARCH.md`](docs/ATLAS_SEARCH.md) and [`docs/V6_ACCESSIBILITY_EXPORT.md`](docs/V6_ACCESSIBILITY_EXPORT.md).
 
 ## Evidence, provenance, reviews & unknowns
 
@@ -99,11 +94,12 @@ npm run provenance:report
 npm run provenance:report:json
 npm run audit:integrity
 npm run preflight
+npm run research:snapshot -- --generated-at 2026-08-08T12:00:00.000Z > openeuv-research-snapshot.json
 ```
 
-The provenance trace only shows explicit repository relationships; missing relationships remain visible as gaps instead of being inferred automatically.
+The in-browser `#provenance-overview` panel shows the same source/review/patent/fab/data-gap bookkeeping and can copy/download a JSON snapshot locally. It does not include browser history, storage, IP, usernames or hardware identifiers.
 
-See [`docs/EVIDENCE_PROVENANCE_TRACE.md`](docs/EVIDENCE_PROVENANCE_TRACE.md), [`docs/PROVENANCE_COVERAGE_REPORT.md`](docs/PROVENANCE_COVERAGE_REPORT.md) and [`docs/EVIDENCE_REVIEW_CAMPAIGN.md`](docs/EVIDENCE_REVIEW_CAMPAIGN.md).
+See [`docs/EVIDENCE_PROVENANCE_TRACE.md`](docs/EVIDENCE_PROVENANCE_TRACE.md), [`docs/PROVENANCE_COVERAGE_REPORT.md`](docs/PROVENANCE_COVERAGE_REPORT.md), [`docs/EVIDENCE_REVIEW_CAMPAIGN.md`](docs/EVIDENCE_REVIEW_CAMPAIGN.md) and [`docs/V6_ACCESSIBILITY_EXPORT.md`](docs/V6_ACCESSIBILITY_EXPORT.md).
 
 ## Patent-family explorer
 
@@ -115,13 +111,7 @@ A patent disclosure is evidence of a disclosed concept, **not** proof that a dra
 
 Machine-readable case studies use `evidence/fab-cases.json` as the runtime/validation source of truth.
 
-Cases currently cover:
-
-- TSMC, Samsung, Intel, Micron, SK hynix and Rapidus EUV milestones;
-- TSMC public EUV-mask dry-cleaning context;
-- imec CNT-pellicle research context;
-- ZEISS AIMS EUV mask-qualification context;
-- source/collector contamination and reflective-mask/membrane research context.
+Cases cover TSMC, Samsung, Intel, Micron, SK hynix and Rapidus EUV milestones; TSMC public EUV-mask dry-cleaning context; imec CNT-pellicle research; ZEISS AIMS EUV mask-qualification context; source/collector contamination and reflective-mask/membrane research context.
 
 Every case stores shared claim IDs, direct public source URLs, a **public boundary** and explicit unknowns. OpenEUV does not infer confidential recipes, private layer choices, yield, internal fab layouts, private acceptance thresholds or private process settings.
 
@@ -146,7 +136,7 @@ Repository gate:
 npm run check
 ```
 
-`npm run check` runs the unified preflight, unit tests, TypeScript typecheck and production build. Preflight covers evidence/reviews, fab cases, renderer-capture validity, cross-dataset integrity, provenance coverage, dataset-manifest paths, learning checkpoints and the policy that GitHub Actions remains disabled.
+`npm run check` runs unified preflight, unit tests, TypeScript typecheck and production build. Preflight covers evidence/reviews, fab cases, renderer-capture validity, cross-dataset integrity, provenance coverage, dataset-manifest paths, learning checkpoints, required V6 documentation and the policy that GitHub Actions remains disabled.
 
 Browser verification:
 
@@ -180,7 +170,7 @@ Do not claim a live deployment until the intended commit has actually built on t
 
 ## Current open external dependencies
 
-Implementable V1→V5 software work on the current roadmap has landed. Only two issues intentionally remain open because they require evidence outside this runtime:
+Implementable V1→V6 software work on the current roadmap has landed. Only two issues intentionally remain open because they require evidence outside this runtime:
 
 - **#27 PERF:** at least 3 real paired WebGL/WebGPU captures across at least 2 actual laptop/mobile/desktop hardware classes. Synthetic/emulated numbers do not count.
 - **#29 EVIDENCE:** at least 10 records reviewed by real human reviewers using real public handles. Generated/fake attribution does not count.
