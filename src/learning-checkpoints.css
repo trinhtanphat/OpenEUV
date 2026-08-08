@@ -1,0 +1,25 @@
+.learning-checkpoint {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 18px;
+  background: rgba(255,255,255,.035);
+}
+.checkpoint-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
+.checkpoint-heading > div { display: grid; gap: 6px; }
+.checkpoint-heading span { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; opacity: .62; }
+.checkpoint-heading strong { max-width: 760px; font-size: 17px; line-height: 1.45; }
+.checkpoint-heading small { white-space: nowrap; opacity: .56; }
+.checkpoint-options { display: grid; gap: 8px; margin-top: 14px; }
+.checkpoint-options button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 12px; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; background: rgba(255,255,255,.035); color: inherit; text-align: left; cursor: pointer; }
+.checkpoint-options button:hover, .checkpoint-options button:focus-visible { border-color: rgba(120,205,255,.5); outline: none; }
+.checkpoint-options button.selected { background: rgba(105,190,255,.12); border-color: rgba(120,205,255,.55); }
+.checkpoint-options button span { display: grid; place-items: center; flex: 0 0 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,.08); font-size: 12px; font-weight: 800; }
+.checkpoint-feedback { margin-top: 13px; padding: 13px 14px; border-radius: 12px; background: rgba(255,255,255,.04); }
+.checkpoint-feedback.correct { border: 1px solid rgba(112,222,159,.35); }
+.checkpoint-feedback.review { border: 1px solid rgba(255,195,102,.34); }
+.checkpoint-feedback p { margin: 7px 0 10px; opacity: .78; }
+.checkpoint-feedback div { display: flex; flex-wrap: wrap; gap: 8px; }
+.checkpoint-feedback a { font-size: 12px; font-weight: 700; }
+.checkpoint-privacy { margin: 12px 0 0; font-size: 11px; opacity: .48; }
+@media (max-width: 700px) { .checkpoint-heading { display: grid; } .checkpoint-heading small { white-space: normal; } }
