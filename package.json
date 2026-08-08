@@ -1,13 +1,15 @@
 {
   "name": "openeuv",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc -b --pretty false"
+    "typecheck": "tsc -b --pretty false",
+    "validate:evidence": "node scripts/validate-evidence.mjs",
+    "check": "npm run validate:evidence && npm run typecheck && npm run build"
   },
   "dependencies": {
     "react": "^19.1.1",
