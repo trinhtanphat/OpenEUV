@@ -29,7 +29,7 @@ export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsy
     const root = new THREE.Group(); root.rotation.y = -0.1; scene.add(root)
     const objects = new Map<string, THREE.Mesh>()
     const material = (id: string) => new THREE.MeshStandardMaterial({ color: palette[id], metalness: 0.66, roughness: 0.24, transparent: true, opacity: 0.84, emissive: palette[id], emissiveIntensity: 0.04 })
-    moduleConfig.forEach((config) => { const mesh = new THREE.Mesh(new THREE.BoxGeometry(...config.size), material(config.id)); mesh.position.set(...config.base); mesh.castShadow = true; mesh.userData.id = config.id; root.add(mesh); objects.set(config.id, mesh) })
+    moduleConfig.forEach((config) => { const mesh = new THREE.Mesh(new THREE.BoxGeometry(config.size[0], config.size[1], config.size[2]), material(config.id)); mesh.position.set(...config.base); mesh.castShadow = true; mesh.userData.id = config.id; root.add(mesh); objects.set(config.id, mesh) })
     const vacuum = new THREE.Mesh(new THREE.BoxGeometry(9.8, 0.34, 2.85), material('vacuum')); vacuum.position.set(0, -1.35, -0.1); vacuum.userData.id = 'vacuum'; root.add(vacuum); objects.set('vacuum', vacuum)
     const mirrorMaterial = new THREE.MeshPhysicalMaterial({ color: 0xc4b5fd, metalness: 0.9, roughness: 0.08, clearcoat: 1 })
     ;[[-0.45,0.8,-0.25],[0.45,0.2,0.25],[-0.45,-0.45,-0.25]].forEach(([x,y,rz]) => { const mirror = new THREE.Mesh(new THREE.CylinderGeometry(0.42,0.42,0.08,40), mirrorMaterial); mirror.position.set(x,y,0); mirror.rotation.set(Math.PI/2,0,rz); objects.get('projection')!.add(mirror) })
