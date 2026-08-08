@@ -12,6 +12,7 @@ export function Topbar({ language, onToggleLanguage }: { language: Language; onT
         <a href="#labs">{t(language, 'navLabs')}</a>
         <a href="#patents">{t(language, 'navPatents')}</a>
         <a href="#fab-cases">{t(language, 'navFab')}</a>
+        <a href="#source-library">{language === 'vi' ? 'Nguồn' : 'Sources'}</a>
         <a href="#unknowns">{t(language, 'navEvidence')}</a>
         <a href="#glossary">{language === 'vi' ? 'Thuật ngữ' : 'Glossary'}</a>
         <a href="#contribute">{t(language, 'navContribute')}</a>
