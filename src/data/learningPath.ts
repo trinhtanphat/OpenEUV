@@ -30,7 +30,7 @@ export const learningPath: LearningLevel[] = [
       en: ['Wavelength and diffraction', 'Numerical aperture', 'Spatial frequency and transfer functions', 'Reflective vs refractive optics'],
       vi: ['Bước sóng và diffraction', 'Numerical aperture', 'Spatial frequency và transfer function', 'Quang phản xạ vs khúc xạ'],
     },
-    labs: ['Low-NA vs High-NA', 'Anamorphic field', 'Fourier imaging lab'],
+    labs: ['Low-NA vs High-NA', 'Anamorphic field', 'Fourier imaging lab', 'Vacuum & mirrors concept lab'],
     contribution: { en: 'Add visual optics explainers and validate terminology.', vi: 'Thêm visual explainer quang học và kiểm tra thuật ngữ.' },
   },
   {
@@ -42,7 +42,7 @@ export const learningPath: LearningLevel[] = [
       en: ['13.5 nm context', 'Absorption and vacuum', 'Complex refractive index', 'Thin-film interference and s/p polarization'],
       vi: ['Bối cảnh 13,5 nm', 'Hấp thụ và vacuum', 'Complex refractive index', 'Thin-film interference và phân cực s/p'],
     },
-    labs: ['Multilayer simulator', 'Optical constants adapter'],
+    labs: ['Vacuum & mirrors concept lab', 'Multilayer simulator', 'Optical constants adapter'],
     contribution: { en: 'Add lawful optical datasets and cross-check numerical models.', vi: 'Thêm optical dataset hợp pháp và cross-check mô hình số.' },
   },
   {
