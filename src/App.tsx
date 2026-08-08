@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { AssemblyExplorer } from './components/AssemblyExplorer'
+import { AtlasSearch } from './components/AtlasSearch'
 import { BuildMachine } from './components/BuildMachine'
 import { ContributorSection, FeatureStrip, Footer, Hero, Topbar } from './components/LayoutSections'
 import { EvidenceDashboard } from './components/EvidenceDashboard'
@@ -21,6 +22,7 @@ export default function App() {
     <main>
       <Topbar language={language} onToggleLanguage={() => setLanguage((current) => current === 'en' ? 'vi' : 'en')} />
       <Hero language={language} />
+      <AtlasSearch language={language} />
       <ExplorerSection language={language} />
       <FeatureStrip />
       <AssemblyExplorer language={language} />
