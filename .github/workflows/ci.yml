@@ -22,6 +22,8 @@ jobs:
           node-version: 22
       - name: Install
         run: npm install --no-audit --no-fund
+      - name: Validate evidence
+        run: npm run validate:evidence
       - name: Typecheck
         run: npm run typecheck
       - name: Build
