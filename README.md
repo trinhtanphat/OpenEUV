@@ -101,9 +101,9 @@ Start with the open issues and [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 See [`ROADMAP.md`](ROADMAP.md). Next major targets: production-quality original GLB assets, patent-family explorer, multilayer reflectivity simulator, mask 3D effects, High-NA anamorphic visualization, six-DoF stage demo, searchable evidence database and an “open unknowns” dashboard.
 
-## Verification note
+## Verification
 
-The source was syntax-checked locally with TypeScript. Full dependency install/build could not be completed in the current execution environment because its npm registry did not serve the required React/Three type packages; this is an environment limitation rather than a confirmed app build result.
+GitHub Actions installs dependencies on Node.js 22, runs `npm run typecheck`, and performs a production `npm run build` on every push to `main` and every pull request. The initial MVP reached a fully green install/typecheck/build run on commit `49b92abb81904ede19261b31fa73411ebdf060b3`.
 
 ## License
 
