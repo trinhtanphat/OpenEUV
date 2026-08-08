@@ -6,6 +6,7 @@ import './research.css'
 import './advanced.css'
 import './depth.css'
 import './v2.css'
+import './v2-sim.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
