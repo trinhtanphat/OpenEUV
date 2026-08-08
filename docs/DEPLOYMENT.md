@@ -30,9 +30,7 @@ The repository also includes `vercel.json` for a Vite SPA deployment:
 - output directory: `dist`;
 - official SPA catch-all rewrite: `/(.*)` → `/index.html`.
 
-This means a newly imported Vercel project can use the checked-in configuration without adding a GitHub Actions workflow.
-
-The currently connected Vercel account does not yet contain an OpenEUV project, so a live Vercel URL is not claimed until the repository is explicitly imported/created there.
+A newly imported Vercel project can use the checked-in configuration without adding a GitHub Actions workflow. Do not claim a live deployment URL until the target project has actually built and deployed the intended Git commit.
 
 ## GitHub Pages
 
