@@ -1,0 +1,13 @@
+{
+  "id": "REPLACE-WITH-DATASET-ID",
+  "material": "REPLACE-WITH-MATERIAL",
+  "description": "Template only. Do not treat as measured optical constants.",
+  "source": {
+    "name": "REPLACE-WITH-PUBLIC-SOURCE",
+    "url": "https://example.invalid/replace-me"
+  },
+  "license": "REPLACE-WITH-REDISTRIBUTION-TERMS",
+  "provenanceNote": "Populate samples only from a lawful public source whose redistribution terms permit inclusion in OpenEUV.",
+  "wavelengthUnit": "nm",
+  "samples": []
+}
