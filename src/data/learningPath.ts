@@ -27,10 +27,10 @@ export const learningPath: LearningLevel[] = [
     title: { en: 'Optics: waves, NA & imaging', vi: 'Quang học: sóng, NA & imaging' },
     goal: { en: 'Build the optical vocabulary needed to reason about projection lithography.', vi: 'Xây vocabulary quang học cần thiết để hiểu projection lithography.' },
     topics: {
-      en: ['Wavelength and diffraction', 'Numerical aperture', 'Rayleigh-style scaling', 'Reflective vs refractive optics'],
-      vi: ['Bước sóng và diffraction', 'Numerical aperture', 'Rayleigh-style scaling', 'Quang phản xạ vs khúc xạ'],
+      en: ['Wavelength and diffraction', 'Numerical aperture', 'Spatial frequency and transfer functions', 'Reflective vs refractive optics'],
+      vi: ['Bước sóng và diffraction', 'Numerical aperture', 'Spatial frequency và transfer function', 'Quang phản xạ vs khúc xạ'],
     },
-    labs: ['Low-NA vs High-NA', 'Anamorphic field'],
+    labs: ['Low-NA vs High-NA', 'Anamorphic field', 'Fourier imaging lab'],
     contribution: { en: 'Add visual optics explainers and validate terminology.', vi: 'Thêm visual explainer quang học và kiểm tra thuật ngữ.' },
   },
   {
@@ -63,10 +63,10 @@ export const learningPath: LearningLevel[] = [
     title: { en: 'High-NA & image-quality effects', vi: 'High-NA & hiệu ứng chất lượng ảnh' },
     goal: { en: 'Explore the public concepts that become more important as NA rises.', vi: 'Khám phá các khái niệm công khai quan trọng hơn khi NA tăng.' },
     topics: {
-      en: ['0.33 → 0.55 NA', '4×/8× anamorphic imaging', 'Mask 3D effects', 'Aberration, focus, leveling and overlay'],
-      vi: ['NA 0,33 → 0,55', 'Imaging anamorphic 4×/8×', 'Mask 3D effects', 'Aberration, focus, leveling và overlay'],
+      en: ['0.33 → 0.55 NA', '4×/8× anamorphic imaging', 'Spatial-frequency filtering and mask 3D effects', 'Aberration, focus, leveling and overlay'],
+      vi: ['NA 0,33 → 0,55', 'Imaging anamorphic 4×/8×', 'Spatial-frequency filtering và mask 3D effects', 'Aberration, focus, leveling và overlay'],
     },
-    labs: ['Anamorphic lab', 'Mask 3D lab', 'Aberration/focus lab'],
+    labs: ['Fourier imaging lab', 'Anamorphic lab', 'Mask 3D lab', 'Aberration/focus lab'],
     contribution: { en: 'Improve public-source High-NA visualizations without inventing proprietary prescriptions.', vi: 'Cải thiện visualization High-NA từ nguồn công khai mà không bịa prescription độc quyền.' },
   },
   {
@@ -75,8 +75,8 @@ export const learningPath: LearningLevel[] = [
     title: { en: 'Research: evidence, patents & computation', vi: 'Nghiên cứu: evidence, patent & computation' },
     goal: { en: 'Move from learning the system to testing public hypotheses and improving provenance.', vi: 'Chuyển từ học hệ thống sang kiểm thử giả thuyết công khai và nâng provenance.' },
     topics: {
-      en: ['Patent-family mapping', 'Electromagnetic mask models', 'Source-mask optimization concepts', 'Evidence review and open unknowns'],
-      vi: ['Mapping patent family', 'Mô hình điện từ cho mask', 'Khái niệm source-mask optimization', 'Evidence review và open unknowns'],
+      en: ['Patent-family mapping', 'Electromagnetic mask models', 'Public computational imaging concepts', 'Evidence review and open unknowns'],
+      vi: ['Mapping patent family', 'Mô hình điện từ cho mask', 'Khái niệm computational imaging công khai', 'Evidence review và open unknowns'],
     },
     labs: ['Patent Explorer', 'Evidence Dashboard', 'Reproducibility scripts'],
     contribution: { en: 'Add metadata, public datasets, reproducible simulations and clearly bounded hypotheses.', vi: 'Thêm metadata, public dataset, simulation tái lập được và giả thuyết có ranh giới rõ.' },
