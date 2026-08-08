@@ -37,12 +37,21 @@ The snapshot intentionally excludes client/private state including:
 - `localStorage` / `sessionStorage`;
 - cookies, credentials, tokens or authorization data.
 
-The export uses `Blob`/clipboard APIs locally and makes no upload/network request.
+The browser export uses `Blob`/clipboard APIs locally and makes no upload/network request.
+
+A reproducible terminal export uses the same helper and requires the caller to provide the timestamp explicitly:
+
+```bash
+npm run research:snapshot -- --generated-at 2026-08-08T12:00:00.000Z > openeuv-research-snapshot.json
+```
+
+The CLI refuses to emit an incomplete snapshot if the curated patent source parser returns zero records.
 
 Implementation:
 
 - `src/lib/researchSnapshot.mjs`
 - `src/components/ResearchStatusPanel.tsx`
+- `tools/research-snapshot.mjs`
 - `tests/research-snapshot.test.mjs`
 - `e2e/v6-accessibility-export.spec.ts`
 
