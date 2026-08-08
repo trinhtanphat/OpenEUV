@@ -11,6 +11,7 @@ import './v2-patent.css'
 import './v2-fab.css'
 import './completion.css'
 import './fourier.css'
+import './education-v4.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
