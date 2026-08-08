@@ -1,7 +1,7 @@
 {
   "name": "openeuv",
   "private": true,
-  "version": "0.10.0",
+  "version": "0.11.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -19,6 +19,9 @@
     "audit:a11y:json": "node scripts/audit-accessibility-contract.mjs --json",
     "audit:sources": "node scripts/audit-source-library.mjs",
     "audit:sources:json": "node scripts/audit-source-library.mjs --json",
+    "audit:i18n": "node scripts/audit-i18n-coverage.mjs",
+    "audit:i18n:json": "node scripts/audit-i18n-coverage.mjs --json",
+    "literature:export": "node tools/literature-export.mjs",
     "provenance:report": "node tools/provenance-report.mjs",
     "provenance:report:json": "node tools/provenance-report.mjs --json",
     "research:snapshot": "node tools/research-snapshot.mjs",
