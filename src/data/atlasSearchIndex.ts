@@ -55,6 +55,16 @@ const labItems: AtlasSearchItem[] = [
     href: '#fourier-imaging-lab',
   },
   {
+    id: 'lab:vacuum-mirrors',
+    type: 'lab',
+    title: 'Why EUV needs vacuum & mirrors',
+    titleVi: 'Vì sao EUV cần vacuum & mirrors',
+    subtitle: 'Normalized absorption and cumulative reflection-transfer concept lab',
+    subtitleVi: 'Lab khái niệm về hấp thụ chuẩn hóa và transfer phản xạ tích lũy',
+    keywords: ['vacuum', 'mirrors', 'reflective optics', 'absorption', 'hấp thụ', 'euv path', 'EUV-VACUUM-001'],
+    href: '#mirror-vacuum-concept-lab',
+  },
+  {
     id: 'lab:multilayer',
     type: 'lab',
     title: 'Multilayer & polarization',
