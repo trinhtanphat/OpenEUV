@@ -14,6 +14,7 @@ import './fourier.css'
 import './education-v4.css'
 import './fab-v4.css'
 import './search.css'
+import './provenance-v5.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
