@@ -6,13 +6,21 @@ const div = (a, b) => {
   return c((a.re * b.re + a.im * b.im) / d, (a.im * b.re - a.re * b.im) / d)
 }
 const abs2 = (a) => a.re * a.re + a.im * a.im
-const expi = (phi) => c(Math.cos(phi), Math.sin(phi))
+const cosComplex = (z) => c(
+  Math.cos(z.re) * Math.cosh(z.im),
+  -Math.sin(z.re) * Math.sinh(z.im),
+)
+const sinComplex = (z) => c(
+  Math.sin(z.re) * Math.cosh(z.im),
+  Math.cos(z.re) * Math.sinh(z.im),
+)
 
 /**
  * Educational normal-incidence characteristic-matrix calculation.
- * Refractive indices are complex n = real + i*k. Layer thicknesses are nm.
- * This intentionally omits roughness, interdiffusion, polarization splitting,
- * angle-dependent optical constants and production-specific stack corrections.
+ * Refractive indices use n - i*k, with thicknesses in nanometers.
+ * The helper intentionally omits roughness, interdiffusion, polarization
+ * splitting, angle-dependent optical constants and production-specific stack
+ * corrections. It is a learning model, not a coating recipe or process model.
  */
 export function multilayerReflectivity({
   wavelengthNm,
@@ -27,15 +35,16 @@ export function multilayerReflectivity({
   let m00 = c(1), m01 = c(0), m10 = c(0), m11 = c(1)
 
   const applyLayer = (layer) => {
-    const n = c(layer.n, layer.k)
-    const delta = (2 * Math.PI * layer.thicknessNm) / lambda
-    const cos = c(Math.cos(delta))
-    const sin = expi(Math.PI / 2).re === 0 ? c(Math.sin(delta)) : c(Math.sin(delta))
-    const iSin = c(0, sin.re)
-    const l00 = cos
+    const n = c(layer.n, -Math.abs(layer.k))
+    const scale = (2 * Math.PI * layer.thicknessNm) / lambda
+    const delta = c(n.re * scale, n.im * scale)
+    const cosDelta = cosComplex(delta)
+    const sinDelta = sinComplex(delta)
+    const iSin = c(-sinDelta.im, sinDelta.re)
+    const l00 = cosDelta
     const l01 = div(iSin, n)
     const l10 = mul(iSin, n)
-    const l11 = cos
+    const l11 = cosDelta
     const a00 = add(mul(m00, l00), mul(m01, l10))
     const a01 = add(mul(m00, l01), mul(m01, l11))
     const a10 = add(mul(m10, l00), mul(m11, l10))
@@ -48,19 +57,20 @@ export function multilayerReflectivity({
     applyLayer(materialB)
   }
 
-  const n0 = c(incident.n, incident.k)
-  const ns = c(substrate.n, substrate.k)
+  const n0 = c(incident.n, -Math.abs(incident.k))
+  const ns = c(substrate.n, -Math.abs(substrate.k))
   const b = add(m00, mul(m01, ns))
   const cc = add(m10, mul(m11, ns))
   const numerator = add(mul(n0, b), c(-cc.re, -cc.im))
   const denominator = add(mul(n0, b), cc)
   const r = div(numerator, denominator)
-  const reflectivity = Math.max(0, Math.min(1, abs2(r)))
+  const raw = abs2(r)
+  const reflectivity = Number.isFinite(raw) ? Math.max(0, Math.min(1, raw)) : 0
 
   return {
     reflectivity,
     percent: reflectivity * 100,
-    opticalPeriodNm: materialA.thicknessNm + materialB.thicknessNm,
+    physicalPeriodNm: materialA.thicknessNm + materialB.thicknessNm,
   }
 }
 
