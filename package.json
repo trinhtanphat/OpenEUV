@@ -1,7 +1,7 @@
 {
   "name": "openeuv",
   "private": true,
-  "version": "0.8.0",
+  "version": "0.9.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,6 +14,8 @@
     "validate:fab": "node scripts/validate-fab-cases.mjs",
     "audit:integrity": "node scripts/audit-repository-integrity.mjs",
     "audit:integrity:json": "node scripts/audit-repository-integrity.mjs --json",
+    "audit:a11y": "node scripts/audit-accessibility-contract.mjs",
+    "audit:a11y:json": "node scripts/audit-accessibility-contract.mjs --json",
     "provenance:report": "node tools/provenance-report.mjs",
     "provenance:report:json": "node tools/provenance-report.mjs --json",
     "research:snapshot": "node tools/research-snapshot.mjs",
