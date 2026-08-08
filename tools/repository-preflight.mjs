@@ -64,7 +64,8 @@ const requiredDocs = [
   'docs/DEPLOYMENT.md',
   'docs/EVIDENCE_REVIEW_CAMPAIGN.md',
   'docs/SILICON_OPTICAL_DATA_GAP.md',
-  'docs/PROVENANCE_REPORT.md',
+  'docs/PROVENANCE_COVERAGE_REPORT.md',
+  'docs/LEARNING_CHECKPOINTS.md',
 ]
 const missingDocs = []
 for (const relativePath of requiredDocs) {
