@@ -16,6 +16,7 @@ import './fab-v4.css'
 import './search.css'
 import './provenance-v5.css'
 import './vacuum-v5.css'
+import './learning-checkpoints.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
