@@ -10,6 +10,7 @@ import './v2-sim.css'
 import './v2-patent.css'
 import './v2-fab.css'
 import './completion.css'
+import './fourier.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
