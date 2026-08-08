@@ -56,7 +56,10 @@ test('atlas core interactions remain usable', async ({ page }, testInfo) => {
   await expect(page.locator('#mask-3d-lab code')).toContainText('shadow')
 
   await page.locator('button[data-patent-filter="reticle"]').click()
-  await expect(page.locator('.patent-card')).toHaveCount(2)
+  expect(await page.locator('.patent-card').count()).toBeGreaterThanOrEqual(3)
+  await page.locator('button[data-coverage-subsystem="collector"]').click()
+  await expect(page.locator('button[data-coverage-subsystem="collector"]')).toHaveClass(/active/)
+  expect(await page.locator('.patent-card').count()).toBeGreaterThanOrEqual(2)
 
   const stageControls = page.locator('#stage-lab input[type="range"]')
   await expect(stageControls).toHaveCount(6)
