@@ -1,0 +1,67 @@
+name: 3D / visualization contribution
+description: Propose an original glTF/GLB, concept-node, label, tour, LOD, or visual reconstruction improvement.
+title: "[3D] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Submit original or clearly licensed work only. OpenEUV does not accept proprietary CAD, leaked service assets, trade-secret drawings, or geometry copied from unauthorized internal material.
+  - type: dropdown
+    id: visual_type
+    attributes:
+      label: Visual contribution type
+      options:
+        - New concept asset
+        - Improve an existing concept asset
+        - Named-node / evidence label mapping
+        - Guided camera / exploded-view interaction
+        - Mobile / low-power LOD
+        - Diagram / educational visualization
+    validations:
+      required: true
+  - type: input
+    id: subsystem
+    attributes:
+      label: Target subsystem or node
+      placeholder: e.g. source, reticle, projection, CollectorConcept
+    validations:
+      required: true
+  - type: dropdown
+    id: geometry_status
+    attributes:
+      label: Geometry status
+      options:
+        - documented-function
+        - public-inference
+        - illustrative
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Public evidence and rationale
+      description: Link the public sources that establish the function or justify the inference. Explain what geometry is invented for teaching.
+    validations:
+      required: true
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Asset provenance / editable source
+      description: State author, license, generator/.blend/source file, and whether any third-party asset is used.
+    validations:
+      required: true
+  - type: textarea
+    id: fallback
+    attributes:
+      label: Runtime/fallback and performance plan
+      description: Explain fallback behavior, stable node names, approximate asset size, and mobile/LOD considerations.
+  - type: checkboxes
+    id: visual_check
+    attributes:
+      label: Contribution confirmation
+      options:
+        - label: The proposed asset is original or lawfully redistributable and contains no proprietary/leaked CAD or service material.
+          required: true
+        - label: Exact dimensions/materials/tolerances not supported by public evidence will remain explicitly inferred or illustrative.
+          required: true
