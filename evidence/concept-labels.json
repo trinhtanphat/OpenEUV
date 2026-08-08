@@ -1,0 +1,50 @@
+[
+  {
+    "node": "CollectorConcept",
+    "subsystem": "source",
+    "label": "Collector concept",
+    "geometryStatus": "illustrative",
+    "claimIds": ["PATENT-SOURCE-CONTAMINATION-001", "PATENT-COLLECTOR-MIRROR-001"],
+    "note": "The public evidence supports collector/source concepts, not this exact illustrated geometry."
+  },
+  {
+    "node": "DropletGenerator",
+    "subsystem": "source",
+    "label": "Droplet generator concept",
+    "geometryStatus": "illustrative",
+    "claimIds": ["PATENT-DROPLET-ACCELERATOR-001"],
+    "note": "The node is an original teaching reconstruction and does not encode proprietary dimensions or operating parameters."
+  },
+  {
+    "node": "ReflectiveMask",
+    "subsystem": "reticle",
+    "label": "Reflective EUV mask concept",
+    "geometryStatus": "illustrative",
+    "claimIds": ["PATENT-RETICLE-STAGE-001", "ACADEMIC-EUV-MASK-MODEL-001"],
+    "note": "The evidence supports a reflective-mask stack and reticle function, not the exact OpenEUV mesh shape."
+  },
+  {
+    "node": "ShieldingConcept-L",
+    "subsystem": "reticle",
+    "label": "Reticle shielding concept",
+    "geometryStatus": "illustrative",
+    "claimIds": ["PATENT-RETICLE-STAGE-001"],
+    "note": "A public patent discloses shielding concepts; this shape is illustrative."
+  },
+  {
+    "node": "OpticalBench",
+    "subsystem": "projection",
+    "label": "Projection-optics support concept",
+    "geometryStatus": "illustrative",
+    "claimIds": ["PATENT-REFLECTIVE-MEMBER-001", "HIGHNA-PARTS-001"],
+    "note": "This is a navigation grouping for the original OpenEUV asset, not a vendor mechanical drawing."
+  },
+  {
+    "node": "MirrorConcept-1",
+    "subsystem": "projection",
+    "label": "Reflective projection mirror concept",
+    "geometryStatus": "illustrative",
+    "claimIds": ["HIGHNA-NA-001", "ACADEMIC-MOSI-MULTILAYER-001"],
+    "note": "Reflective EUV optics and multilayer behavior are public; exact mirror prescription and geometry are not represented."
+  }
+]
