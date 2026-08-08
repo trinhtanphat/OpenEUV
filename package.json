@@ -1,7 +1,7 @@
 {
   "name": "openeuv",
   "private": true,
-  "version": "0.6.0",
+  "version": "0.7.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,12 +12,14 @@
     "e2e": "playwright test",
     "validate:evidence": "node scripts/validate-evidence.mjs && node scripts/validate-evidence-reviews.mjs",
     "validate:fab": "node scripts/validate-fab-cases.mjs",
+    "audit:integrity": "node scripts/audit-repository-integrity.mjs",
+    "audit:integrity:json": "node scripts/audit-repository-integrity.mjs --json",
     "evidence:review-report": "node tools/evidence-review-report.mjs",
     "evidence:review-report:json": "node tools/evidence-review-report.mjs --json",
     "validate:benchmarks": "node scripts/analyze-render-benchmarks.mjs --validate-only",
     "benchmark:analyze": "node scripts/analyze-render-benchmarks.mjs",
     "benchmark:analyze:json": "node scripts/analyze-render-benchmarks.mjs --json",
-    "check": "npm run validate:evidence && npm run validate:fab && npm run validate:benchmarks && npm test && npm run typecheck && npm run build",
+    "check": "npm run validate:evidence && npm run validate:fab && npm run validate:benchmarks && npm run audit:integrity && npm test && npm run typecheck && npm run build",
     "deploy:cloudflare": "npm run build && wrangler deploy",
     "deploy:cloudflare:dry": "npm run build && wrangler deploy --dry-run"
   },
