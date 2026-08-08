@@ -50,7 +50,22 @@ test('atlas core interactions remain usable', async ({ page }, testInfo) => {
   await expect(assemblySource).toBeVisible()
   await assemblySource.click()
   await expect(page.locator('[data-assembly-selected="source"]')).toBeVisible()
-  await expect(page.locator('[data-assembly-selected="source"]')).toContainText(/laser operating instructions|hướng dẫn vận hành laser/i)
+  await expect(page.locator('[data-assembly-selected="source"]')).toContainText(/real source operating instructions|hướng dẫn vận hành nguồn thật/i)
+
+  const assemblyProjection = page.locator('button[data-assembly-stage="projection"]')
+  await assemblyProjection.click()
+  const projectionDetail = page.locator('[data-assembly-selected="projection"]')
+  await expect(projectionDetail).toBeVisible()
+  const highNaClaim = projectionDetail.locator('[data-assembly-claim="HIGHNA-NA-001"]')
+  await expect(highNaClaim).toHaveAttribute('href', '#evidence-HIGHNA-NA-001')
+  await expect(projectionDetail.locator('[data-assembly-node="OpticalBench"]')).toBeVisible()
+  await expect(projectionDetail.getByRole('link', { name: /Fourier imaging lab/i })).toHaveAttribute('href', '#fourier-imaging-lab')
+  await expect(projectionDetail.locator('[data-assembly-questions="projection"] li')).toHaveCount(1)
+
+  await page.locator('button[data-assembly-stage="stage-metrology"]').click()
+  const stageAssembly = page.locator('[data-assembly-selected="stage-metrology"]')
+  await expect(stageAssembly.locator('[data-assembly-claims="stage-metrology"]')).toContainText(/evidence gap/i)
+  await expect(stageAssembly.locator('[data-assembly-questions="stage-metrology"]')).toContainText(/shared evidence ID/i)
 
   const opticsLearning = page.locator('button[data-learning-level="optics"]')
   await opticsLearning.click()
@@ -70,6 +85,7 @@ test('atlas core interactions remain usable', async ({ page }, testInfo) => {
   await language.click()
   const afterLanguage = (await language.textContent())?.trim()
   expect(afterLanguage).not.toBe(beforeLanguage)
+  await expect(page.locator('[data-assembly-selected="stage-metrology"]')).toContainText(/Gap direct evidence|Direct-evidence gap|evidence gap/i)
 
   const highNaSlider = page.locator('#high-na-lab input[type="range"]').first()
   await highNaSlider.focus()
