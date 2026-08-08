@@ -13,6 +13,7 @@ import { PatentExplorer } from './components/PatentExplorer'
 import { ResearchStatusPanel } from './components/ResearchStatusPanel'
 import { ResearchWorkbench } from './components/ResearchWorkbench'
 import { ResolutionSimulator } from './components/ResolutionSimulator'
+import { SourceLibrary } from './components/SourceLibrary'
 import { TechnicalGlossary } from './components/TechnicalGlossary'
 import { TsmcTimeline } from './components/TsmcTimeline'
 import type { Language } from './i18n'
@@ -37,6 +38,7 @@ export default function App() {
         <FabCaseStudies />
         <TsmcTimeline />
         <ResearchStatusPanel language={language} />
+        <SourceLibrary language={language} />
         <EvidenceDashboard />
         <EvidenceGraph />
         <TechnicalGlossary language={language} />
