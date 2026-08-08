@@ -13,12 +13,28 @@ const moduleConfig = [
   { id: 'metrology', base: [4.25, 0.7, -0.15] as const, factor: 1.6, size: [1.2, 2.45, 1.8] as const },
 ]
 
+const cameraPresets: Record<string, { position: [number, number, number]; lookAt: [number, number, number] }> = {
+  overview: { position: [8.3, 5.6, 10.8], lookAt: [0, 0, 0] },
+  source: { position: [0.2, 3.2, 7.4], lookAt: [-4.7, 0.65, 0] },
+  reticle: { position: [4.4, 4.6, 8.2], lookAt: [-1.35, 1.55, 0] },
+  projection: { position: [6.3, 4.1, 7.1], lookAt: [0.45, 0.9, 0] },
+  wafer: { position: [7.6, 2.5, 5.9], lookAt: [2.75, -0.35, 0] },
+}
+
 type SelectHandler = (id: string, nodeName?: string) => void
 
-export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsystem; exploded: number; onSelect: SelectHandler }) {
+type ScannerSceneProps = {
+  selected: Subsystem
+  exploded: number
+  onSelect: SelectHandler
+  highlightedNode?: string | null
+  focusId?: string | null
+}
+
+export function ScannerScene({ selected, exploded, onSelect, highlightedNode = null, focusId = null }: ScannerSceneProps) {
   const mountRef = useRef<HTMLDivElement>(null)
-  const stateRef = useRef({ selected: selected.id, exploded, onSelect })
-  stateRef.current = { selected: selected.id, exploded, onSelect }
+  const stateRef = useRef({ selected: selected.id, exploded, onSelect, highlightedNode, focusId })
+  stateRef.current = { selected: selected.id, exploded, onSelect, highlightedNode, focusId }
 
   useEffect(() => {
     const mount = mountRef.current
@@ -49,6 +65,7 @@ export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsy
     root.rotation.y = -0.1
     scene.add(root)
     const objects = new Map<string, THREE.Mesh>()
+    const conceptNodes = new Map<string, THREE.Mesh>()
     const material = (id: string) => new THREE.MeshStandardMaterial({ color: palette[id], metalness: 0.66, roughness: 0.24, transparent: true, opacity: 0.84, emissive: palette[id], emissiveIntensity: 0.04 })
 
     moduleConfig.forEach((config) => {
@@ -60,6 +77,14 @@ export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsy
       root.add(mesh)
       objects.set(config.id, mesh)
     })
+
+    const sourceAnimation = new THREE.Group()
+    objects.get('source')!.add(sourceAnimation)
+    const conceptualDroplet = new THREE.Mesh(new THREE.SphereGeometry(0.07, 18, 18), new THREE.MeshBasicMaterial({ color: 0xfff0a8 }))
+    conceptualDroplet.position.set(-0.18, 0.55, 0)
+    const conceptualPlasma = new THREE.Mesh(new THREE.SphereGeometry(0.14, 22, 22), new THREE.MeshBasicMaterial({ color: 0x9deeff, transparent: true, opacity: 0.72 }))
+    conceptualPlasma.position.set(0.08, 0.06, 0)
+    sourceAnimation.add(conceptualDroplet, conceptualPlasma)
 
     const projectionDetails = new THREE.Group()
     objects.get('projection')!.add(projectionDetails)
@@ -86,6 +111,8 @@ export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsy
           if (node instanceof THREE.Mesh) {
             node.castShadow = true
             node.receiveShadow = true
+            node.material = Array.isArray(node.material) ? node.material.map((entry) => entry.clone()) : node.material.clone()
+            if (node.name) conceptNodes.set(node.name, node)
           }
         })
         fallback.add(model)
@@ -171,13 +198,27 @@ export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsy
     resizeObserver.observe(mount)
     resize()
 
+    const lookTarget = new THREE.Vector3()
     let frame = 0
     const animate = (time: number) => {
       frame = requestAnimationFrame(animate)
       root.rotation.y += (targetY - root.rotation.y) * 0.08
       root.rotation.x += (targetX - root.rotation.x) * 0.08
       root.position.y = Math.sin(time * 0.0005) * 0.05
-      const { exploded: amount, selected: selectedId } = stateRef.current
+      const { exploded: amount, selected: selectedId, highlightedNode: nodeToHighlight, focusId: cameraFocus } = stateRef.current
+
+      if (cameraFocus && cameraPresets[cameraFocus]) {
+        const preset = cameraPresets[cameraFocus]
+        camera.position.lerp(new THREE.Vector3(...preset.position), 0.06)
+        lookTarget.lerp(new THREE.Vector3(...preset.lookAt), 0.08)
+        camera.lookAt(lookTarget)
+      }
+
+      conceptualDroplet.position.y = 0.55 - ((time * 0.00035) % 0.7)
+      const pulse = 0.88 + (Math.sin(time * 0.008) + 1) * 0.22
+      conceptualPlasma.scale.setScalar(pulse)
+      ;(conceptualPlasma.material as THREE.MeshBasicMaterial).opacity = 0.42 + (Math.sin(time * 0.008) + 1) * 0.18
+
       moduleConfig.forEach((config) => {
         const mesh = objects.get(config.id)!
         mesh.position.x += ((config.base[0] + amount * config.factor) - mesh.position.x) * 0.1
@@ -186,6 +227,18 @@ export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsy
         meshMaterial.opacity = hasAsset ? (config.id === selectedId ? 0.28 : 0.09) : (config.id === selectedId ? 1 : 0.82)
         meshMaterial.emissiveIntensity = config.id === selectedId ? 0.34 : 0.035
       })
+
+      conceptNodes.forEach((mesh, nodeName) => {
+        const highlighted = nodeName === nodeToHighlight
+        const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material]
+        materials.forEach((entry) => {
+          if (entry instanceof THREE.MeshStandardMaterial) {
+            entry.emissive.setHex(highlighted ? 0x67e8f9 : 0x000000)
+            entry.emissiveIntensity = highlighted ? 0.55 : 0
+          }
+        })
+      })
+
       const vacuumMesh = objects.get('vacuum')!
       vacuumMesh.scale.x += (((9.8 + amount * 3.2) / 9.8) - vacuumMesh.scale.x) * 0.1
       const vacuumMaterial = vacuumMesh.material as THREE.MeshStandardMaterial
@@ -225,5 +278,5 @@ export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsy
     }
   }, [])
 
-  return <div className="scanner-canvas" ref={mountRef}><div className="asset-layer-note">OpenEUV original concept assets: source · reticle · projection</div><div className="canvas-help">drag to orbit · wheel to zoom · click a module or concept node</div><div className="canvas-caption">Public-source conceptual reconstruction · original OpenEUV glTF assets · not ASML CAD</div></div>
+  return <div className="scanner-canvas" ref={mountRef}><div className="asset-layer-note">OpenEUV concept assets · source animation is illustrative, not timing/scale accurate</div><div className="canvas-help">drag to orbit · wheel to zoom · click a module or concept node</div><div className="canvas-caption">Public-source conceptual reconstruction · original OpenEUV glTF assets · not ASML CAD</div></div>
 }
