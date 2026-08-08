@@ -9,6 +9,7 @@ const typeLabel: Record<AtlasSearchItem['type'], { en: string; vi: string }> = {
   evidence: { en: 'Evidence claim', vi: 'Evidence claim' },
   unknown: { en: 'Open unknown', vi: 'Unknown đang mở' },
   patent: { en: 'Public patent', vi: 'Patent công khai' },
+  literature: { en: 'Academic literature', vi: 'Tài liệu học thuật' },
   'fab-case': { en: 'Fab case', vi: 'Fab case' },
   assembly: { en: 'Assembly stage', vi: 'Assembly stage' },
   learning: { en: 'Learning level', vi: 'Level học' },
@@ -73,7 +74,7 @@ export function AtlasSearch({ language }: { language: Language }) {
           aria-controls="atlas-search-results"
           aria-expanded={Boolean(query)}
           aria-activedescendant={results.length ? `atlas-search-result-${activeIndex}` : undefined}
-          placeholder={language === 'vi' ? 'Ví dụ: High-NA, overlay, TSMC, EP4239410A1…' : 'Try High-NA, overlay, TSMC, EP4239410A1…'}
+          placeholder={language === 'vi' ? 'Ví dụ: High-NA, overlay, TSMC, DOI, EP4239410A1…' : 'Try High-NA, overlay, TSMC, DOI, EP4239410A1…'}
           onChange={(event) => { setQuery(event.target.value); setActiveIndex(0) }}
           onKeyDown={onKeyDown}
         />
@@ -95,7 +96,7 @@ export function AtlasSearch({ language }: { language: Language }) {
           <strong>{language === 'vi' && item.titleVi ? item.titleVi : item.title}</strong>
           <small>{language === 'vi' && item.subtitleVi ? item.subtitleVi : item.subtitle}</small>
         </button>)}
-        {results.length === 0 && <div className="atlas-search-empty">{language === 'vi' ? 'Chưa có mục phù hợp. Thử claim ID, subsystem, hãng hoặc thuật ngữ kỹ thuật.' : 'No matching item yet. Try a claim ID, subsystem, organization or technical term.'}</div>}
+        {results.length === 0 && <div className="atlas-search-empty">{language === 'vi' ? 'Chưa có mục phù hợp. Thử claim ID, subsystem, DOI, hãng hoặc thuật ngữ kỹ thuật.' : 'No matching item yet. Try a claim ID, subsystem, DOI, organization or technical term.'}</div>}
       </div>}
     </section>
   )
