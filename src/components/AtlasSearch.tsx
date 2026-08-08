@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { atlasSearchIndex, type AtlasSearchItem } from '../data/atlasSearchIndex'
 import { searchAtlas } from '../lib/atlasSearch.mjs'
 import type { Language } from '../i18n'
@@ -35,7 +35,7 @@ export function AtlasSearch({ language }: { language: Language }) {
     inputRef.current?.blur()
   }
 
-  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Escape') {
       event.preventDefault()
       setQuery('')
