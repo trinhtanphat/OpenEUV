@@ -24,9 +24,10 @@ function extractScalarProperties(source, property) {
   return Array.from(source.matchAll(pattern), (match) => match[1])
 }
 
-const [claims, unknowns, conceptLabels, fabCases, reviews, manifest, assemblySource, patentsSource] = await Promise.all([
+const [claims, unknowns, conceptLabelsLegacy, conceptLabelsV4, fabCases, reviews, manifest, assemblySource, patentsSource] = await Promise.all([
   readJson('evidence/claims.json'),
   readJson('evidence/unknowns.json'),
+  readJson('evidence/concept-labels.json'),
   readJson('evidence/concept-labels-v4.json'),
   readJson('evidence/fab-cases.json'),
   readJson('evidence/reviews.json'),
@@ -34,6 +35,7 @@ const [claims, unknowns, conceptLabels, fabCases, reviews, manifest, assemblySou
   readText('src/data/assemblyStages.ts'),
   readText('src/data/patents.ts'),
 ])
+const conceptLabels = [...conceptLabelsLegacy, ...conceptLabelsV4]
 
 const existingPaths = new Set()
 for (const dataset of manifest.datasets ?? []) {
