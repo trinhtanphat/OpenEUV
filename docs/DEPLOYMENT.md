@@ -17,6 +17,54 @@ npm run deploy:cloudflare
 
 Authentication is handled by Wrangler on the deployer's machine. Do not commit Cloudflare API tokens, account secrets or `.wrangler` credentials.
 
+## V8 provenance-aware deployment guard
+
+`npm run deploy:cloudflare` and `npm run deploy:cloudflare:dry` run `tools/manual-cloudflare-deploy.mjs`. The helper reads the exact 40-character `git rev-parse HEAD` value and passes it to build/deploy subprocesses only as `OPENEUV_COMMIT_SHA`. That makes the public build metadata identify the source commit without enabling GitHub Actions or copying arbitrary environment data into the app.
+
+The helper refuses a dirty worktree by default because uncommitted files cannot be reproduced from the recorded commit:
+
+```bash
+npm run deploy:cloudflare
+# Refuses when `git status --porcelain` is non-empty.
+```
+
+An operator can explicitly accept incomplete source provenance when there is a specific reason to deploy local changes:
+
+```bash
+npm run deploy:cloudflare -- --allow-dirty
+```
+
+That override is intentionally visible and should not be the normal release path.
+
+### Dry run
+
+```bash
+npm run deploy:cloudflare:dry
+```
+
+Dry-run mode builds with the exact commit metadata and then runs `wrangler deploy --dry-run`. It does not publish a production deployment.
+
+### Real deploy and repository gate
+
+A normal real deployment runs the full repository gate first and publishes only after it passes:
+
+```text
+npm run check
+npx wrangler deploy
+```
+
+Both commands receive `OPENEUV_COMMIT_SHA=<current full git SHA>` from the helper.
+
+For exceptional operator-controlled recovery work, the check can be skipped explicitly:
+
+```bash
+npm run deploy:cloudflare -- --skip-check
+```
+
+With `--skip-check`, the helper still runs `npm run build` before `wrangler deploy`; it does not skip compilation. Document why this flag was needed when using it for a real deployment.
+
+The helper logs mode, clean/dirty provenance state, short commit SHA and command names only. It does **not** dump `process.env`, Cloudflare tokens, Wrangler credentials or other environment secrets.
+
 ## Custom domain
 
 After the first successful Workers deployment, attach a custom domain from the Cloudflare Workers dashboard. Domain routing is intentionally not hard-coded in the public repository because account and zone identifiers are deployment-specific.
