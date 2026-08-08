@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "capture": {
+    "capturedAt": "REPLACE-WITH-ISO-8601-TIMESTAMP",
+    "timezone": "REPLACE-WITH-TIMEZONE",
+    "deviceClass": "REPLACE-WITH-desktop|laptop|tablet|phone",
+    "os": "REPLACE-WITH-OS-AND-VERSION",
+    "browser": "REPLACE-WITH-BROWSER-AND-VERSION",
+    "cpu": "OPTIONAL-PUBLIC-HARDWARE-DESCRIPTION",
+    "gpu": "OPTIONAL-PUBLIC-HARDWARE-DESCRIPTION",
+    "powerMode": "unknown",
+    "viewport": "OPTIONAL-WIDTHxHEIGHT",
+    "notes": "Do not include usernames, serial numbers, IP addresses or other private identifiers."
+  },
+  "benchmark": {
+    "timestamp": "PASTE-UNEDITED-HARNESS-TIMESTAMP",
+    "userAgent": "PASTE-HARNESS-USER-AGENT",
+    "hardwareConcurrency": null,
+    "deviceMemoryGiB": null,
+    "instances": 2048,
+    "frames": 90,
+    "memoryBefore": null,
+    "webgl": null,
+    "webgpu": null,
+    "memoryAfter": null
+  }
+}
