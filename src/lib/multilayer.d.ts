@@ -11,6 +11,7 @@ export type OpticalMedium = {
 
 export function multilayerReflectivity(input: {
   wavelengthNm: number
+  angleDeg?: number
   pairs: number
   materialA: OpticalLayer
   materialB: OpticalLayer
