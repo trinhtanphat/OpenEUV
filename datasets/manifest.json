@@ -3,12 +3,12 @@
   "datasets": [
     {
       "id": "evidence-claims",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "path": "evidence/claims.json",
       "kind": "evidence",
       "source": "OpenEUV compilation of first-party public pages, published patents and public academic metadata linked per record",
       "license": "OpenEUV metadata compilation is distributed under the repository license; upstream sources retain their own rights",
-      "provenance": "Each claim records source class, source URL(s), confidence and optional rationale; V1.1 adds further first-party foundry/fab milestones",
+      "provenance": "Each claim records source class, source URL(s), confidence and optional rationale; V1.2 adds first-party EUV mask cleaning, pellicle and qualification lifecycle claims",
       "schema": "evidence/schema.json"
     },
     {
@@ -30,6 +30,16 @@
       "license": "OpenEUV metadata compilation is distributed under the repository license",
       "provenance": "Stores only public contributor/reviewer handles and review/supersession state; currently empty until real reviews are recorded",
       "schema": "src/lib/evidenceReview.mjs"
+    },
+    {
+      "id": "fab-case-studies",
+      "version": "1.0.0",
+      "path": "evidence/fab-cases.json",
+      "kind": "fab-case-metadata",
+      "source": "OpenEUV compilation of first-party/public fab, mask-lifecycle and scanner-interface case studies linked to shared evidence claims",
+      "license": "OpenEUV original case-study metadata and summaries are distributed under the repository license; linked upstream sources retain their own rights",
+      "provenance": "Every case stores shared claim IDs, direct public source URLs, a public-boundary statement and explicit unknowns; runtime UI imports this same JSON source of truth",
+      "schema": "src/lib/fabCaseMetadata.mjs"
     },
     {
       "id": "patent-seed-metadata",
