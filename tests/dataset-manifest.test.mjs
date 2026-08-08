@@ -8,7 +8,7 @@ const manifest = JSON.parse(await readFile(new URL('../datasets/manifest.json', 
 test('repository dataset manifest is valid and includes measured public optical data', () => {
   const result = validateDatasetManifest(manifest)
   assert.equal(result.ok, true, result.errors.join('; '))
-  assert.equal(result.manifest.datasets.length, 9)
+  assert.equal(result.manifest.datasets.length, 10)
   const mo = result.manifest.datasets.find((dataset) => dataset.id === 'optical-constants-mo-windt-1988')
   assert.ok(mo)
   assert.match(mo.license, /CC0/i)
@@ -16,6 +16,10 @@ test('repository dataset manifest is valid and includes measured public optical 
   const fabCases = result.manifest.datasets.find((dataset) => dataset.id === 'fab-case-studies')
   assert.ok(fabCases)
   assert.equal(fabCases.path, 'evidence/fab-cases.json')
+  const literature = result.manifest.datasets.find((dataset) => dataset.id === 'academic-literature')
+  assert.ok(literature)
+  assert.equal(literature.path, 'evidence/literature.json')
+  assert.match(literature.provenance, /no full paper text|original OpenEUV summaries/i)
   const siliconGap = result.manifest.datasets.find((dataset) => dataset.id === 'optical-data-gap-silicon-euv')
   assert.ok(siliconGap)
   assert.equal(siliconGap.path, 'evidence/optical-data-gaps.json')
@@ -44,11 +48,12 @@ test('manifest requires provenance and redistribution notes', () => {
 
 test('manifest summary groups datasets by kind', () => {
   const summary = summarizeDatasetManifest(manifest)
-  assert.equal(summary.datasets, 9)
+  assert.equal(summary.datasets, 10)
   assert.equal(summary.byKind.evidence, 2)
   assert.equal(summary.byKind['evidence-review-metadata'], 1)
   assert.equal(summary.byKind['fab-case-metadata'], 1)
   assert.equal(summary.byKind['patent-metadata'], 1)
+  assert.equal(summary.byKind['academic-literature-metadata'], 1)
   assert.equal(summary.byKind['optical-constants'], 1)
   assert.equal(summary.byKind['optical-data-gap-metadata'], 1)
   assert.equal(summary.byKind['education-metadata'], 1)
