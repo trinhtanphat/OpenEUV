@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-test('atlas core interactions remain usable', async ({ page }) => {
+test('atlas core interactions remain usable', async ({ page }, testInfo) => {
   await page.goto('/')
   await expect(page.locator('main')).toBeVisible()
   await expect(page.locator('.scanner-canvas')).toBeVisible()
@@ -55,6 +55,10 @@ test('atlas core interactions remain usable', async ({ page }) => {
     const input = allRanges.nth(index)
     const labelText = await input.evaluate((element) => element.getAttribute('aria-label') || element.closest('label')?.textContent?.trim() || '')
     expect(labelText.length).toBeGreaterThan(0)
+  }
+
+  if (testInfo.project.name === 'desktop-chromium') {
+    await page.screenshot({ path: testInfo.outputPath('atlas-desktop.png'), fullPage: true })
   }
 })
 
