@@ -52,6 +52,9 @@ test('atlas core interactions remain usable', async ({ page }, testInfo) => {
   await expect(page.locator('[data-assembly-selected="source"]')).toBeVisible()
   await expect(page.locator('[data-assembly-selected="source"]')).toContainText(/laser operating instructions|hướng dẫn vận hành laser/i)
 
+  const opticsLearning = page.locator('button[data-learning-level="optics"]')
+  await opticsLearning.click()
+  await expect(page.locator('[data-learning-active="optics"]')).toContainText('Fourier imaging lab')
   const researchLearning = page.locator('button[data-learning-level="research"]')
   await expect(researchLearning).toBeVisible()
   await researchLearning.click()
@@ -73,6 +76,15 @@ test('atlas core interactions remain usable', async ({ page }, testInfo) => {
   const beforeK1 = Number(await highNaSlider.inputValue())
   await page.keyboard.press('ArrowRight')
   expect(Number(await highNaSlider.inputValue())).toBeGreaterThan(beforeK1)
+
+  const fourierLab = page.locator('#fourier-imaging-lab')
+  await expect(fourierLab).toBeVisible()
+  await expect(page.locator('[data-lab-guide="fourier"]')).toBeVisible()
+  await page.getByLabel('Normalized pattern spatial frequency').fill('0.50')
+  await page.getByLabel('Normalized pupil cutoff').fill('0.30')
+  await expect(fourierLab.locator('[data-fourier-status="beyond-cutoff"]')).toBeVisible()
+  await page.getByLabel('Normalized pupil cutoff').fill('1.20')
+  await expect(fourierLab.locator('[data-fourier-status="within-cutoff"]')).toBeVisible()
 
   const publicMo = page.locator('button[data-load-public-mo]')
   await publicMo.click()
@@ -115,7 +127,7 @@ test('atlas core interactions remain usable', async ({ page }, testInfo) => {
 
   const allRanges = page.locator('input[type="range"]')
   const labels = await allRanges.evaluateAll((elements) => elements.map((element) => element.getAttribute('aria-label') || element.closest('label')?.textContent?.trim() || ''))
-  expect(labels.length).toBeGreaterThan(10)
+  expect(labels.length).toBeGreaterThan(12)
   expect(labels.every((label) => label.length > 0)).toBeTruthy()
 
   if (testInfo.project.name === 'desktop-chromium') {
