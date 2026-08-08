@@ -40,7 +40,7 @@ test('atlas core interactions remain usable', async ({ page }, testInfo) => {
   await page.locator('#mask-3d-lab input[type="range"]').first().fill('10')
   await expect(page.locator('#mask-3d-lab code')).toContainText('shadow')
 
-  await page.getByRole('button', { name: 'Reticle' }).click()
+  await page.locator('button[data-patent-filter="reticle"]').click()
   await expect(page.locator('.patent-card')).toHaveCount(2)
 
   const stageControls = page.locator('#stage-lab input[type="range"]')
