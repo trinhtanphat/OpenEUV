@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "checkedAt": "2026-08-08",
+  "target": {
+    "material": "Si",
+    "wavelengthNm": 13.5,
+    "purpose": "Measured silicon optical constants for the educational EUV multilayer/material-data path"
+  },
+  "decision": "keep-illustrative-until-redistributable-measured-data-exists",
+  "candidates": [
+    {
+      "source": "refractiveindex.info database",
+      "license": "CC0-1.0",
+      "record": "database/data/main/Si/nk/Franta-25C.yml",
+      "upstreamRevision": "6f3b772c3339d68a21538cb2562d2acb36731302",
+      "sourceUrl": "https://github.com/polyanskiy/refractiveindex.info-database/blob/6f3b772c3339d68a21538cb2562d2acb36731302/database/data/main/Si/nk/Franta-25C.yml",
+      "minWavelengthNm": 30.9963,
+      "coversTarget": false,
+      "vendorable": false,
+      "reason": "The verified CC0 Si record starts at 30.9963 nm, so using it at 13.5 nm would require unsupported extrapolation."
+    },
+    {
+      "source": "LBNL/CXRO Henke optical-constants service and Soufli-Gullikson EUV silicon measurements",
+      "license": "redistribution-not-verified-for-numerical-table",
+      "sourceUrl": "https://henke.lbl.gov/optical_constants/getdb2.html",
+      "literatureUrl": "https://doi.org/10.1364/AO.36.005499",
+      "reportedEnergyRangeEv": [50, 180],
+      "targetEnergyEvApprox": 91.84,
+      "coversTarget": true,
+      "vendorable": false,
+      "reason": "Public EUV-range silicon measurements/data access exist, but OpenEUV has not verified redistribution terms that permit checking the numerical table into this repository."
+    }
+  ],
+  "rules": [
+    "Do not extrapolate a visible/UV silicon dataset down to 13.5 nm and label it measured.",
+    "Do not copy a public numerical table into the repository unless redistribution rights are verified.",
+    "Keep the simulator layer explicitly illustrative until a measured, redistributable EUV-range Si dataset is pinned."
+  ]
+}
