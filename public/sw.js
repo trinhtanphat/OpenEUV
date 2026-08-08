@@ -10,12 +10,16 @@ function responseIsPublicCacheable(response) {
   return !cacheControl.includes('no-store') && !cacheControl.includes('private')
 }
 
+async function storePublicResponse(cache, request, response) {
+  if (responseIsPublicCacheable(response)) await cache.put(request, response.clone())
+  return response
+}
+
 async function networkFirst(request, fallbackUrl = null) {
   const cache = await caches.open(cacheName)
   try {
     const response = await fetch(request)
-    if (responseIsPublicCacheable(response)) await cache.put(request, response.clone())
-    return response
+    return await storePublicResponse(cache, request, response)
   } catch {
     const cached = await cache.match(request)
     if (cached) return cached
@@ -33,7 +37,14 @@ async function networkFirst(request, fallbackUrl = null) {
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(cacheName)
-    await cache.addAll(shellUrls)
+    for (const url of shellUrls) {
+      try {
+        const response = await fetch(url, { cache: 'reload' })
+        await storePublicResponse(cache, url, response)
+      } catch {
+        // Offline installation may leave a shell item uncached; runtime fallback remains explicit.
+      }
+    }
     await self.skipWaiting()
   })())
 })
