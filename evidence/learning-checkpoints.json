@@ -1,0 +1,80 @@
+[
+  {
+    "id": "l0-pattern-transfer",
+    "levelId": "foundations",
+    "prompt": { "en": "What is the main role of lithography in semiconductor manufacturing?", "vi": "Vai trò chính của lithography trong sản xuất bán dẫn là gì?" },
+    "options": [
+      { "en": "Transfer a controlled pattern into the wafer process flow", "vi": "Truyền pattern được kiểm soát vào quy trình xử lý wafer" },
+      { "en": "Measure only the electrical resistance of finished chips", "vi": "Chỉ đo điện trở của chip đã hoàn thiện" },
+      { "en": "Replace every deposition and etch step", "vi": "Thay thế toàn bộ công đoạn deposition và etch" }
+    ],
+    "correctIndex": 0,
+    "explanation": { "en": "Lithography defines where later process steps act by forming a controlled pattern in the resist/process stack.", "vi": "Lithography xác định nơi các công đoạn sau tác động bằng cách tạo pattern được kiểm soát trong resist/process stack." },
+    "links": [{ "href": "#glossary", "label": { "en": "Open glossary", "vi": "Mở glossary" } }]
+  },
+  {
+    "id": "l1-na",
+    "levelId": "optics",
+    "prompt": { "en": "In a simplified diffraction-limited imaging model, what does increasing numerical aperture primarily change?", "vi": "Trong mô hình imaging giới hạn bởi diffraction, tăng numerical aperture chủ yếu thay đổi điều gì?" },
+    "options": [
+      { "en": "It allows a wider range of spatial frequencies/angles to contribute to imaging", "vi": "Cho phép dải spatial frequency/góc rộng hơn tham gia tạo ảnh" },
+      { "en": "It turns reflective EUV optics into glass lenses", "vi": "Biến quang phản xạ EUV thành thấu kính thủy tinh" },
+      { "en": "It removes the need for focus and metrology", "vi": "Loại bỏ nhu cầu focus và metrology" }
+    ],
+    "correctIndex": 0,
+    "explanation": { "en": "Higher NA expands the accepted angular/spatial-frequency range in the simplified model, which is why NA is central to resolution discussions.", "vi": "NA cao hơn mở rộng dải góc/spatial frequency được thu nhận trong mô hình đơn giản, nên NA là tham số cốt lõi khi nói về resolution." },
+    "links": [{ "href": "#high-na-lab", "label": { "en": "Open NA lab", "vi": "Mở lab NA" } }, { "href": "#evidence-HIGHNA-NA-001", "label": { "en": "Public NA evidence", "vi": "Evidence công khai về NA" } }]
+  },
+  {
+    "id": "l2-vacuum-reflection",
+    "levelId": "euv-physics",
+    "prompt": { "en": "Why do EUV systems rely on reflective optics and a controlled vacuum path?", "vi": "Vì sao hệ EUV dựa vào quang phản xạ và đường quang trong vacuum được kiểm soát?" },
+    "options": [
+      { "en": "EUV is strongly absorbed by air and many materials", "vi": "EUV bị hấp thụ mạnh bởi không khí và nhiều vật liệu" },
+      { "en": "Vacuum makes every mirror perfectly reflective", "vi": "Vacuum làm mọi gương phản xạ hoàn hảo" },
+      { "en": "It eliminates contamination and all optical loss", "vi": "Nó loại bỏ hoàn toàn contamination và mọi tổn hao quang học" }
+    ],
+    "correctIndex": 0,
+    "explanation": { "en": "Public manufacturer material explains that EUV is strongly absorbed, so the optical path is reflective and maintained in vacuum. Vacuum does not make loss or contamination disappear.", "vi": "Nguồn hãng công khai giải thích EUV bị hấp thụ mạnh, nên đường quang dùng gương phản xạ và vận hành trong vacuum. Vacuum không làm tổn hao hay contamination biến mất." },
+    "links": [{ "href": "#evidence-EUV-VACUUM-001", "label": { "en": "Vacuum evidence", "vi": "Evidence vacuum" } }, { "href": "#multilayer-lab", "label": { "en": "Multilayer lab", "vi": "Lab multilayer" } }]
+  },
+  {
+    "id": "l3-system-boundary",
+    "levelId": "scanner-systems",
+    "prompt": { "en": "Why does OpenEUV mark module boundaries as documented, inferred, illustrative or unknown?", "vi": "Vì sao OpenEUV đánh dấu boundary của module là documented, inferred, illustrative hoặc unknown?" },
+    "options": [
+      { "en": "To separate public functional knowledge from unsupported proprietary implementation detail", "vi": "Để tách kiến thức chức năng công khai khỏi chi tiết implementation độc quyền chưa có bằng chứng" },
+      { "en": "To imply every unknown detail is secret and must be guessed", "vi": "Để ám chỉ mọi chi tiết unknown đều bí mật và cần đoán" },
+      { "en": "To rank vendors by engineering quality", "vi": "Để xếp hạng chất lượng kỹ thuật của các hãng" }
+    ],
+    "correctIndex": 0,
+    "explanation": { "en": "The evidence boundary is a core research feature: public functional decomposition can be useful without pretending to know private geometry, tolerances or control implementations.", "vi": "Ranh giới evidence là tính năng nghiên cứu cốt lõi: phân rã chức năng công khai vẫn hữu ích mà không cần giả vờ biết geometry, tolerance hay control implementation riêng tư." },
+    "links": [{ "href": "#assembly-explorer", "label": { "en": "Assembly Explorer", "vi": "Assembly Explorer" } }, { "href": "#unknowns", "label": { "en": "Evidence & unknowns", "vi": "Evidence & unknowns" } }]
+  },
+  {
+    "id": "l4-anamorphic",
+    "levelId": "high-na",
+    "prompt": { "en": "What does the public 4×/8× High-NA anamorphic description tell us?", "vi": "Mô tả anamorphic High-NA 4×/8× công khai cho biết điều gì?" },
+    "options": [
+      { "en": "The two image axes use different demagnification factors", "vi": "Hai trục ảnh dùng hệ số demagnification khác nhau" },
+      { "en": "The exact commercial mirror prescription is publicly known", "vi": "Prescription gương thương mại chính xác đã được công khai" },
+      { "en": "Mask 3D effects can be ignored at higher NA", "vi": "Có thể bỏ qua Mask 3D effects khi NA tăng" }
+    ],
+    "correctIndex": 0,
+    "explanation": { "en": "The public anamorphic fact constrains image-field geometry, not the proprietary mirror prescription or detailed correction strategy.", "vi": "Fact anamorphic công khai ràng buộc geometry của image field, không tiết lộ prescription gương độc quyền hay chiến lược correction chi tiết." },
+    "links": [{ "href": "#anamorphic-lab", "label": { "en": "Anamorphic lab", "vi": "Lab anamorphic" } }, { "href": "#evidence-HIGHNA-ANAMORPHIC-001", "label": { "en": "Public anamorphic evidence", "vi": "Evidence anamorphic công khai" } }]
+  },
+  {
+    "id": "l5-class-d",
+    "levelId": "research",
+    "prompt": { "en": "What is required before OpenEUV can label a statement as Class D inference?", "vi": "Cần gì trước khi OpenEUV có thể gắn một phát biểu là suy luận Class D?" },
+    "options": [
+      { "en": "Lawful public sources plus an explicit written rationale", "vi": "Nguồn công khai hợp pháp cùng rationale được viết rõ" },
+      { "en": "An anonymous leak with no verifiable source", "vi": "Một leak ẩn danh không có nguồn kiểm chứng" },
+      { "en": "A plausible-looking 3D model by itself", "vi": "Chỉ cần một mô hình 3D trông hợp lý" }
+    ],
+    "correctIndex": 0,
+    "explanation": { "en": "Class D is bounded public-source inference. It is not a route for laundering rumors or visually plausible guesses into facts.", "vi": "Class D là suy luận có ranh giới từ nguồn công khai. Nó không phải cách biến rumor hay phỏng đoán trông hợp lý thành fact." },
+    "links": [{ "href": "#unknowns", "label": { "en": "Evidence Dashboard", "vi": "Evidence Dashboard" } }, { "href": "#patents", "label": { "en": "Patent Explorer", "vi": "Patent Explorer" } }]
+  }
+]
