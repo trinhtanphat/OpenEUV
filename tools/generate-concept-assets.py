@@ -132,6 +132,16 @@ SOURCE = [
     {"name": "ContaminationShield", "mesh": 0, "translation": [.25, .35, 0], "scale": [.12, 1.7, 1.8]},
 ]
 
+ILLUMINATION = [
+    {"name": "IlluminationFrame", "mesh": 0, "translation": [0, 0, 0], "scale": [3.1, 2.7, 2.4]},
+    {"name": "CollectorHandoff", "mesh": 1, "translation": [-1.25, .65, 0], "rotation": [.7071, 0, 0, .7071], "scale": [.65, .08, .65]},
+    {"name": "FieldMirrorConcept-1", "mesh": 1, "translation": [-.45, .7, -.35], "rotation": [.7071, 0, 0, .7071], "scale": [.7, .08, .7]},
+    {"name": "FieldMirrorConcept-2", "mesh": 1, "translation": [.25, .15, .35], "rotation": [.7071, 0, 0, .7071], "scale": [.62, .08, .62]},
+    {"name": "FieldMirrorConcept-3", "mesh": 1, "translation": [.9, -.35, -.25], "rotation": [.7071, 0, 0, .7071], "scale": [.55, .08, .55]},
+    {"name": "PupilShapingConcept", "mesh": 1, "translation": [.35, .9, 0], "scale": [.48, .14, .48]},
+    {"name": "MaskHandoffPlane", "mesh": 0, "translation": [1.35, -.55, 0], "scale": [.12, 1.15, 1.55]},
+]
+
 RETICLE = [
     {"name": "ReticleFrame", "mesh": 0, "translation": [0, 0, 0], "scale": [2.7, .18, 2.0]},
     {"name": "ReflectiveMask", "mesh": 0, "translation": [0, .18, 0], "scale": [2.1, .08, 1.45]},
@@ -150,10 +160,22 @@ PROJECTION = [
     {"name": "MetrologyFrame", "mesh": 0, "translation": [0, 0, 0], "scale": [2.9, .1, 2.6]},
 ]
 
+VACUUM = [
+    {"name": "VacuumPlatform", "mesh": 0, "translation": [0, 0, 0], "scale": [4.6, .45, 2.7]},
+    {"name": "OpticalPathEnvelope", "mesh": 0, "translation": [0, .65, 0], "scale": [4.1, .12, 1.7]},
+    {"name": "SourceInterfaceConcept", "mesh": 0, "translation": [-1.75, .55, 0], "scale": [.2, 1.25, 1.65]},
+    {"name": "ReticleInterfaceConcept", "mesh": 0, "translation": [-.45, .95, 0], "scale": [.2, .75, 1.45]},
+    {"name": "ProjectionInterfaceConcept", "mesh": 0, "translation": [.75, .55, 0], "scale": [.2, 1.35, 1.65]},
+    {"name": "WaferInterfaceConcept", "mesh": 0, "translation": [1.75, .15, 0], "scale": [.2, .8, 1.55]},
+    {"name": "AirlockConcept", "mesh": 0, "translation": [2.1, .7, 0], "scale": [.65, 1.1, 1.6]},
+]
+
 PRESETS = {
     "source": (SOURCE, "public/models/euv-source-collector-concept.gltf"),
+    "illumination": (ILLUMINATION, "public/models/euv-illumination-concept.gltf"),
     "reticle": (RETICLE, "public/models/euv-reticle-concept.gltf"),
     "projection": (PROJECTION, "public/models/euv-projection-concept.gltf"),
+    "vacuum": (VACUUM, "public/models/euv-vacuum-platform-concept.gltf"),
 }
 
 
