@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { isOpenEuvCacheName, offlineCacheName, shouldHandleOfflineRequest } from '../src/lib/offlinePolicy.mjs'
+import { isOpenEuvCacheName, offlineCacheName, shouldHandleOfflineRequest } from '../public/offline-policy.js'
 
 const origin = 'https://openeuv.example'
 
