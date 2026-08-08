@@ -8,7 +8,9 @@ Learn wafer/resist/pattern-transfer vocabulary, layer alignment and why shorter-
 
 ## L1 — Optics: waves, NA and imaging
 
-Learn wavelength, diffraction, numerical aperture, Rayleigh-style scaling and why EUV systems use reflective optics. Use Low-NA vs High-NA and the anamorphic field visualizer.
+Learn wavelength, diffraction, numerical aperture, Rayleigh-style scaling, spatial frequency and transfer-function intuition. Use Low-NA vs High-NA, the anamorphic field visualizer and the normalized Fourier Imaging Lab.
+
+The Fourier lab provides a bridge from “smaller features need more optical bandwidth” to a frequency-domain view: a square pattern is decomposed into harmonics and an idealized pupil transfer progressively attenuates higher spatial frequencies.
 
 ## L2 — EUV physics and multilayers
 
@@ -20,7 +22,9 @@ Connect source, illumination, reflective reticle, projection optics, wafer stage
 
 ## L4 — High-NA image-quality effects
 
-Study the public concepts behind NA 0.55, 4×/8× anamorphic imaging, mask 3D effects, aberration, focus, leveling and overlay. Keep production prescriptions and correction algorithms outside the reconstruction unless public evidence explicitly supports them.
+Study the public concepts behind NA 0.55, 4×/8× anamorphic imaging, spatial-frequency filtering, mask 3D effects, aberration, focus, leveling and overlay. Revisit the Fourier Imaging Lab to connect a wider normalized passband with preservation of more pattern harmonics.
+
+Keep production prescriptions, private correction algorithms and fab/process settings outside the reconstruction unless lawful public evidence explicitly supports a bounded educational statement.
 
 ## L5 — Research: evidence, patents and computation
 
@@ -31,10 +35,14 @@ Use the Patent Explorer, Evidence Dashboard, DOI metadata tooling and reproducib
 A contributor does not need to start at L5. Good entry points include:
 
 - education/translation improvements at L0–L1;
-- visual optics and UI work at L1–L2;
+- visual optics, Fourier/MTF explainers and UI work at L1–L2;
 - concept-asset and evidence-label work at L3;
-- public High-NA literature and visualization work at L4;
+- public High-NA literature and bounded visualization work at L4;
 - patent/data/reproducibility work at L5.
+
+## Fourier lab methodology
+
+See [`FOURIER_IMAGING_LAB.md`](FOURIER_IMAGING_LAB.md) for the normalized MTF relationship, harmonic reconstruction, public learning references, tested invariants and omitted effects.
 
 ## Safety and sourcing boundary
 
