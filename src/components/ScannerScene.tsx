@@ -13,7 +13,9 @@ const moduleConfig = [
   { id: 'metrology', base: [4.25, 0.7, -0.15] as const, factor: 1.6, size: [1.2, 2.45, 1.8] as const },
 ]
 
-export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsystem; exploded: number; onSelect: (id: string) => void }) {
+type SelectHandler = (id: string, nodeName?: string) => void
+
+export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsystem; exploded: number; onSelect: SelectHandler }) {
   const mountRef = useRef<HTMLDivElement>(null)
   const stateRef = useRef({ selected: selected.id, exploded, onSelect })
   stateRef.current = { selected: selected.id, exploded, onSelect }
@@ -80,6 +82,7 @@ export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsy
         model.name = `OpenEUV-${id}-concept-asset`
         model.traverse((node) => {
           node.userData.subsystem = id
+          if (node.name && !node.name.startsWith('OpenEUV-')) node.userData.conceptNodeName = node.name
           if (node instanceof THREE.Mesh) {
             node.castShadow = true
             node.receiveShadow = true
@@ -141,8 +144,10 @@ export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsy
       if (Math.hypot(event.clientX - downX, event.clientY - downY) < 5) {
         point(event)
         raycaster.setFromCamera(pointer, camera)
-        const hit = raycaster.intersectObjects([...objects.values()], false)[0]
-        if (hit?.object.userData.id) stateRef.current.onSelect(hit.object.userData.id)
+        const hit = raycaster.intersectObjects([...objects.values()], true)[0]
+        const subsystemId = hit?.object.userData.id ?? hit?.object.userData.subsystem
+        const nodeName = hit?.object.userData.conceptNodeName as string | undefined
+        if (typeof subsystemId === 'string') stateRef.current.onSelect(subsystemId, nodeName)
       }
       dragging = false
     }
@@ -220,5 +225,5 @@ export function ScannerScene({ selected, exploded, onSelect }: { selected: Subsy
     }
   }, [])
 
-  return <div className="scanner-canvas" ref={mountRef}><div className="asset-layer-note">OpenEUV original concept assets: source · reticle · projection</div><div className="canvas-help">drag to orbit · wheel to zoom · click a module</div><div className="canvas-caption">Public-source conceptual reconstruction · original OpenEUV glTF assets · not ASML CAD</div></div>
+  return <div className="scanner-canvas" ref={mountRef}><div className="asset-layer-note">OpenEUV original concept assets: source · reticle · projection</div><div className="canvas-help">drag to orbit · wheel to zoom · click a module or concept node</div><div className="canvas-caption">Public-source conceptual reconstruction · original OpenEUV glTF assets · not ASML CAD</div></div>
 }
