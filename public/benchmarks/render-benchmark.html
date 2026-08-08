@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>OpenEUV Renderer Benchmark</title>
+<style>
+:root{font-family:system-ui,sans-serif;color:#dff6ff;background:#050914}body{margin:0;padding:24px;max-width:980px;margin-inline:auto}h1{margin-bottom:8px}p{color:#91a7bd;line-height:1.55}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{border:1px solid #203550;border-radius:14px;padding:16px;background:#081421}canvas{width:100%;aspect-ratio:16/9;background:#02060c;border-radius:10px}button{padding:10px 14px;border:1px solid #3b607a;border-radius:9px;background:#0b2636;color:#dffaff;font-weight:700;cursor:pointer}pre{white-space:pre-wrap;background:#07101b;padding:12px;border-radius:10px;color:#9bd7e8}.note{border-left:2px solid #7c6fd0;padding-left:12px}@media(max-width:700px){.grid{grid-template-columns:1fr}}</style>
+</head>
+<body>
+<h1>OpenEUV renderer benchmark</h1>
+<p>This benchmark uses original synthetic concept geometry: 2,048 instanced triangles. It is a renderer comparison harness, not an EUV simulation. WebGL remains the atlas baseline; WebGPU is measured only when the browser exposes <code>navigator.gpu</code>.</p>
+<p class="note">Measurements are browser/driver/device-specific. Do not adopt WebGPU from one run. Compare multiple reproducible runs on defined hardware classes.</p>
+<button id="run">Run benchmark</button>
+<div class="grid">
+<section class="card"><h2>WebGL2 baseline</h2><canvas id="webgl" width="640" height="360"></canvas><pre id="webgl-result">not run</pre></section>
+<section class="card"><h2>WebGPU experimental</h2><canvas id="webgpu" width="640" height="360"></canvas><pre id="webgpu-result">not run</pre></section>
+</div>
+<h2>Raw result</h2><pre id="raw">not run</pre>
+<script type="module">
+const INSTANCES=2048, FRAMES=90, WARMUP=20;
+const stats=(values)=>{const sorted=[...values].sort((a,b)=>a-b);const avg=sorted.reduce((a,b)=>a+b,0)/sorted.length;const pct=f=>sorted[Math.min(sorted.length-1,Math.floor((sorted.length-1)*f))];return{samples:sorted.length,averageMs:avg,medianMs:pct(.5),p95Ms:pct(.95)}};
+const memory=()=>performance.memory?{usedJSHeapSize:performance.memory.usedJSHeapSize,totalJSHeapSize:performance.memory.totalJSHeapSize}:null;
+const waitFrame=()=>new Promise(r=>requestAnimationFrame(t=>r(t)));
+async function sampleFrames(draw){for(let i=0;i<WARMUP;i++){draw(i);await waitFrame()}const values=[];let last=performance.now();for(let i=0;i<FRAMES;i++){draw(i);await waitFrame();const now=performance.now();values.push(now-last);last=now}return stats(values)}
+function webglSetup(){const canvas=document.querySelector('#webgl'),gl=canvas.getContext('webgl2',{antialias:false});if(!gl)throw new Error('WebGL2 unavailable');const vs=`#version 300 es\nprecision highp float;\nconst vec2 V[3]=vec2[3](vec2(-.012,-.016),vec2(.012,-.016),vec2(0.,.016));\nvoid main(){int x=gl_InstanceID%64;int y=gl_InstanceID/64;vec2 base=vec2(float(x)/32.-.984,float(y)/16.-.969);float wobble=sin(float(gl_InstanceID)*.13)*.004;gl_Position=vec4(base+V[gl_VertexID]+vec2(wobble,0.),0.,1.);}`;const fs=`#version 300 es\nprecision highp float;out vec4 o;void main(){o=vec4(.25,.8,.95,1.);}`;const compile=(type,src)=>{const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s));return s};const p=gl.createProgram();gl.attachShader(p,compile(gl.VERTEX_SHADER,vs));gl.attachShader(p,compile(gl.FRAGMENT_SHADER,fs));gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p));gl.useProgram(p);return()=>{gl.viewport(0,0,canvas.width,canvas.height);gl.clearColor(.01,.03,.06,1);gl.clear(gl.COLOR_BUFFER_BIT);gl.drawArraysInstanced(gl.TRIANGLES,0,3,INSTANCES)}}
+async function webgpuSetup(){if(!navigator.gpu)throw new Error('WebGPU unavailable');const adapter=await navigator.gpu.requestAdapter();if(!adapter)throw new Error('WebGPU adapter unavailable');const device=await adapter.requestDevice();const canvas=document.querySelector('#webgpu'),ctx=canvas.getContext('webgpu'),format=navigator.gpu.getPreferredCanvasFormat();ctx.configure({device,format,alphaMode:'opaque'});const shader=device.createShaderModule({code:`@vertex fn vs(@builtin(vertex_index) v:u32,@builtin(instance_index) i:u32)->@builtin(position) vec4f{var pts=array<vec2f,3>(vec2f(-.012,-.016),vec2f(.012,-.016),vec2f(0.,.016));let x=f32(i%64u);let y=f32(i/64u);let base=vec2f(x/32.-.984,y/16.-.969);let wobble=sin(f32(i)*.13)*.004;return vec4f(base+pts[v]+vec2f(wobble,0.),0.,1.);}@fragment fn fs()->@location(0) vec4f{return vec4f(.25,.8,.95,1.);}`});const pipeline=device.createRenderPipeline({layout:'auto',vertex:{module:shader,entryPoint:'vs'},fragment:{module:shader,entryPoint:'fs',targets:[{format}]},primitive:{topology:'triangle-list'}});return()=>{const encoder=device.createCommandEncoder(),view=ctx.getCurrentTexture().createView(),pass=encoder.beginRenderPass({colorAttachments:[{view,clearValue:{r:.01,g:.03,b:.06,a:1},loadOp:'clear',storeOp:'store'}]});pass.setPipeline(pipeline);pass.draw(3,INSTANCES);pass.end();device.queue.submit([encoder.finish()])}}
+async function run(){const start=performance.now(),result={timestamp:new Date().toISOString(),userAgent:navigator.userAgent,hardwareConcurrency:navigator.hardwareConcurrency||null,deviceMemoryGiB:navigator.deviceMemory||null,instances:INSTANCES,frames:FRAMES,memoryBefore:memory(),webgl:null,webgpu:null};try{const draw=webglSetup(),setupMs=performance.now()-start,frame=await sampleFrames(draw);result.webgl={status:'ok',setupMs,...frame}}catch(e){result.webgl={status:'error',error:String(e)}}document.querySelector('#webgl-result').textContent=JSON.stringify(result.webgl,null,2);try{const s=performance.now(),draw=await webgpuSetup(),setupMs=performance.now()-s,frame=await sampleFrames(draw);result.webgpu={status:'ok',setupMs,...frame}}catch(e){result.webgpu={status:'skipped',error:String(e)}}document.querySelector('#webgpu-result').textContent=JSON.stringify(result.webgpu,null,2);result.memoryAfter=memory();document.querySelector('#raw').textContent=JSON.stringify(result,null,2);document.documentElement.dataset.benchmarkComplete='true';window.__OPENEUV_BENCHMARK__=result;return result}
+document.querySelector('#run').addEventListener('click',run);if(new URLSearchParams(location.search).get('auto')==='1')run();
+</script>
+</body>
+</html>
