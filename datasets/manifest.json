@@ -52,6 +52,16 @@
       "schema": "src/lib/patentMetadata.mjs"
     },
     {
+      "id": "academic-literature",
+      "version": "1.0.0",
+      "path": "evidence/literature.json",
+      "kind": "academic-literature-metadata",
+      "source": "Curated public academic metadata for EUV optics, multilayers, masks, High-NA imaging, resist and stochastic learning topics",
+      "license": "OpenEUV original summaries and metadata compilation are repository-licensed; linked papers and publisher records retain their own copyright and access terms",
+      "provenance": "Stores DOI/title/year/authors/publication type/topic links and original OpenEUV summaries only; no full paper text is copied, and preprint/conference records are explicitly labeled rather than treated as production-system proof",
+      "schema": "src/lib/literatureMetadata.mjs"
+    },
+    {
       "id": "optical-constants-template",
       "version": "1.0.0",
       "path": "evidence/optical-constants.template.json",
