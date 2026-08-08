@@ -16,6 +16,8 @@ function capture({ deviceClass = 'laptop', webglMedian = 16, webgpuMedian = 12, 
       powerMode: 'plugged-in',
     },
     benchmark: {
+      benchmarkVersion: 2,
+      syncMode: 'explicit-gpu-completion',
       timestamp: '2026-08-08T12:00:00+07:00',
       userAgent: 'OpenEUV unit-test fixture',
       hardwareConcurrency: 8,
@@ -41,6 +43,16 @@ test('valid capture requires WebGL baseline and privacy-safe metadata', () => {
   const invalid = validateRenderBenchmarkCapture(unsafe)
   assert.equal(invalid.ok, false)
   assert.ok(invalid.errors.some((error) => error.includes('disallowed identifying fields')))
+})
+
+test('validator rejects captures from an incompatible benchmark method', () => {
+  const incompatible = capture()
+  incompatible.benchmark.benchmarkVersion = 1
+  incompatible.benchmark.syncMode = 'request-animation-frame-only'
+  const validation = validateRenderBenchmarkCapture(incompatible)
+  assert.equal(validation.ok, false)
+  assert.ok(validation.errors.some((error) => error.includes('benchmarkVersion')))
+  assert.ok(validation.errors.some((error) => error.includes('syncMode')))
 })
 
 test('summary keeps WebGL when evidence is insufficient', () => {
