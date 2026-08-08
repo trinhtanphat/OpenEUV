@@ -55,9 +55,27 @@ test('validator rejects captures from an incompatible benchmark method', () => {
   assert.ok(validation.errors.some((error) => error.includes('syncMode')))
 })
 
-test('summary keeps WebGL when evidence is insufficient', () => {
+test('empty benchmark corpus reports exact real-device evidence still required', () => {
+  const summary = summarizeRenderBenchmarkCaptures([])
+  assert.equal(summary.pairedCaptures, 0)
+  assert.equal(summary.requiredPairedCaptures, 3)
+  assert.equal(summary.missingPairedCaptures, 3)
+  assert.equal(summary.pairedDeviceClasses, 0)
+  assert.equal(summary.requiredDeviceClasses, 2)
+  assert.equal(summary.missingDeviceClasses, 2)
+  assert.equal(summary.readyForDecision, false)
+  assert.equal(summary.recommendation, 'keep-webgl')
+  const markdown = renderBenchmarkSummaryMarkdown(summary)
+  assert.match(markdown, /Missing paired captures: 3/)
+  assert.match(markdown, /Ready for renderer decision: \*\*no\*\*/)
+})
+
+test('summary keeps WebGL when evidence is insufficient and reports remaining gap', () => {
   const summary = summarizeRenderBenchmarkCaptures([capture({ deviceClass: 'laptop' }), capture({ deviceClass: 'phone' })])
   assert.equal(summary.enoughEvidence, false)
+  assert.equal(summary.missingPairedCaptures, 1)
+  assert.equal(summary.missingDeviceClasses, 0)
+  assert.equal(summary.readyForDecision, false)
   assert.equal(summary.recommendation, 'keep-webgl')
 })
 
@@ -68,6 +86,9 @@ test('summary only considers WebGPU after meaningful multi-class evidence', () =
     capture({ deviceClass: 'desktop', webglMedian: 12, webgpuMedian: 9, webglP95: 18, webgpuP95: 13 }),
   ])
   assert.equal(summary.enoughEvidence, true)
+  assert.equal(summary.missingPairedCaptures, 0)
+  assert.equal(summary.missingDeviceClasses, 0)
+  assert.equal(summary.readyForDecision, true)
   assert.equal(summary.meaningfulGain, true)
   assert.equal(summary.noMaterialRegression, true)
   assert.equal(summary.recommendation, 'consider-webgpu')
@@ -80,6 +101,7 @@ test('one material regression prevents adoption despite strong averages', () => 
     capture({ deviceClass: 'phone', webglMedian: 30, webgpuMedian: 15, webglP95: 45, webgpuP95: 22 }),
     capture({ deviceClass: 'desktop', webglMedian: 10, webgpuMedian: 12, webglP95: 14, webgpuP95: 16 }),
   ])
+  assert.equal(summary.readyForDecision, true)
   assert.equal(summary.noMaterialRegression, false)
   assert.equal(summary.recommendation, 'keep-webgl')
 })
@@ -88,5 +110,8 @@ test('WebGPU unavailable capture remains useful WebGL evidence but not a paired 
   const summary = summarizeRenderBenchmarkCaptures([capture({ deviceClass: 'phone', webgpuStatus: 'skipped' })])
   assert.equal(summary.validCaptures, 1)
   assert.equal(summary.pairedCaptures, 0)
+  assert.equal(summary.missingPairedCaptures, 3)
+  assert.equal(summary.missingDeviceClasses, 2)
+  assert.equal(summary.readyForDecision, false)
   assert.equal(summary.recommendation, 'keep-webgl')
 })
