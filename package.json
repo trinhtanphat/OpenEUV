@@ -1,7 +1,7 @@
 {
   "name": "openeuv",
   "private": true,
-  "version": "0.9.0",
+  "version": "0.10.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,6 +12,7 @@
     "e2e": "playwright test",
     "validate:evidence": "node scripts/validate-evidence.mjs && node scripts/validate-evidence-reviews.mjs",
     "validate:fab": "node scripts/validate-fab-cases.mjs",
+    "validate:literature": "node scripts/validate-literature.mjs",
     "audit:integrity": "node scripts/audit-repository-integrity.mjs",
     "audit:integrity:json": "node scripts/audit-repository-integrity.mjs --json",
     "audit:a11y": "node scripts/audit-accessibility-contract.mjs",
