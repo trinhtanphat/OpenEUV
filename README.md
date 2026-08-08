@@ -2,72 +2,84 @@
 
 **A public-source, interactive engineering atlas for Extreme Ultraviolet (EUV) lithography.**
 
-OpenEUV turns one of the most complex manufacturing systems on Earth into an explorable browser project: an original conceptual 3D scanner, exploded view, evidence-backed component labels, system-level Assembly Explorer, basic→advanced learning path, physics workbench, public patent-family explorer, foundry case studies, evidence/review graph and open engineering unknowns for contributors to investigate.
+OpenEUV turns a very complex lithography ecosystem into an explorable browser project: original concept 3D geometry, exploded systems views, evidence-linked labels, an Assembly Explorer, a basic→advanced learning path, optics/physics learning labs, a public patent-family explorer, foundry/mask-lifecycle case studies, reviewable evidence records and explicit open unknowns.
 
-> **Important:** OpenEUV is an independent educational/research project. It is not affiliated with ASML, ZEISS, TSMC, TRUMPF, Cymer, Intel, Samsung, Micron, SK hynix, Rapidus or their partners. The reconstruction is conceptual and is **not** ASML CAD, a service manual, a production recipe, a fab blueprint or hazardous laser/plasma operating guidance.
+> **Important:** OpenEUV is an independent educational/research project. It is not affiliated with ASML, ZEISS, TSMC, Samsung, Intel, Micron, SK hynix, Rapidus, imec or their partners. The reconstruction is conceptual and is **not** commercial CAD, a service manual, a production recipe, a fab blueprint or hazardous real-world operating guidance.
 
-## Explore today
+## What is implemented
 
 ### Interactive 3D atlas
 
-- React + Three.js conceptual EUV scanner with drag/orbit, zoom, subsystem selection and exploded view.
-- Original OpenEUV glTF concept assets for source/collector, reflective-reticle and projection-optics areas, plus procedural fallbacks.
+- React + Three.js conceptual EUV scanner with orbit/zoom, subsystem selection and exploded view.
+- Original source/collector, reticle and projection concept assets plus procedural fallback.
+- V4 procedural illumination and vacuum/platform concept geometry with stable named nodes.
+- Evidence-backed screen-space labels linked to Contextual Evidence.
 - Guided camera tour and direct named-node highlighting.
-- Evidence-backed screen-space labels linked to contextual claims and geometry status.
-- Adaptive `high / balanced / low` LOD: mobile/low-power mode reduces pixel ratio, shadows, grid/geometry density and source animation without hiding evidence boundaries.
-- Reproducible concept-asset generator; no proprietary CAD is used.
+- Adaptive `high / balanced / low` LOD that reduces pixel ratio, shadows, secondary geometry/detail and source animation on constrained devices without hiding evidence boundaries.
+- Reproducible Python concept-asset generator; no proprietary CAD is required.
 
-### How it is made — systems view
+See [`docs/3D_V4_ILLUMINATION_VACUUM.md`](docs/3D_V4_ILLUMINATION_VACUUM.md).
 
-The **Assembly Explorer** maps the public functional integration sequence from architecture and vacuum platform through source, illumination, reflective reticle, projection optics, wafer stage/metrology and system integration/qualification.
+### Assembly Explorer — systems view
 
-Every stage states:
+The interactive Assembly Explorer connects:
 
-- what public evidence supports;
-- which modules conceptually depend on it;
-- what remains unknown;
-- which details OpenEUV deliberately does **not** infer.
+`architecture → vacuum/platform → source → illumination → reticle → projection → stage/metrology → system integration`
 
-It is a systems-engineering learning map, not a construction or installation manual. See [`docs/ASSEMBLY_EXPLORER.md`](docs/ASSEMBLY_EXPLORER.md).
+V4 adds per-stage:
 
-### Basic → advanced learning path
+- shared evidence claim IDs;
+- stable atlas node links when available;
+- related lab/learning links;
+- bilingual open research questions;
+- explicit evidence/node gaps instead of invented detail.
 
-The interactive curriculum goes from:
+See [`docs/ASSEMBLY_EXPLORER.md`](docs/ASSEMBLY_EXPLORER.md).
 
-`L0 chip/lithography foundations → L1 optics/NA → L2 EUV physics/multilayers → L3 scanner systems → L4 High-NA effects → L5 public-source research`
+### Learning path L0 → L5
 
-Each level connects concepts to labs and contributor missions. See [`docs/LEARNING_PATH.md`](docs/LEARNING_PATH.md).
+`L0 semiconductor foundations → L1 optics/NA/Fourier imaging → L2 EUV physics/multilayers → L3 scanner systems → L4 High-NA/image-quality concepts → L5 evidence/patent/computational research`
+
+See [`docs/LEARNING_PATH.md`](docs/LEARNING_PATH.md).
 
 ### Physics & imaging workbench
 
 - Low-NA **0.33** vs High-NA **0.55** educational comparison.
 - High-NA **4× / 8× anamorphic** field visualization.
-- Rayleigh-style resolution playground with independent Python cross-checks.
+- Rayleigh-style resolution playground with independent numerical cross-checks.
+- V4 normalized **Fourier imaging / circular-pupil MTF** learning lab.
 - Complex-index, polarization-aware characteristic-matrix multilayer learning model.
-- Built-in **CC0 Mo/Windt 1988 optical constants dataset**, pinned to a public upstream revision and containing the original 13.55 nm point.
-- Reflective-mask 3D shadowing intuition lab.
-- Aberration, focus, leveling and overlay concept lab using normalized educational proxies.
-- Six-degree-of-freedom wafer-stage visualization: X/Y/Z + Rx/Ry/Rz.
+- Built-in **CC0 Mo/Windt 1988** optical constants dataset pinned to a public upstream revision and containing the original 13.55 nm sample.
+- Mask-3D shadowing intuition lab.
+- Aberration/focus/leveling/overlay concept lab using normalized educational proxies.
+- Six-degree-of-freedom wafer-stage visualization.
 
-Illustrative defaults remain available. A loaded public dataset never turns the tool into a production coating/process recipe.
+The labs are learning models, not commercial scanner/process predictors. See [`docs/FOURIER_IMAGING_LAB.md`](docs/FOURIER_IMAGING_LAB.md).
 
 ### Evidence, reviews & unknowns
-
-OpenEUV uses shared machine-readable claims and unknowns:
 
 | Class | Meaning |
 | --- | --- |
 | A | First-party public source |
 | B | Published patent / public standard |
-| C | Academic source |
+| C | Academic/public research |
 | D | Public-source inference with written rationale |
 | ? | Unknown / insufficient lawful evidence |
 
-Evidence review metadata supports `proposed → reviewed → superseded`, public contributor/reviewer handles and supersession links. Records without real review attribution display **unreviewed**; the project never fabricates reviewer names to make coverage look complete.
+Review metadata supports `proposed → reviewed → superseded`, public contributor/reviewer handles and supersession links. Records without a real review remain **unreviewed**.
+
+V4 adds a deterministic review queue for real reviewers:
+
+```bash
+node tools/evidence-review-queue.mjs --limit 12
+node tools/evidence-review-queue.mjs --limit 12 --json
+```
+
+The queue never assigns reviewer identity or marks records reviewed. See [`docs/EVIDENCE_REVIEW_CAMPAIGN.md`](docs/EVIDENCE_REVIEW_CAMPAIGN.md).
 
 ### Patent-family explorer
 
-The curated patent map covers source, collector, illumination, reticle, projection, stage, metrology and vacuum-related disclosures. It includes:
+The curated patent map covers source, collector, illumination, reticle, projection, stage, metrology and vacuum-related disclosures with:
 
 - family/priority/publication metadata;
 - subsystem relationships;
@@ -77,31 +89,27 @@ The curated patent map covers source, collector, illumination, reticle, projecti
 
 A patent disclosure is evidence of a disclosed concept, **not** proof that a drawing equals production geometry.
 
-### Fab & manufacturing context
+### Fab & mask-lifecycle context
 
-First-party case studies currently include public EUV milestones from:
+Machine-readable case studies use a single runtime source of truth: `evidence/fab-cases.json`.
 
-- TSMC;
-- Samsung;
-- Intel;
-- Micron;
-- SK hynix;
-- Rapidus.
+Current first-party/public cases include:
 
-Separate public cases cover source/collector contamination and reflective-mask/membrane lifecycle concepts. Every case includes a **public boundary** and explicit unknowns; OpenEUV does not infer confidential layer counts, recipes, yield, internal fab layout, inspection thresholds or cleaning chemistry.
+- TSMC, Samsung, Intel, Micron, SK hynix and Rapidus EUV milestones;
+- TSMC public EUV-mask dry-cleaning context;
+- imec CNT-pellicle research context;
+- ZEISS AIMS EUV mask-qualification context;
+- source/collector contamination and reflective-mask/membrane research context.
 
-## Why this repository exists
+Every case stores shared claim IDs, direct public source URLs, a **public boundary** and explicit unknowns. OpenEUV does not infer confidential recipes, private layer choices, yield, internal fab layouts, private acceptance thresholds or private process settings.
 
-Most EUV explanations are either short introductions or highly specialized papers. OpenEUV connects the layers:
+## Public data & provenance
 
-- beginner semiconductor and optics concepts;
-- a clickable 3D scanner and exploded architecture;
-- source → illuminator → reflective reticle → projection optics → wafer stage;
-- system-integration/assembly context;
-- NA, diffraction, multilayer, mask-3D, aberration and motion learning tools;
-- evidence-linked claims from manufacturers, foundries, public patents and academia;
-- an explicit `unknown` state when lawful public evidence is insufficient;
-- contributor tracks for 3D, frontend, optics, physics, patents, fab history, translation, datasets, QA and research.
+The repository tracks claims, unknowns, reviews, fab cases, patent metadata and optical data with explicit provenance.
+
+The first checked-in measured optical dataset is Mo/Windt 1988 from the CC0 refractiveindex.info database.
+
+A suitable public silicon EUV dataset is still an explicit research gap because the project has not yet established a clean redistribution chain for a 13.5 nm-range record. See [`docs/SILICON_OPTICAL_DATA_RESEARCH.md`](docs/SILICON_OPTICAL_DATA_RESEARCH.md). OpenEUV keeps silicon-like defaults illustrative rather than silently copying or extrapolating license-ambiguous data.
 
 ## Run locally
 
@@ -110,13 +118,13 @@ npm install
 npm run dev
 ```
 
-Full local project check:
+Full local code/data/build gate:
 
 ```bash
 npm run check
 ```
 
-This runs evidence validation, unit tests, TypeScript typechecking and a production Vite build.
+Current gate includes evidence/review validation, runtime fab-case validation, renderer-capture validation, unit tests, TypeScript typechecking and a production Vite build.
 
 Browser verification:
 
@@ -125,7 +133,7 @@ npx playwright install chromium
 npm run e2e
 ```
 
-Concept asset regeneration:
+Regenerate concept assets:
 
 ```bash
 python tools/generate-concept-assets.py all
@@ -133,9 +141,9 @@ python tools/generate-concept-assets.py all
 
 ## Deployment
 
-**GitHub Actions is intentionally disabled.** Pushing a commit does not run CI and does not deploy production.
+**GitHub Actions is intentionally disabled.** A push does not automatically run CI or deploy production.
 
-The checked-in deployment path is manual **Cloudflare Workers Static Assets**:
+Manual Cloudflare Workers Static Assets path:
 
 ```bash
 npm install
@@ -144,90 +152,69 @@ npm run deploy:cloudflare:dry
 npm run deploy:cloudflare
 ```
 
-`wrangler.jsonc` serves `./dist` and enables SPA fallback. Vercel remains a compatible alternative using build command `npm run build` and output directory `dist`.
+`wrangler.jsonc` serves `dist/` with SPA fallback.
+
+The repository also includes `vercel.json` for a Vite SPA deployment. Do not claim a live deployment until the intended commit has actually built on the target hosting project.
 
 See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 
-## Public data & reproducibility
+## Contributor workflow
 
-OpenEUV includes tooling for:
+Structured GitHub Issue Forms are available for:
 
-- DOI/literature metadata normalization;
-- patent JSON/CSV normalization and coverage auditing;
-- fab-case metadata validation;
-- optical-constants import with explicit provenance/licensing;
-- versioned public dataset manifests;
-- JS ↔ Python physics cross-checks;
-- renderer benchmark methodology and raw-result templates.
+- public evidence/research;
+- 3D/visual contributions;
+- bug reports;
+- real-device renderer benchmarks.
 
-The first checked-in measured optical dataset is Mo/Windt 1988 from the CC0 refractiveindex.info database. Layer/material data without suitable provenance stays illustrative rather than being silently extrapolated.
+Blank issues are disabled so sourcing/privacy/evidence boundaries are visible before submission.
 
-## Architecture
-
-```text
-OpenEUV
-├─ Interactive 3D Atlas
-│  ├─ original concept glTF assets + procedural fallbacks
-│  ├─ exploded view + guided camera tour
-│  ├─ evidence-backed concept labels
-│  └─ adaptive mobile/low-power LOD
-├─ Assembly Explorer
-├─ Learning Path L0 → L5
-├─ Research Workbench
-│  ├─ Low-NA vs High-NA
-│  ├─ anamorphic field
-│  ├─ resolution
-│  ├─ polarization-aware multilayers + public optical data
-│  ├─ mask 3D effects
-│  ├─ aberration / focus / overlay
-│  └─ 6-DoF wafer stage
-├─ Public Patent-Family Explorer
-├─ Evidence / Review / Unknowns Dashboard
-├─ Fab & mask-lifecycle case studies
-├─ EN / VI technical content
-└─ Public research/data/reproducibility tools
-```
-
-## What belongs here
-
-Welcome: original 3D models based on cited public information, public patent metadata, peer-reviewed/public research metadata, lawfully redistributable datasets, reproducible educational simulations, diagrams that distinguish illustration from confirmed function, translations, tests and provenance corrections.
-
-Not accepted: stolen/hacked documents, leaked confidential or trade-secret material, proprietary CAD/service manuals/process recipes without clear authorization for public redistribution, or claims supported only by unverifiable anonymous leaks.
-
-The challenge is seeing **how far a rigorous open community can reconstruct the system from lawful evidence** while clearly marking known, inferred, illustrative and unknown boundaries.
-
-## Contributor tracks
+Suggested tracks:
 
 | Track | Examples |
 | --- | --- |
-| `3d` | glTF/GLB models, procedural generators, exploded assemblies, evidence labels |
-| `optics` | reflective-ray visualization, NA and aberration learning tools |
-| `physics` | diffraction, multilayer reflectivity, optical datasets, mask-imaging demos |
-| `patent-research` | family maps, metadata audits, disclosure interpretation |
-| `fab` | first-party public adoption/integration milestones |
-| `frontend` | WebGL/WebGPU UX, performance, accessibility |
-| `evidence` | sourcing, review state, uncertainty and supersession |
-| `i18n` | English/Vietnamese and later language packs |
-| `qa` | unit/browser tests and manual verification |
-| `education` | Assembly Explorer and basics→advanced learning path |
+| `3d` | original concept geometry, named nodes, labels, LOD |
+| `optics` | NA, Fourier/MTF, imaging and aberration learning tools |
+| `physics` | multilayers, public optical data and reproducibility |
+| `patent-research` | curated family metadata and provenance review |
+| `fab` | first-party public integration/mask-lifecycle context |
+| `evidence` | sourcing, real review, supersession and unknowns |
+| `education` | Assembly Explorer and L0→L5 learning content |
+| `i18n` | EN/VI and later language packs |
+| `qa` | unit/browser/accessibility/manual deployment checks |
+| `perf` | real-device WebGL/WebGPU measurements |
 
-Start with open issues and [`CONTRIBUTING.md`](CONTRIBUTING.md).
+Read [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`SOURCING_POLICY.md`](SOURCING_POLICY.md) first.
 
-## Current roadmap boundary
+## Current open research dependencies
 
-Most V1–V3 implementation missions are complete. The major intentionally open measurement task is the **real-device WebGL vs WebGPU benchmark campaign**: the harness and methodology exist, but OpenEUV will not invent laptop/mobile results. See [`benchmarks/README.md`](benchmarks/README.md) and [`ROADMAP.md`](ROADMAP.md).
+Most implementable V1–V4 software work from the current roadmap has landed. Three issues intentionally remain open because they require evidence outside this assistant/runtime:
+
+- **#27 PERF:** real WebGL/WebGPU captures from actual laptop/mobile/desktop hardware. The method-v2 harness, schema, validator and analyzer are already implemented; synthetic/emulated numbers do not count.
+- **#28 DATA:** a silicon EUV optical-constants record with a redistribution chain clear enough to vendor and pin. License-ambiguous public tables do not count.
+- **#29 EVIDENCE:** at least 10 records reviewed by real human reviewers using real public handles. Generated/fake attribution does not count.
+
+These are explicit research gaps, not unfinished placeholders that should be closed with invented data.
 
 ## Verification policy
 
-Because GitHub Actions is disabled, repository changes are **not automatically verified by GitHub**. Before merging/deploying, contributors or maintainers should run:
+Because GitHub Actions is disabled, repository changes are **not automatically verified by GitHub**. Before deployment or claiming a change is verified, run locally:
 
 ```bash
 npm run check
 npm run e2e
 ```
 
-A commit that has not been checked locally must not be described as verified merely because its files were successfully pushed to GitHub.
+A commit that has only been pushed successfully must not be described as build/test verified.
+
+## Sourcing boundary
+
+Welcome: original models/diagrams, first-party public sources, public patent metadata, public academic metadata, lawfully redistributable datasets, reproducible educational simulations, translations and tests.
+
+Not accepted: stolen/hacked documents, leaked confidential/trade-secret material, unauthorized proprietary CAD/service manuals, private process recipes, credentials or unverifiable anonymous leaks.
+
+The project goal is to see **how far a rigorous open community can reconstruct and teach the system from lawful evidence while keeping known, inferred, illustrative and unknown states visible**.
 
 ## License
 
-Code and original OpenEUV assets are MIT licensed unless a file states otherwise. Third-party papers, patents, images and upstream datasets retain their own rights/licensing; prefer metadata + links + original reconstructions over copying protected source material into the repository.
+Code and original OpenEUV assets are MIT licensed unless a file states otherwise. Third-party papers, patents, images and upstream datasets retain their own rights/licensing; prefer metadata + links + original reconstruction over copying protected source material into the repository.
