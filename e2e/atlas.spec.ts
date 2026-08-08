@@ -61,6 +61,15 @@ test('atlas core interactions remain usable', async ({ page }, testInfo) => {
   await expect(page.locator('button[data-coverage-subsystem="collector"]')).toHaveClass(/active/)
   expect(await page.locator('.patent-card').count()).toBeGreaterThanOrEqual(2)
 
+  const samsungCase = page.locator('[data-fab-case="samsung-7lpp-v1"]')
+  await expect(samsungCase).toContainText('SAMSUNG-7LPP-EUV-2018')
+  await expect(samsungCase).toContainText('SAMSUNG-V1-EUV-2020')
+  const intelCase = page.locator('[data-fab-case="intel-highna-d1x"]')
+  await expect(intelCase).toContainText('INTEL-HIGHNA-D1X-2024')
+  const contaminationCase = page.locator('[data-fab-case="source-contamination-collector"]')
+  await expect(contaminationCase).toContainText('PATENT-SOURCE-CONTAMINATION-001')
+  await expect(contaminationCase).toContainText('PATENT-COLLECTOR-MIRROR-001')
+
   const stageControls = page.locator('#stage-lab input[type="range"]')
   await expect(stageControls).toHaveCount(6)
   await stageControls.first().fill('20')
