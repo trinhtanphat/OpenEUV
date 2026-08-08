@@ -17,6 +17,10 @@ test('atlas core interactions remain usable', async ({ page }, testInfo) => {
   expect(canvasHealth.hasContext).toBeTruthy()
   expect(canvasHealth.lost).toBeFalsy()
 
+  const sceneShell = page.locator('.scene-shell')
+  await expect(sceneShell).toHaveAttribute('data-scene-lod', /high|balanced|low/)
+  if (testInfo.project.name.includes('mobile')) await expect(sceneShell).toHaveAttribute('data-scene-lod', 'low')
+
   const exploded = page.getByLabel('Exploded view')
   await exploded.fill('0.72')
   await expect(exploded).toHaveValue('0.72')
@@ -27,10 +31,12 @@ test('atlas core interactions remain usable', async ({ page }, testInfo) => {
 
   const inspector = page.locator('[data-evidence-inspector]')
   await expect(inspector).toHaveAttribute('data-subsystem', 'source')
-  const collectorNode = page.locator('button[data-evidence-node="CollectorConcept"]')
-  await collectorNode.click()
+  const collectorLabel = page.locator('button[data-concept-label="CollectorConcept"]')
+  await expect(collectorLabel).toBeVisible()
+  await collectorLabel.click()
   await expect(inspector).toHaveAttribute('data-node', 'CollectorConcept')
   await expect(inspector).toContainText('PATENT-SOURCE-CONTAMINATION-001')
+  await expect(inspector.locator('[data-evidence-id="PATENT-SOURCE-CONTAMINATION-001"]')).toHaveAttribute('data-review-state', 'unreviewed')
 
   await page.locator('button[data-tour-action="start"]').click()
   await expect(page.locator('[data-tour-stop="source"]')).toBeVisible()
@@ -39,6 +45,22 @@ test('atlas core interactions remain usable', async ({ page }, testInfo) => {
   await expect(page.locator('[data-tour-stop="reticle"]')).toBeVisible()
   await expect(page.locator('button[data-subsystem-id="reticle"]')).toHaveClass(/active/)
   await page.locator('button[data-tour-action="free"]').click()
+
+  const assemblySource = page.locator('button[data-assembly-stage="source"]')
+  await expect(assemblySource).toBeVisible()
+  await assemblySource.click()
+  await expect(page.locator('[data-assembly-selected="source"]')).toBeVisible()
+  await expect(page.locator('[data-assembly-selected="source"]')).toContainText(/laser operating instructions|hướng dẫn vận hành laser/i)
+
+  const researchLearning = page.locator('button[data-learning-level="research"]')
+  await expect(researchLearning).toBeVisible()
+  await researchLearning.click()
+  await expect(page.locator('[data-learning-active="research"]')).toBeVisible()
+  await expect(page.locator('[data-learning-active="research"]')).toContainText(/Patent Explorer|Evidence Dashboard/i)
+
+  const reviewCoverage = page.locator('[data-review-coverage]')
+  await expect(reviewCoverage).toBeVisible()
+  await expect(reviewCoverage).toContainText('unreviewed')
 
   const language = page.locator('.language-button')
   const beforeLanguage = (await language.textContent())?.trim()
@@ -95,4 +117,5 @@ test('procedural scanner fallback survives a blocked source asset', async ({ pag
   await expect(sourceButton).toHaveClass(/active/)
   await expect(page.locator('.subsystem-detail h3')).toContainText(/Source|Nguồn/i)
   await expect(page.locator('[data-evidence-inspector]')).toHaveAttribute('data-subsystem', 'source')
+  await expect(page.locator('button[data-concept-label="CollectorConcept"]')).toBeVisible()
 })
