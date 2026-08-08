@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openeuv.example/benchmarks/schema.json",
+  "title": "OpenEUV renderer benchmark capture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "capture", "benchmark"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "capture": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["capturedAt", "timezone", "deviceClass", "os", "browser", "powerMode"],
+      "properties": {
+        "capturedAt": { "type": "string", "format": "date-time" },
+        "timezone": { "type": "string", "minLength": 1 },
+        "deviceClass": { "enum": ["desktop", "laptop", "tablet", "phone"] },
+        "os": { "type": "string", "minLength": 1 },
+        "browser": { "type": "string", "minLength": 1 },
+        "cpu": { "type": "string" },
+        "gpu": { "type": "string" },
+        "powerMode": { "enum": ["plugged-in", "battery", "unknown"] },
+        "viewport": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "benchmark": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["timestamp", "userAgent", "instances", "frames", "webgl", "webgpu"],
+      "properties": {
+        "timestamp": { "type": "string", "format": "date-time" },
+        "userAgent": { "type": "string", "minLength": 1 },
+        "hardwareConcurrency": { "type": ["number", "null"] },
+        "deviceMemoryGiB": { "type": ["number", "null"] },
+        "instances": { "type": "integer", "minimum": 1 },
+        "frames": { "type": "integer", "minimum": 1 },
+        "memoryBefore": {},
+        "memoryAfter": {},
+        "webgl": { "$ref": "#/$defs/rendererResult" },
+        "webgpu": { "$ref": "#/$defs/rendererResult" }
+      }
+    }
+  },
+  "$defs": {
+    "rendererResult": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["ok", "error", "skipped"] },
+        "setupMs": { "type": "number", "exclusiveMinimum": 0 },
+        "samples": { "type": "integer", "minimum": 1 },
+        "averageMs": { "type": "number", "exclusiveMinimum": 0 },
+        "medianMs": { "type": "number", "exclusiveMinimum": 0 },
+        "p95Ms": { "type": "number", "exclusiveMinimum": 0 },
+        "error": { "type": "string" }
+      }
+    }
+  }
+}
