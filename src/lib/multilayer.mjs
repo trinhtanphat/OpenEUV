@@ -16,14 +16,15 @@ const sinComplex = (z) => c(
 )
 
 /**
- * Educational normal-incidence characteristic-matrix calculation.
- * Refractive indices use n - i*k, with thicknesses in nanometers.
- * The helper intentionally omits roughness, interdiffusion, polarization
- * splitting, angle-dependent optical constants and production-specific stack
- * corrections. It is a learning model, not a coating recipe or process model.
+ * Educational characteristic-matrix calculation with a simplified external-angle
+ * phase correction. Refractive indices use n - i*k and thicknesses are nm.
+ * This intentionally omits full complex Snell-law propagation, roughness,
+ * interdiffusion, polarization splitting, angle-dependent optical constants and
+ * production-specific corrections. It is a learning model, not a coating recipe.
  */
 export function multilayerReflectivity({
   wavelengthNm,
+  angleDeg = 0,
   pairs,
   materialA,
   materialB,
@@ -32,11 +33,13 @@ export function multilayerReflectivity({
 }) {
   const lambda = Math.max(0.01, wavelengthNm)
   const count = Math.max(1, Math.min(200, Math.round(pairs)))
+  const angleRadians = (Math.max(0, Math.min(75, angleDeg)) * Math.PI) / 180
+  const pathProjection = Math.max(0.05, Math.cos(angleRadians))
   let m00 = c(1), m01 = c(0), m10 = c(0), m11 = c(1)
 
   const applyLayer = (layer) => {
     const n = c(layer.n, -Math.abs(layer.k))
-    const scale = (2 * Math.PI * layer.thicknessNm) / lambda
+    const scale = (2 * Math.PI * layer.thicknessNm * pathProjection) / lambda
     const delta = c(n.re * scale, n.im * scale)
     const cosDelta = cosComplex(delta)
     const sinDelta = sinComplex(delta)
