@@ -2,27 +2,30 @@
 
 **Bản đồ kỹ thuật tương tác, mã nguồn mở về quang khắc EUV (Extreme Ultraviolet), được tái dựng từ nguồn công khai hợp pháp.**
 
-OpenEUV kết nối 3D scanner dạng conceptual digital twin, exploded view, Assembly Explorer, lộ trình học L0→L5, mô phỏng quang/vật lý, global search, patent-family graph, evidence/provenance/review system, public fab & mask-lifecycle case studies và các open unknowns.
+OpenEUV kết nối 3D scanner dạng conceptual digital twin, exploded view, Assembly Explorer, lộ trình học L0→L5, mô phỏng quang/vật lý, global search, patent-family graph, evidence/provenance/review system, public fab & mask-lifecycle case studies, local research snapshot và các open unknowns.
 
 > **Ranh giới quan trọng:** OpenEUV là dự án giáo dục/nghiên cứu độc lập, không liên kết với ASML, ZEISS, TSMC, Samsung, Intel, Micron, SK hynix, Rapidus, imec hoặc đối tác của họ. Mô hình trong repo **không phải** CAD thương mại, service manual, production recipe, fab blueprint hay hướng dẫn vận hành thực tế nguy hiểm.
 
-## V5 có gì mới
+## V6 có gì mới
 
-- **Global atlas search chạy local trong browser**: tìm subsystem, evidence/unknown, patent, fab case, Assembly stage, learning level, lab và glossary; không telemetry, không lưu query.
-- **Provenance trace**: từ một evidence claim xem các usage đã khai báo rõ trong 3D node, Assembly Explorer và fab case; không tự suy luận relationship chưa có.
-- **Provenance coverage report**: thống kê evidence class/component/source domain/organization/review state, patent completeness, fab source coverage và data/license gaps ở dạng text hoặc JSON.
-- **Unified preflight + cross-dataset integrity audit** được `npm run check` gọi trước unit/type/build.
-- **Mirror/vacuum concept lab** dùng controls chuẩn hóa để giải thích public concept về EUV absorption, reflective optics và vacuum path.
-- **Checkpoint L0→L5 EN/VI**: progress chỉ nằm trong React state của trang hiện tại, không account, analytics, localStorage/sessionStorage hay gửi câu trả lời ra server.
-- **Patent-source parser robust hơn** để thay đổi formatting TypeScript không làm provenance report âm thầm mất patent records.
+- **Provenance overview ngay trong browser** dùng đúng `summarizeProvenance()` giống CLI, không tạo scoring model thứ hai.
+- **Research snapshot JSON privacy-safe**: claims, unknowns, fab cases, dataset manifest, review coverage và provenance coverage.
+- **Copy/download trong browser** hoàn toàn local, không upload.
+- **CLI snapshot reproducible** với timestamp caller truyền vào rõ ràng.
+- **Skip to main content**, tách semantic `header` / `main`, focus-visible navigation.
+- **Reduced-motion-aware navigation**: khi OS/browser yêu cầu giảm chuyển động, search không dùng smooth scrolling và CSS tắt animation không cần thiết.
+- Browser coverage cho skip link, keyboard-only checkpoint/search và snapshot download.
+- Privacy filter normalize key nên các biến thể như `User-Agent`, `IP_Address`, `Device-Memory` cũng bị loại/reject.
 
-Xem [`ROADMAP.md`](ROADMAP.md), [`docs/PROVENANCE_COVERAGE_REPORT.md`](docs/PROVENANCE_COVERAGE_REPORT.md) và [`docs/LEARNING_CHECKPOINTS.md`](docs/LEARNING_CHECKPOINTS.md).
+Các chức năng V5 vẫn giữ nguyên: global local-only search, provenance trace, unified preflight/integrity audit, mirror/vacuum lab, checkpoint L0→L5 và robust patent parser.
+
+Xem [`docs/V6_ACCESSIBILITY_EXPORT.md`](docs/V6_ACCESSIBILITY_EXPORT.md), [`docs/PROVENANCE_COVERAGE_REPORT.md`](docs/PROVENANCE_COVERAGE_REPORT.md), [`docs/LEARNING_CHECKPOINTS.md`](docs/LEARNING_CHECKPOINTS.md).
 
 ## 1. Atlas 3D
 
 - React + Three.js conceptual EUV scanner.
 - Exploded view, orbit/zoom, chọn subsystem.
-- Concept asset gốc của OpenEUV cho source/collector, reticle và projection optics.
+- Concept asset gốc cho source/collector, reticle và projection optics.
 - Procedural fallback khi external model không tải được.
 - Procedural concept geometry cho **illumination** và **vacuum/platform**, có stable named nodes.
 - Guided camera tour, named-node highlight và evidence-linked labels.
@@ -47,9 +50,7 @@ Lộ trình học:
 - **L4:** High-NA, anamorphic 4×/8×, mask 3D, aberration/focus/overlay.
 - **L5:** patent, evidence, public dataset, reproducibility/computational research.
 
-V5 thêm checkpoint cho đủ L0→L5. Reload trang sẽ xóa progress.
-
-Xem [`docs/ASSEMBLY_EXPLORER.md`](docs/ASSEMBLY_EXPLORER.md), [`docs/LEARNING_PATH.md`](docs/LEARNING_PATH.md), [`docs/LEARNING_CHECKPOINTS.md`](docs/LEARNING_CHECKPOINTS.md).
+Checkpoint EN/VI cho đủ L0→L5 chỉ lưu trong React state hiện tại; reload là mất, không account/analytics/persistence.
 
 ## 3. Physics & imaging workbench
 
@@ -66,22 +67,15 @@ Xem [`docs/ASSEMBLY_EXPLORER.md`](docs/ASSEMBLY_EXPLORER.md), [`docs/LEARNING_PA
 
 Các lab là mô hình học tập, không phải production scanner/process predictor.
 
-## 4. Search & research navigation
+## 4. Search, accessibility & navigation
 
-Search chạy hoàn toàn trong browser, không gọi external search service.
+Search chạy hoàn toàn trong browser, không gọi external search service, không gửi telemetry và không lưu query.
 
-Có:
+Có exact claim/patent ID, subsystem/organization/technical term, EN/VI labels, normalization dấu tiếng Việt, deep links và keyboard Arrow Up/Down/Enter/Escape.
 
-- exact claim/patent ID;
-- subsystem, organization và technical term;
-- EN/VI labels + normalization dấu tiếng Việt;
-- result-type badge;
-- deep-link tới lab/evidence/patent/fab;
-- keyboard Arrow Up/Down, Enter, Escape.
+V6 thêm skip-link đầu tiên khi Tab, semantic main landmark và reduced-motion navigation.
 
-Xem [`docs/ATLAS_SEARCH.md`](docs/ATLAS_SEARCH.md).
-
-## 5. Evidence, provenance & review
+## 5. Evidence, provenance, review & snapshot
 
 | Class | Ý nghĩa |
 | --- | --- |
@@ -91,13 +85,9 @@ Xem [`docs/ATLAS_SEARCH.md`](docs/ATLAS_SEARCH.md).
 | D | Suy luận từ nguồn công khai, bắt buộc có rationale |
 | ? | Chưa đủ chứng cứ công khai |
 
-Review lifecycle:
+Review lifecycle: `proposed → reviewed → superseded`. Claim chưa có người review thật vẫn là **unreviewed**.
 
-`proposed → reviewed → superseded`
-
-Claim chưa có người review thật sẽ hiện **unreviewed**. Repo không tự gắn reviewer giả để tăng coverage.
-
-Các command hữu ích:
+Command hữu ích:
 
 ```bash
 node tools/evidence-review-queue.mjs --limit 12
@@ -106,9 +96,10 @@ npm run provenance:report
 npm run provenance:report:json
 npm run audit:integrity
 npm run preflight
+npm run research:snapshot -- --generated-at 2026-08-08T12:00:00.000Z > openeuv-research-snapshot.json
 ```
 
-Xem [`docs/EVIDENCE_PROVENANCE_TRACE.md`](docs/EVIDENCE_PROVENANCE_TRACE.md), [`docs/PROVENANCE_COVERAGE_REPORT.md`](docs/PROVENANCE_COVERAGE_REPORT.md), [`docs/EVIDENCE_REVIEW_CAMPAIGN.md`](docs/EVIDENCE_REVIEW_CAMPAIGN.md).
+Panel `#provenance-overview` hiển thị evidence/review/patent/fab/data-gap bookkeeping và có thể copy/download snapshot JSON. Snapshot không chứa browser history, storage, IP, username, user-agent hay hardware identifiers.
 
 ## 6. Patent Explorer
 
@@ -120,36 +111,27 @@ Patent là bằng chứng về **concept được công bố**, không chứng m
 
 Runtime source-of-truth: `evidence/fab-cases.json`.
 
-Case hiện gồm TSMC, Samsung, Intel, Micron, SK hynix, Rapidus EUV milestones; TSMC EUV-mask dry-clean; imec CNT-pellicle; ZEISS AIMS EUV mask qualification; source/collector contamination và reflective-mask/membrane lifecycle research.
+Case gồm TSMC, Samsung, Intel, Micron, SK hynix, Rapidus EUV milestones; TSMC EUV-mask dry-clean; imec CNT-pellicle; ZEISS AIMS EUV mask qualification; source/collector contamination và reflective-mask/membrane lifecycle research.
 
-Mỗi case lưu shared claim IDs, direct public source URLs, **public boundary** và explicit unknowns.
-
-Repo không suy diễn private layer count, recipe, yield, fab layout, private scanner setting, inspection threshold hay private process condition.
+Mỗi case lưu shared claim IDs, direct public source URLs, **public boundary** và explicit unknowns. Repo không suy diễn private layer count, recipe, yield, fab layout, scanner setting hay acceptance threshold nội bộ.
 
 ## 8. Public data & verified gap
 
 Mo/Windt là measured optical dataset đầu tiên được vendor vì refractiveindex.info có CC0 rõ ràng.
 
-Silicon quanh 13,5 nm đã được xử lý thành **verified data gap**, không còn là TODO mở. Candidate Si CC0 đã kiểm tra bắt đầu ở 30,9963 nm nên không thể extrapolate xuống 13,5 nm rồi gọi là measured data. Nguồn Si EUV-range công khai tồn tại, nhưng OpenEUV chưa xác minh được quyền redistribute numerical table phù hợp để vendor vào repo.
+Silicon quanh 13,5 nm đã được xử lý thành **verified data gap**. Candidate Si CC0 bắt đầu ở 30,9963 nm nên không thể extrapolate xuống 13,5 nm rồi gọi là measured data. Nguồn Si EUV-range công khai tồn tại, nhưng OpenEUV chưa xác minh quyền redistribute numerical table phù hợp để vendor vào repo.
 
 Vì vậy Si-like default vẫn `illustrative`.
-
-Xem [`docs/SILICON_OPTICAL_DATA_GAP.md`](docs/SILICON_OPTICAL_DATA_GAP.md) và `evidence/optical-data-gaps.json`.
 
 ## 9. Chạy local & preflight
 
 ```bash
 npm install
 npm run dev
-```
-
-Local gate:
-
-```bash
 npm run check
 ```
 
-`npm run check` chạy unified preflight, unit tests, TypeScript typecheck và production build. Preflight kiểm evidence/reviews, fab cases, benchmark capture, cross-dataset integrity, provenance coverage, dataset-manifest paths, learning checkpoints và việc GitHub Actions vẫn tắt.
+`npm run check` chạy unified preflight, unit tests, TypeScript typecheck và production build. Preflight kiểm evidence/reviews, fab cases, benchmark capture, cross-dataset integrity, provenance coverage, dataset-manifest paths, learning checkpoints, docs V6 và việc GitHub Actions vẫn tắt.
 
 Browser QA:
 
@@ -175,12 +157,12 @@ Repo cũng có `vercel.json` cho Vite SPA. Không tuyên bố live URL cho tới
 
 ## 11. Hai dependency bên ngoài còn mở
 
-Phần software khả thi của V1→V5 trên roadmap hiện tại đã land. Chỉ còn hai issue cần dữ liệu/hành động bên ngoài:
+Phần software khả thi của V1→V6 trên roadmap hiện tại đã land. Chỉ còn:
 
 - **#27 PERF:** cần ít nhất 3 paired WebGL/WebGPU captures trên ít nhất 2 hardware class thật. Emulator/headless/số bịa không tính.
 - **#29 EVIDENCE:** cần ít nhất 10 record được reviewer người thật kiểm tra và dùng public handle thật. Generated/fake attribution không tính.
 
-#28 silicon optical data đã hoàn thành theo nhánh **verified gap**, không được “đóng” bằng extrapolation hoặc copy bảng thiếu quyền redistribution.
+#28 silicon optical data đã hoàn thành theo nhánh **verified gap**.
 
 ## Verification policy
 
@@ -192,12 +174,6 @@ Trước deploy hoặc claim verified:
 npm run check
 npm run e2e
 ```
-
-## Contributor workflow
-
-Các track chính: `3d`, `optics`, `physics`, `patent-research`, `fab`, `evidence`, `education`, `i18n`, `qa`, `perf`.
-
-Đọc [`CONTRIBUTING.md`](CONTRIBUTING.md) và [`SOURCING_POLICY.md`](SOURCING_POLICY.md) trước.
 
 ## Không đưa vào repo
 
