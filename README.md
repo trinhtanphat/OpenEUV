@@ -68,14 +68,15 @@ The labs are learning models, not commercial scanner/process predictors. See [`d
 
 Review metadata supports `proposed → reviewed → superseded`, public contributor/reviewer handles and supersession links. Records without a real review remain **unreviewed**.
 
-V4 adds a deterministic review queue for real reviewers:
+V4 adds a deterministic review queue and campaign-readiness report for real reviewers:
 
 ```bash
 node tools/evidence-review-queue.mjs --limit 12
-node tools/evidence-review-queue.mjs --limit 12 --json
+npm run evidence:review-report
+npm run evidence:review-report:json
 ```
 
-The queue never assigns reviewer identity or marks records reviewed. See [`docs/EVIDENCE_REVIEW_CAMPAIGN.md`](docs/EVIDENCE_REVIEW_CAMPAIGN.md).
+The queue/report never assigns reviewer identity or marks records reviewed. Readiness reports the genuine reviewed `current/10`, missing count and evidence-category coverage. See [`docs/EVIDENCE_REVIEW_CAMPAIGN.md`](docs/EVIDENCE_REVIEW_CAMPAIGN.md).
 
 ### Patent-family explorer
 
@@ -105,11 +106,13 @@ Every case stores shared claim IDs, direct public source URLs, a **public bounda
 
 ## Public data & provenance
 
-The repository tracks claims, unknowns, reviews, fab cases, patent metadata and optical data with explicit provenance.
+The repository tracks claims, unknowns, reviews, fab cases, patent metadata, optical data and verified data gaps with explicit provenance.
 
 The first checked-in measured optical dataset is Mo/Windt 1988 from the CC0 refractiveindex.info database.
 
-A suitable public silicon EUV dataset is still an explicit research gap because the project has not yet established a clean redistribution chain for a 13.5 nm-range record. See [`docs/SILICON_OPTICAL_DATA_RESEARCH.md`](docs/SILICON_OPTICAL_DATA_RESEARCH.md). OpenEUV keeps silicon-like defaults illustrative rather than silently copying or extrapolating license-ambiguous data.
+The silicon-at-13.5-nm investigation is now a **verified data gap**, not an undocumented TODO. The pinned CC0 Si candidate `Franta-25C.yml` begins at 30.9963 nm and therefore cannot be used at 13.5 nm without unsupported extrapolation. Public EUV-range Si measurements/data access exist, but OpenEUV has not verified numerical-table redistribution rights suitable for checking those values into the repository. See [`docs/SILICON_OPTICAL_DATA_GAP.md`](docs/SILICON_OPTICAL_DATA_GAP.md) and `evidence/optical-data-gaps.json`.
+
+OpenEUV therefore keeps silicon-like defaults illustrative instead of silently copying or extrapolating data.
 
 ## Run locally
 
@@ -188,13 +191,14 @@ Read [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`SOURCING_POLICY.md`](SOURCING_PO
 
 ## Current open research dependencies
 
-Most implementable V1–V4 software work from the current roadmap has landed. Three issues intentionally remain open because they require evidence outside this assistant/runtime:
+Most implementable V1–V4 software work from the current roadmap has landed. Two issues intentionally remain open because they require evidence outside this assistant/runtime:
 
-- **#27 PERF:** real WebGL/WebGPU captures from actual laptop/mobile/desktop hardware. The method-v2 harness, schema, validator and analyzer are already implemented; synthetic/emulated numbers do not count.
-- **#28 DATA:** a silicon EUV optical-constants record with a redistribution chain clear enough to vendor and pin. License-ambiguous public tables do not count.
-- **#29 EVIDENCE:** at least 10 records reviewed by real human reviewers using real public handles. Generated/fake attribution does not count.
+- **#27 PERF:** at least 3 real paired WebGL/WebGPU captures across at least 2 actual laptop/mobile/desktop hardware classes. The method-v2 harness, schema, validator, analyzer and exact readiness report are implemented; synthetic/emulated numbers do not count.
+- **#29 EVIDENCE:** at least 10 records reviewed by real human reviewers using real public handles. Queueing, validation and readiness reporting are implemented; generated/fake attribution does not count.
 
-These are explicit research gaps, not unfinished placeholders that should be closed with invented data.
+The silicon optical-data investigation (#28) is complete as a verified gap: no unsupported extrapolation or license-ambiguous table was vendored.
+
+These external dependencies are research gaps, not placeholders that should be closed with invented data.
 
 ## Verification policy
 
