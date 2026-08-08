@@ -7,7 +7,7 @@ The project is intentionally public-source. The challenge is not collecting secr
 ## Before starting
 
 1. Read `SOURCING_POLICY.md`.
-2. Use Atlas Search, the Source Library, Literature Explorer, 3D Atlas, Assembly Explorer, Learning Path and open issues to avoid duplicate work.
+2. Use Atlas Search, Source Library, Literature Explorer, 3D Atlas, Assembly Explorer, Learning Path and open issues to avoid duplicate work.
 3. Check existing claim IDs, literature/patent metadata, fab cases, concept-node labels and provenance traces before adding relationships.
 4. State whether proposed geometry/facts are documented, public-source inference or illustration.
 5. Prefer a small reproducible contribution over a large unverifiable dump.
@@ -16,7 +16,7 @@ The project is intentionally public-source. The challenge is not collecting secr
 
 **GitHub Actions is intentionally disabled.** Do not add or re-enable `.github/workflows/*.yml` without an explicit project-owner decision.
 
-A successful GitHub push is not proof that the project builds. Run local verification before deployment or before writing `PASS`/`verified`.
+A successful push is not proof that the project builds. Verify locally before deployment or before writing `PASS`/`verified`.
 
 ## Local verification
 
@@ -26,20 +26,20 @@ npm run preflight
 npm run check
 ```
 
-Useful local audits/reports:
+Useful audits/reports:
 
 ```bash
 npm run preflight:json
 npm run audit:integrity
 npm run audit:a11y
 npm run audit:sources
+npm run audit:i18n
 npm run validate:literature
 npm run provenance:report
-npm run provenance:report:json
 npm run evidence:review-report
 ```
 
-`npm run check` runs preflight, unit tests, TypeScript typecheck and the production Vite build. Preflight covers evidence/reviews, fab cases, academic-literature links, renderer-capture validity, cross-dataset integrity, source-citation consistency, provenance coverage, learning checkpoints, accessibility contracts, dataset paths, key documentation and the requirement that GitHub Actions stays disabled.
+`npm run check` runs preflight, unit tests, TypeScript typecheck and the production Vite build. Preflight covers evidence/reviews, fab cases, literature links, renderer captures, cross-dataset integrity, source citations, provenance, learning checkpoints, accessibility contracts, EN/VI structural coverage, dataset paths, key docs and the requirement that GitHub Actions remains disabled.
 
 Real renderer benchmark readiness and genuine human-review readiness are reported separately. An unresolved external research dependency is not the same thing as a broken build.
 
@@ -52,7 +52,7 @@ npm run e2e
 
 If a required check cannot be run, state that explicitly instead of assuming it passed.
 
-## Evidence classes
+## Evidence and review
 
 | Class | Use |
 | --- | --- |
@@ -64,144 +64,115 @@ If a required check cannot be run, state that explicitly instead of assuming it 
 
 Class D needs public sources and written rationale; it is not a way to convert a rumor into fact.
 
-## Evidence review & provenance
+Review state can be `proposed`, `reviewed` or `superseded`. Use public contributor/reviewer handles only after real review work happened. Issue #29 remains open until genuine human reviewers perform the work.
 
-Review state can be `proposed`, `reviewed` or `superseded`. Use public contributor/reviewer handles only after real review work happened. Do not add private names, emails, account IDs or unnecessary personal information.
-
-Generate a balanced review queue with:
-
-```bash
-node tools/evidence-review-queue.mjs --limit 12
-node tools/evidence-review-queue.mjs --limit 12 --json
-```
-
-The queue never assigns identity or changes review state. Issue #29 remains open until genuine human reviewers perform the work.
-
-## Source Library and citation contributions
+## Source Library and citation consistency
 
 `src/lib/sourceLibrary.mjs` derives the Source Library from existing evidence claims, fab cases and patent metadata. Do **not** create a second manually maintained factual source registry.
-
-Run:
 
 ```bash
 npm run audit:sources
 npm run audit:sources:json
 ```
 
+Public source URLs must use HTTP(S), evidence sources need useful labels, and source-to-record relationships must be explicit repository relationships. Contextual aliases for one normalized URL are warnings, not automatic errors. Counts are bookkeeping, not source-quality rankings.
+
+## Academic literature
+
+Academic metadata lives in `evidence/literature.json` and is validated with:
+
+```bash
+npm run validate:literature
+```
+
+A curated record should include DOI/title/year/authors, public source URL/name, publication type, controlled topics, an original concise OpenEUV summary, and claim/lab links only where the repository relationship is real.
+
+Do not copy full copyrighted papers without redistribution rights. A public preprint/conference paper is not proof that a vendor uses the concept in production.
+
+## Bibliography export
+
+V9 derives citations from the same `evidence/literature.json` registry; do not create a second bibliography source of truth.
+
+```bash
+npm run literature:export -- --format bibtex
+npm run literature:export -- --format csl-json
+npm run literature:export -- --format bibtex --output openeuv-literature.bib
+```
+
 Requirements:
 
-- public source URLs must use HTTP(S);
-- evidence sources need useful labels;
-- source-to-record relationships must be explicit repository relationships;
-- multiple contextual labels for one normalized URL are allowed but surfaced as warnings;
-- counts are bookkeeping, never source-quality or commercial-importance rankings.
+- preserve only metadata present in the registry;
+- do not fabricate publisher, volume, issue or pages;
+- keep author names literal in CSL when name-part boundaries are not curated;
+- keep deterministic citation-key behavior and escaping tests;
+- browser Copy BibTeX / Download CSL-JSON must export the currently filtered papers only;
+- never include full paper text in citation exports.
 
-See `docs/V8_RESEARCH_OPERATIONS.md`.
+See `docs/V9_BIBLIO_I18N.md`.
 
-## Academic literature contributions
+## EN/VI translation contributions
 
-Academic metadata lives in `evidence/literature.json` and is validated by `npm run validate:literature`.
+EN/VI share the same evidence IDs, source URLs, DOI/patent IDs, units and confidence values. Translate explanations, not evidence identity.
 
-A curated record should include:
+Run:
 
-- DOI, title, year and authors;
-- public source URL/name;
-- publication type (`journal`, `conference`, `preprint`);
-- one or more controlled topics;
-- an original concise OpenEUV summary;
-- explicit claim/lab IDs only where the repository relationship is real.
+```bash
+npm run audit:i18n
+npm run audit:i18n:json
+```
 
-Do not copy full copyrighted papers into the repository without redistribution rights. A public preprint, conference paper or academic proposal is not proof that a vendor uses the described concept in a production scanner/process.
+The structural audit protects the canonical UI dictionary, bilingual learning checkpoints and required learning-path EN/VI fields. Missing/empty/obvious placeholder values are errors. Technical language-neutral IDs are not translation failures.
 
-## Research snapshot/export contributions
+A structural pass is **not** a claim of native-speaker/domain-expert linguistic review. Human review remains useful for specialized terminology.
 
-Create a reproducible snapshot with an explicit timestamp:
+## Research snapshots
+
+Create, verify and compare public metadata snapshots locally:
 
 ```bash
 npm run research:snapshot -- --generated-at 2026-08-08T12:00:00.000Z > snapshot.json
-```
-
-Validate and compare snapshots locally:
-
-```bash
 npm run research:snapshot:verify -- snapshot.json
 npm run research:snapshot:diff -- before.json after.json
 ```
 
-Snapshots contain **public repository metadata** only. They must not include IP addresses, user-agent strings, hardware identifiers, usernames/emails, browser history/storage, cookies, tokens, passwords or authorization values.
+Snapshots must not include IP addresses, user-agent strings, hardware identifiers, usernames/emails, browser history/storage, cookies, tokens, passwords or authorization values. Diff compares canonical records by stable IDs and does not infer semantic equivalence.
 
-Snapshot diff compares canonical records by stable IDs and does not infer semantic equivalence. A timestamp-only change is metadata, not a research-content change.
+## Accessibility and search
 
-## Accessibility contributions
-
-Preserve the first-focusable skip link, one main landmark, labeled/listbox global search, polite status region, focus-visible behavior and reduced-motion contract.
-
-Run:
+Preserve the first-focusable skip link, one main landmark, labeled/listbox global search, polite status regions, focus-visible behavior and reduced-motion contract.
 
 ```bash
 npm run audit:a11y
 npm run e2e
 ```
 
-The static audit is a regression contract, not a substitute for real assistive-technology/manual testing.
+Atlas Search must remain local-only, avoid external telemetry/search services and query persistence, preserve EN/VI keyboard behavior, and retain shared evidence/DOI/patent identities.
 
-## Search contributions
+## 3D / education / physics
 
-Atlas Search is local-only. Search contributions must:
+Original OpenEUV assets and procedural geometry are preferred. Do not submit copied proprietary CAD, private service models, leaked internal drawings, exact confidential dimensions/tolerances or unauthorized geometry.
 
-- index only repository-public metadata;
-- avoid external telemetry/search services and query persistence;
-- preserve EN/VI behavior and keyboard accessibility;
-- keep deterministic ranking/deep-link tests;
-- retain shared evidence/DOI/patent IDs rather than translating identity.
+Assembly/learning contributions should preserve evidence boundaries and explicit gaps. Physics/imaging contributions must document assumptions, units/normalization, validity range and omitted effects.
 
-## 3D contributions
+Do not present generic educational models as commercial scanner predictors, process windows or proprietary production settings. Do not add practical instructions for building or operating hazardous EUV-source, laser, plasma or vacuum systems.
 
-Original OpenEUV assets and procedural geometry are preferred. Good contributions include evidence-bounded glTF/GLB concept geometry, reproducible generators, stable named nodes, LOD/fallback improvements and labels/tours with explicit geometry status.
+## Optical data
 
-Do not submit copied proprietary CAD, private service models, leaked internal drawings, exact confidential dimensions/tolerances or geometry extracted from unauthorized material.
-
-## Assembly / education contributions
-
-Assembly stages may carry stable IDs, EN/VI explanation, `claimIds`, `atlasNodes`, learning links, bilingual research questions and evidence boundaries. Empty mappings are allowed and should remain visible gaps instead of being filled with weak evidence.
-
-L0→L5 checkpoints live in `evidence/learning-checkpoints.json`. Questions should test conceptual/public-source understanding rather than proprietary trivia or practical hazardous operating procedures.
-
-## Physics / imaging contributions
-
-Document assumptions, normalization/units, validity range and omitted effects. Current examples are multilayer interference, Fourier/MTF, mirror/vacuum intuition, mask-3D and image-quality concept models.
-
-Do not present generic educational models as commercial scanner predictors, process windows, proprietary correction models or production settings. Do not add practical instructions for building or operating hazardous EUV-source, laser, plasma or vacuum systems.
-
-## Optical-data contributions
-
-Measured optical data must have lawful public provenance and redistribution permission suitable for repository inclusion. Pin the upstream record/revision when practical, preserve bibliography/license metadata and do not silently extrapolate outside the source range.
+Measured optical data must have lawful public provenance and redistribution permission suitable for repository inclusion. Pin upstream records/revisions where practical, preserve bibliography/license metadata and do not silently extrapolate outside source range.
 
 The CC0 Mo/Windt dataset is the positive example. Silicon around 13.5 nm remains a verified data/license gap; do not resolve it by unsupported extrapolation or copying an ambiguous-rights table.
 
-## Patent contributions
+## Patents and fab context
 
-Include publication/family IDs, priority/publication dates, subsystem links, public assignee/application metadata when available, public URL and an original concise summary.
+Patent contributions need publication/family IDs, priority/publication dates, subsystem links, public metadata/source URL and an original summary. A patent drawing is not confirmed production geometry.
 
-A patent is evidence of a disclosed concept, not proof that its drawing equals production geometry. Do not copy patent figures merely because the patent is public.
+`evidence/fab-cases.json` is the runtime/validation source of truth for fab/mask-lifecycle cases. Prefer first-party sources and keep `public fact → why it matters → public boundary → explicit unknowns`. Do not infer confidential recipes, layer choices, yield, internal layouts, cleaning chemistry, inspection thresholds or private scanner/process settings.
 
-## Fab / mask-lifecycle contributions
+## Renderer/performance
 
-`evidence/fab-cases.json` is the runtime/validation source of truth. A case follows:
+WebGL remains the production baseline. Real benchmark submissions must use OpenEUV method v2 and actual hardware. Do not submit Playwright/headless/emulator results or estimated/fabricated numbers as hardware evidence. Issue #27 remains open until defined real-device coverage is met.
 
-`public fact → why it matters → public boundary → explicit unknowns`
-
-Prefer first-party sources. Do not infer confidential recipes, layer choices, yield, internal layouts, cleaning chemistry, inspection thresholds or private scanner/process settings.
-
-## Renderer/performance contributions
-
-WebGL remains the production baseline. Real benchmark submissions must use OpenEUV method v2 and actual hardware. Do not submit Playwright/headless/emulator results or estimated/fabricated numbers as hardware evidence. Issue #27 remains open until the defined real-device coverage is met.
-
-## Translation contributions
-
-EN/VI share the same evidence IDs, source URLs, DOI/patent IDs, units and confidence values. Translate explanations, not evidence identity.
-
-## Manual deployment contributions
+## Manual deployment
 
 Cloudflare deployment uses the provenance-aware local helper:
 
@@ -210,21 +181,12 @@ npm run deploy:cloudflare:dry
 npm run deploy:cloudflare
 ```
 
-The helper records the exact Git HEAD, refuses dirty trees by default and runs the repository gate before a real deploy. `--allow-dirty` and `--skip-check` are explicit operator overrides, not normal release workflow. Never log or commit Cloudflare credentials/tokens.
+The helper records exact Git HEAD, refuses dirty trees by default and runs the repository gate before a real deploy. `--allow-dirty` and `--skip-check` are explicit operator overrides, not normal release workflow. Never log or commit Cloudflare credentials/tokens.
 
 See `docs/DEPLOYMENT.md`.
 
 ## Contribution report
 
-A useful issue/PR report includes:
-
-- problem or research question;
-- files changed;
-- evidence/source/provenance when applicable;
-- assumptions and unknowns;
-- checks actually run;
-- screenshots for visual changes where useful;
-- risks/limitations;
-- what remains unverified.
+A useful issue/PR report includes the problem/research question, files changed, evidence/source/provenance, assumptions/unknowns, checks actually run, screenshots when useful, risks/limitations and what remains unverified.
 
 The project values transparent uncertainty. `Unknown` is better than an impressive-looking unsupported claim.
