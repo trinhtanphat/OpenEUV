@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { subsystems } from '../data/subsystems'
 import { t, type Language } from '../i18n'
 import { chooseLodMode, type LodMode } from '../lib/lodPolicy.mjs'
-import { ConceptLabelsOverlay } from './ConceptLabelsOverlay'
+import { ConceptLabelsOverlayV4 } from './ConceptLabelsOverlayV4'
 import { LocalizedSubsystemPanel } from './LocalizedSubsystemPanel'
 import { ScannerScene } from './ScannerScene'
 
@@ -65,7 +65,7 @@ export function ExplorerSection({ language }: { language: Language }) {
       <div className="explorer-grid">
         <div className="scene-shell" data-scene-lod={lodMode}>
           <ScannerScene selected={selected} exploded={exploded} onSelect={selectSubsystem} highlightedNode={selectedNode} focusId={cameraFocus} lodMode={lodMode} />
-          <ConceptLabelsOverlay subsystemId={selected.id} selectedNode={selectedNode} lodMode={lodMode} onNodeSelect={(nodeName) => setSelectedNode(nodeName)} />
+          <ConceptLabelsOverlayV4 subsystemId={selected.id} selectedNode={selectedNode} lodMode={lodMode} onNodeSelect={(nodeName) => setSelectedNode(nodeName)} />
           <span className={`lod-badge lod-${lodMode}`}>LOD · {lodMode}</span>
         </div>
         <LocalizedSubsystemPanel selected={selected} selectedNode={selectedNode} language={language} onSelect={(id) => selectSubsystem(id)} onNodeSelect={setSelectedNode} />
