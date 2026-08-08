@@ -1,15 +1,23 @@
 const forbiddenKeys = new Set([
-  'ip', 'ipAddress', 'email', 'username', 'userAgent', 'serial', 'serialNumber',
-  'hardwareConcurrency', 'deviceMemory', 'deviceMemoryGiB', 'localStorage', 'sessionStorage',
+  'ip', 'ipaddress', 'email', 'username', 'useragent', 'serial', 'serialnumber',
+  'hardwareconcurrency', 'devicememory', 'devicememorygib', 'localstorage', 'sessionstorage',
   'history', 'cookie', 'cookies', 'authorization', 'token', 'password',
 ])
+
+function normalizedKey(key) {
+  return String(key ?? '').toLowerCase().replace(/[^a-z0-9]/g, '')
+}
+
+function isForbiddenKey(key) {
+  return forbiddenKeys.has(normalizedKey(key))
+}
 
 function clonePublic(value) {
   if (Array.isArray(value)) return value.map(clonePublic)
   if (!value || typeof value !== 'object') return value
   const output = {}
   for (const [key, child] of Object.entries(value)) {
-    if (forbiddenKeys.has(key)) continue
+    if (isForbiddenKey(key)) continue
     output[key] = clonePublic(child)
   }
   return output
@@ -22,7 +30,7 @@ function scanForbidden(value, path = '$', errors = []) {
   }
   if (!value || typeof value !== 'object') return errors
   for (const [key, child] of Object.entries(value)) {
-    if (forbiddenKeys.has(key)) errors.push(`${path}.${key}`)
+    if (isForbiddenKey(key)) errors.push(`${path}.${key}`)
     scanForbidden(child, `${path}.${key}`, errors)
   }
   return errors
