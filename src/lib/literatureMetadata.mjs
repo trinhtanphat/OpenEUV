@@ -1,7 +1,10 @@
-export const literatureTopics = ['source', 'optics', 'multilayer', 'mask', 'metrology', 'motion', 'fab', 'contamination', 'high-na']
+export const literatureTopics = ['source', 'optics', 'multilayer', 'mask', 'metrology', 'motion', 'fab', 'contamination', 'high-na', 'imaging', 'resist', 'stochastics']
+export const literaturePublicationTypes = ['journal', 'conference', 'preprint']
 
 const doiPattern = /^10\.\d{4,9}\/[-._;()/:A-Z0-9]+$/i
 const isoYearPattern = /^(19|20)\d{2}$/
+const claimIdPattern = /^[A-Z0-9][A-Z0-9-]+$/
+const labIdPattern = /^[a-z0-9][a-z0-9-]+$/
 
 const cleanList = (value) => Array.from(new Set((Array.isArray(value) ? value : String(value ?? '').split(/[;,|]/)).map((item) => String(item).trim()).filter(Boolean)))
 
@@ -15,8 +18,11 @@ export function normalizeLiteratureRecord(record, index = 0) {
   const sourceUrl = String(record.sourceUrl ?? '').trim()
   const sourceName = String(record.sourceName ?? '').trim()
   const summary = String(record.summary ?? '').trim()
+  const publicationType = String(record.publicationType ?? '').trim().toLowerCase()
   const authors = cleanList(record.authors)
   const topics = cleanList(record.topics).map((topic) => topic.toLowerCase())
+  const claimIds = cleanList(record.claimIds)
+  const labIds = cleanList(record.labIds).map((id) => id.toLowerCase())
 
   if (!doiPattern.test(doi)) errors.push(`record ${index}: invalid DOI`)
   if (!title) errors.push(`record ${index}: title is required`)
@@ -24,9 +30,14 @@ export function normalizeLiteratureRecord(record, index = 0) {
   if (!authors.length) errors.push(`record ${index}: at least one author is required`)
   if (!sourceName) errors.push(`record ${index}: sourceName is required`)
   if (!summary) errors.push(`record ${index}: original summary is required`)
+  if (!literaturePublicationTypes.includes(publicationType)) errors.push(`record ${index}: publicationType must be journal, conference or preprint`)
   const invalidTopics = topics.filter((topic) => !literatureTopics.includes(topic))
   if (!topics.length) errors.push(`record ${index}: at least one topic is required`)
   if (invalidTopics.length) errors.push(`record ${index}: invalid topic(s): ${invalidTopics.join(', ')}`)
+  const invalidClaimIds = claimIds.filter((id) => !claimIdPattern.test(id))
+  if (invalidClaimIds.length) errors.push(`record ${index}: invalid claimIds: ${invalidClaimIds.join(', ')}`)
+  const invalidLabIds = labIds.filter((id) => !labIdPattern.test(id))
+  if (invalidLabIds.length) errors.push(`record ${index}: invalid labIds: ${invalidLabIds.join(', ')}`)
   try {
     const url = new URL(sourceUrl)
     if (!['http:', 'https:'].includes(url.protocol)) errors.push(`record ${index}: sourceUrl must use http/https`)
@@ -37,14 +48,18 @@ export function normalizeLiteratureRecord(record, index = 0) {
   return {
     ok: errors.length === 0,
     errors,
-    record: errors.length ? null : { doi, title, year: Number(year), authors, sourceName, sourceUrl, summary, topics },
+    record: errors.length ? null : { doi, title, year: Number(year), authors, sourceName, sourceUrl, summary, publicationType, topics, claimIds, labIds },
   }
 }
 
 export function literatureCoverage(records) {
   const byTopic = Object.fromEntries(literatureTopics.map((topic) => [topic, 0]))
-  records.forEach((record) => new Set(record.topics ?? []).forEach((topic) => { if (topic in byTopic) byTopic[topic] += 1 }))
-  return { records: records.length, byTopic }
+  const byPublicationType = Object.fromEntries(literaturePublicationTypes.map((type) => [type, 0]))
+  records.forEach((record) => {
+    new Set(record.topics ?? []).forEach((topic) => { if (topic in byTopic) byTopic[topic] += 1 })
+    if (record.publicationType in byPublicationType) byPublicationType[record.publicationType] += 1
+  })
+  return { records: records.length, byTopic, byPublicationType }
 }
 
 export function normalizeLiteratureRecords(records) {
