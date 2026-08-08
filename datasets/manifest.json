@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.0.0",
+  "datasets": [
+    {
+      "id": "evidence-claims",
+      "version": "1.0.0",
+      "path": "evidence/claims.json",
+      "kind": "evidence",
+      "source": "OpenEUV compilation of first-party public pages, published patents and public academic metadata linked per record",
+      "license": "OpenEUV metadata compilation is distributed under the repository license; upstream sources retain their own rights",
+      "provenance": "Each claim records source class, source URL(s), confidence and optional rationale",
+      "schema": "evidence/schema.json"
+    },
+    {
+      "id": "evidence-unknowns",
+      "version": "1.0.0",
+      "path": "evidence/unknowns.json",
+      "kind": "evidence",
+      "source": "OpenEUV research questions derived from explicit gaps in lawful public evidence",
+      "license": "OpenEUV metadata compilation is distributed under the repository license",
+      "provenance": "Unknown records reference related claim IDs where available and never convert unsupported claims into facts",
+      "schema": "OpenEUV unknowns structure"
+    },
+    {
+      "id": "patent-seed-metadata",
+      "version": "1.0.0",
+      "path": "src/data/patents.ts",
+      "kind": "patent-metadata",
+      "source": "Curated public patent metadata with links to Google Patents records",
+      "license": "OpenEUV original summaries/metadata compilation are repository-licensed; patent documents remain public records with their own legal status",
+      "provenance": "No patent figures or full patent text are copied into the dataset",
+      "schema": "src/lib/patentMetadata.mjs"
+    },
+    {
+      "id": "optical-constants-template",
+      "version": "1.0.0",
+      "path": "evidence/optical-constants.template.json",
+      "kind": "optical-constants-template",
+      "source": "OpenEUV empty provenance-first template",
+      "license": "Repository license",
+      "provenance": "Contains no measured n/k data; contributors must populate only from lawfully redistributable public sources",
+      "schema": "evidence/optical-constants.schema.json"
+    }
+  ]
+}
