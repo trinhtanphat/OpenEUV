@@ -20,6 +20,14 @@ export const assetNodeEvidence: Record<string, string[]> = {
   MetrologyFrame: ['HIGHNA-PARTS-001'],
 }
 
+export const assetNodeSubsystem: Record<string, 'source' | 'reticle' | 'projection'> = {
+  SourceFrame: 'source', CollectorConcept: 'source', DropletGenerator: 'source', PlasmaMarker: 'source', LaserInput: 'source', IntermediateFocus: 'source', ContaminationShield: 'source',
+  ReticleFrame: 'reticle', ReflectiveMask: 'reticle', 'ShieldingConcept-L': 'reticle', 'ShieldingConcept-R': 'reticle', 'StageGuide-A': 'reticle', 'StageGuide-B': 'reticle',
+  OpticalBench: 'projection', 'MirrorConcept-1': 'projection', 'MirrorConcept-2': 'projection', 'MirrorConcept-3': 'projection', 'MirrorConcept-4': 'projection', MetrologyFrame: 'projection',
+}
+
+export const subsystemAssetNodes = (subsystemId: string) => Object.keys(assetNodeSubsystem).filter((nodeName) => assetNodeSubsystem[nodeName] === subsystemId)
+
 export const assetNodeGeometryStatus: Record<string, 'documented-function' | 'inferred-link' | 'illustrative-geometry'> = Object.fromEntries(
   Object.keys(assetNodeEvidence).map((name) => [name, 'illustrative-geometry']),
 )
