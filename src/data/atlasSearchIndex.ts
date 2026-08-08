@@ -1,4 +1,5 @@
 import claims from '../../evidence/claims.json'
+import literature from '../../evidence/literature.json'
 import unknowns from '../../evidence/unknowns.json'
 import { assemblyStages } from './assemblyStages'
 import { fabCases } from './fabCases'
@@ -7,7 +8,7 @@ import { learningPath } from './learningPath'
 import { patents } from './patents'
 import { subsystems } from './subsystems'
 
-export type AtlasSearchType = 'subsystem' | 'evidence' | 'unknown' | 'patent' | 'fab-case' | 'assembly' | 'learning' | 'lab' | 'glossary'
+export type AtlasSearchType = 'subsystem' | 'evidence' | 'unknown' | 'patent' | 'literature' | 'fab-case' | 'assembly' | 'learning' | 'lab' | 'glossary'
 
 export type AtlasSearchItem = {
   id: string
@@ -22,6 +23,7 @@ export type AtlasSearchItem = {
 }
 
 const sourceNames = (sources: Array<{ name?: string; url?: string }> | undefined) => (sources ?? []).flatMap((source) => [source.name ?? '', source.url ?? '']).filter(Boolean)
+const literatureAnchor = (doi: string) => `literature-${doi.replace(/[^a-z0-9]+/gi, '-')}`
 
 const labItems: AtlasSearchItem[] = [
   {
@@ -139,6 +141,14 @@ export const atlasSearchIndex: AtlasSearchItem[] = [
     subtitle: `${item.assignee} · priority ${item.priorityDate}`,
     keywords: [item.familyId, item.familyLabel, ...item.familyMembers, item.subsystem, ...item.linkedSubsystems, item.summary, item.applicationNumber ?? '', item.assignee],
     href: `#patent-${item.id}`,
+  })),
+  ...literature.map((item): AtlasSearchItem => ({
+    id: `literature:${item.doi}`,
+    type: 'literature',
+    title: item.title,
+    subtitle: `${item.publicationType} · ${item.year} · ${item.sourceName}`,
+    keywords: [item.doi, ...item.authors, item.summary, item.sourceName, item.sourceUrl, ...item.topics, ...item.claimIds, ...item.labIds],
+    href: `#${literatureAnchor(item.doi)}`,
   })),
   ...fabCases.map((item): AtlasSearchItem => ({
     id: `fab:${item.id}`,
