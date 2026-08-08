@@ -102,6 +102,37 @@
     ]
   },
   {
+    "id": "MICRON-1GAMMA-EUV-2025",
+    "component": "fab-integration",
+    "claim": "Micron states that its 1-gamma DRAM technology uses EUV lithography and describes 1-gamma as its first DRAM node to use EUV in production.",
+    "class": "A",
+    "confidence": 0.99,
+    "sources": [
+      { "name": "Micron 1-gamma DRAM technology", "url": "https://www.micron.com/products/memory/1gamma-dram-technology" }
+    ]
+  },
+  {
+    "id": "SKHYNIX-1ANM-EUV-2021",
+    "component": "fab-integration",
+    "claim": "SK hynix announced in July 2021 that it had started mass production of 1anm 8Gb LPDDR4 DRAM using EUV equipment, its first EUV adoption for mass production after partial use in 1ynm DRAM production.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "SK hynix Starts Mass Production of 1anm DRAM Using EUV Equipment", "url": "https://news.skhynix.com/sk-hynix-starts-mass-production-of-1anm-dram-using-euv-equipment/" }
+    ]
+  },
+  {
+    "id": "RAPIDUS-IIM1-EUV-2025",
+    "component": "fab-integration",
+    "claim": "Rapidus states that an ASML TWINSCAN NXE:3800E was installed at IIM-1 in December 2024 and that installation was completed by April 1, 2025 before full-auto EUV pattern exposure and development milestones.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "Rapidus - EUV lithography at IIM-1", "url": "https://www.rapidus.inc/en/tech/te0005/" },
+      { "name": "Rapidus IIM manufacturing hub", "url": "https://www.rapidus.inc/en/iim/" }
+    ]
+  },
+  {
     "id": "PATENT-RETICLE-STAGE-001",
     "component": "reticle",
     "claim": "A published ASML patent application describes an EUV reticle stage supporting a reflective reticle with configurable shielding elements.",
