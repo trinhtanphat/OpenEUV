@@ -116,6 +116,22 @@ OpenEUV develops a public-source engineering atlas, not a reproduction of propri
 - [x] Machine-readable checkpoint dataset, validator, dataset-manifest registration and browser/unit coverage.
 - [x] Duplicate V5 search/source-coverage/browser-test implementations consolidated into canonical paths.
 
+## Completed — V6 accessibility, provenance UI & research export
+
+- [x] In-browser provenance overview reusing the same provenance summary helper as the CLI.
+- [x] Evidence-class, review-state, open-unknown, patent-completeness, fab-source and data/license-gap overview with deep links to existing sections.
+- [x] Privacy-safe research snapshot schema/helper containing repository-public claims, unknowns, fab cases, dataset manifest metadata, review readiness and provenance coverage.
+- [x] Browser copy/download snapshot flow with no upload or telemetry.
+- [x] Reproducible `npm run research:snapshot -- --generated-at ...` CLI export requiring an explicit timestamp.
+- [x] Case/format-insensitive filtering/rejection for private client fields such as user-agent, IP, device-memory, hardware concurrency, credentials and browser storage/history keys.
+- [x] Visible-on-focus skip link and separate semantic header/main landmarks.
+- [x] Reduced-motion-aware search navigation plus global CSS guard for nonessential smooth scrolling/animation.
+- [x] Keyboard-only checkpoint/search coverage and snapshot download browser coverage.
+- [x] V6 documentation registered in repository preflight.
+- [x] Package version advanced to `0.8.0`.
+
+See `docs/V6_ACCESSIBILITY_EXPORT.md`.
+
 ## Open external dependency — #27 real renderer measurements
 
 Software/methodology is complete. Remaining acceptance work requires **real hardware**:
