@@ -1,0 +1,86 @@
+const forbiddenKeys = new Set([
+  'ip', 'ipAddress', 'email', 'username', 'userAgent', 'serial', 'serialNumber',
+  'hardwareConcurrency', 'deviceMemory', 'deviceMemoryGiB', 'localStorage', 'sessionStorage',
+  'history', 'cookie', 'cookies', 'authorization', 'token', 'password',
+])
+
+function clonePublic(value) {
+  if (Array.isArray(value)) return value.map(clonePublic)
+  if (!value || typeof value !== 'object') return value
+  const output = {}
+  for (const [key, child] of Object.entries(value)) {
+    if (forbiddenKeys.has(key)) continue
+    output[key] = clonePublic(child)
+  }
+  return output
+}
+
+function scanForbidden(value, path = '$', errors = []) {
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => scanForbidden(item, `${path}[${index}]`, errors))
+    return errors
+  }
+  if (!value || typeof value !== 'object') return errors
+  for (const [key, child] of Object.entries(value)) {
+    if (forbiddenKeys.has(key)) errors.push(`${path}.${key}`)
+    scanForbidden(child, `${path}.${key}`, errors)
+  }
+  return errors
+}
+
+export function buildResearchSnapshot({
+  generatedAt,
+  claims = [],
+  unknowns = [],
+  fabCases = [],
+  manifest = { schemaVersion: 'unknown', datasets: [] },
+  reviewCoverage = {},
+  provenanceCoverage = {},
+} = {}) {
+  if (!generatedAt || Number.isNaN(Date.parse(generatedAt))) throw new Error('generatedAt must be a valid ISO-8601 timestamp')
+  return clonePublic({
+    schemaVersion: 1,
+    project: 'OpenEUV',
+    generatedAt,
+    scope: 'public-repository-metadata-only',
+    privacy: {
+      clientTelemetryIncluded: false,
+      browserStateIncluded: false,
+      hardwareIdentifiersIncluded: false,
+    },
+    evidence: { claims, unknowns },
+    fabCases,
+    datasets: {
+      manifestSchemaVersion: manifest.schemaVersion ?? 'unknown',
+      entries: manifest.datasets ?? [],
+    },
+    reviewCoverage,
+    provenanceCoverage,
+  })
+}
+
+export function validateResearchSnapshot(snapshot) {
+  const errors = []
+  if (snapshot?.schemaVersion !== 1) errors.push('schemaVersion must equal 1')
+  if (snapshot?.project !== 'OpenEUV') errors.push('project must equal OpenEUV')
+  if (!snapshot?.generatedAt || Number.isNaN(Date.parse(snapshot.generatedAt))) errors.push('generatedAt must be a valid timestamp')
+  if (snapshot?.scope !== 'public-repository-metadata-only') errors.push('scope must be public-repository-metadata-only')
+  if (!Array.isArray(snapshot?.evidence?.claims)) errors.push('evidence.claims must be an array')
+  if (!Array.isArray(snapshot?.evidence?.unknowns)) errors.push('evidence.unknowns must be an array')
+  if (!Array.isArray(snapshot?.fabCases)) errors.push('fabCases must be an array')
+  if (!Array.isArray(snapshot?.datasets?.entries)) errors.push('datasets.entries must be an array')
+  for (const path of scanForbidden(snapshot)) errors.push(`forbidden client/private field: ${path}`)
+  return { ok: errors.length === 0, errors }
+}
+
+function stable(value) {
+  if (Array.isArray(value)) return value.map(stable)
+  if (!value || typeof value !== 'object') return value
+  return Object.fromEntries(Object.keys(value).sort().map((key) => [key, stable(value[key])]))
+}
+
+export function serializeResearchSnapshot(snapshot) {
+  const validation = validateResearchSnapshot(snapshot)
+  if (!validation.ok) throw new Error(validation.errors.join('; '))
+  return `${JSON.stringify(stable(snapshot), null, 2)}\n`
+}
