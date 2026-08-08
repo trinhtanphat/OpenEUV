@@ -64,13 +64,9 @@ test('atlas core interactions remain usable', async ({ page }, testInfo) => {
   await expect(stageControls.first()).toHaveValue('20')
 
   const allRanges = page.locator('input[type="range"]')
-  const count = await allRanges.count()
-  expect(count).toBeGreaterThan(10)
-  for (let index = 0; index < count; index += 1) {
-    const input = allRanges.nth(index)
-    const labelText = await input.evaluate((element) => element.getAttribute('aria-label') || element.closest('label')?.textContent?.trim() || '')
-    expect(labelText.length).toBeGreaterThan(0)
-  }
+  const labels = await allRanges.evaluateAll((elements) => elements.map((element) => element.getAttribute('aria-label') || element.closest('label')?.textContent?.trim() || ''))
+  expect(labels.length).toBeGreaterThan(10)
+  expect(labels.every((label) => label.length > 0)).toBeTruthy()
 
   if (testInfo.project.name === 'desktop-chromium') {
     await page.screenshot({ path: testInfo.outputPath('atlas-desktop.png'), fullPage: true })
