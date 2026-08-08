@@ -7,8 +7,8 @@ The project is intentionally public-source. The challenge is not collecting secr
 ## Before starting
 
 1. Read `SOURCING_POLICY.md`.
-2. Browse the 3D Atlas, Assembly Explorer, Learning Path and open issues.
-3. Check existing claim IDs, patent/literature metadata, fab cases and concept-node labels before creating duplicates.
+2. Use the global Atlas Search, 3D Atlas, Assembly Explorer, Learning Path and open issues to avoid duplicate work.
+3. Check existing claim IDs, patent/literature metadata, fab cases, concept-node labels and provenance traces before creating a new relationship.
 4. State whether proposed geometry/facts are documented, public-source inference or illustration.
 5. Prefer a small reproducible contribution over a large unverifiable dump.
 
@@ -20,20 +20,40 @@ A successful GitHub push is not proof that the project builds. Verify locally be
 
 ## Local verification
 
+Start with the unified preflight:
+
 ```bash
 npm install
+npm run preflight
 npm run check
 ```
 
-`npm run check` currently covers:
+Useful inspectable reports:
+
+```bash
+npm run preflight:json
+npm run audit:integrity
+npm run audit:integrity:json
+npm run provenance:report
+npm run provenance:report:json
+npm run evidence:review-report
+```
+
+`npm run check` runs preflight, unit tests, TypeScript typecheck and the production Vite build. Preflight covers:
 
 - claims/evidence validation;
 - evidence-review registry/state validation;
 - runtime fab-case validation;
 - raw renderer-capture validation;
-- unit tests;
-- TypeScript typecheck;
-- production Vite build.
+- cross-dataset graph integrity;
+- provenance/source-coverage integrity;
+- dataset-manifest paths and IDs;
+- concept-label claim references;
+- L0→L5 checkpoint data validation;
+- key documentation paths;
+- the project policy that GitHub Actions workflow files remain absent.
+
+Real renderer benchmark readiness and genuine human-review readiness are reported separately; an unresolved external research dependency is not the same thing as a broken build.
 
 For UI/3D/browser changes:
 
@@ -56,7 +76,7 @@ If you cannot run a required check, say so clearly instead of assuming it passed
 
 Class D is not a way to turn a rumor into fact. It needs public sources and a written rationale.
 
-## Evidence review
+## Evidence review & provenance
 
 Review metadata can be:
 
@@ -73,7 +93,23 @@ node tools/evidence-review-queue.mjs --limit 12
 node tools/evidence-review-queue.mjs --limit 12 --json
 ```
 
-The queue never assigns reviewer identity and never changes review state. See `docs/EVIDENCE_REVIEW_CAMPAIGN.md` and issue #29.
+The queue never assigns reviewer identity and never changes review state. Issue #29 remains open until genuine reviewers perform the work.
+
+Before adding a duplicate claim or mapping, use the V5 provenance trace and source-coverage report. Provenance relationships must be explicit repository relationships; do not invent a 3D-node/Assembly/fab relationship merely because it seems plausible.
+
+See `docs/EVIDENCE_REVIEW_CAMPAIGN.md`, `docs/EVIDENCE_PROVENANCE_TRACE.md` and `docs/PROVENANCE_COVERAGE_REPORT.md`.
+
+## Search contributions
+
+The global Atlas Search is local-only. Search contributions must:
+
+- index only lawful repository-local metadata;
+- preserve shared evidence IDs and meaning;
+- avoid external telemetry/search services and query persistence;
+- maintain EN/VI behavior and keyboard accessibility;
+- keep deterministic ranking tests.
+
+See `docs/ATLAS_SEARCH.md`.
 
 ## 3D contributions
 
@@ -87,33 +123,27 @@ Original OpenEUV assets and procedural geometry are preferred. Good contribution
 - exploded-view improvements;
 - diagrams/animations with explicit geometry status.
 
-The V4 illumination/vacuum implementation demonstrates an important pattern: **procedural named nodes are first-class fallback content**, while optional glTF materializations can be generated from source. See `docs/3D_V4_ILLUMINATION_VACUUM.md`.
+The illumination/vacuum implementation demonstrates an important pattern: **procedural named nodes are first-class fallback content**, while optional glTF materializations can be generated from source.
 
 Do not submit copied proprietary CAD, private service models, leaked internal scanner drawings, exact confidential dimensions/tolerances or geometry extracted from unauthorized material.
 
 ## Assembly / education contributions
 
-Assembly stages can carry:
-
-- stable IDs and subsystem ownership;
-- EN/VI explanation;
-- shared `claimIds`;
-- stable `atlasNodes` when they exist;
-- related `learningLinks`;
-- open bilingual research questions;
-- evidence boundary and geometry/evidence status.
+Assembly stages can carry stable IDs, EN/VI explanation, shared `claimIds`, stable `atlasNodes` when known, related `learningLinks`, bilingual research questions and evidence boundaries.
 
 An empty claim/node list is allowed and should remain a visible **gap** instead of being filled with a weakly related record.
 
-See `docs/ASSEMBLY_EXPLORER.md` and `docs/LEARNING_PATH.md`.
+L0→L5 checkpoints live in `evidence/learning-checkpoints.json`. A checkpoint must test conceptual/public-source understanding rather than proprietary trivia or practical operating procedures. Progress is intentionally session-only and private.
+
+See `docs/ASSEMBLY_EXPLORER.md`, `docs/LEARNING_PATH.md` and `docs/LEARNING_CHECKPOINTS.md`.
 
 ## Physics / imaging contributions
 
 A physics contribution should document assumptions, normalization/units, validity range and omitted effects.
 
-Current examples include the multilayer model and normalized Fourier/circular-pupil MTF lab. See `docs/FOURIER_IMAGING_LAB.md`.
+Current examples include the multilayer model, normalized Fourier/circular-pupil MTF lab and mirror/vacuum concept lab.
 
-Do not present a generic educational model as a commercial scanner predictor, mask recipe, process window, proprietary correction model or production setting.
+Do not present a generic educational model as a commercial scanner predictor, mask recipe, process window, proprietary correction model or production setting. Do not add practical instructions for building or operating hazardous EUV-source, laser, plasma or vacuum equipment.
 
 ## Optical-data contributions
 
@@ -128,22 +158,17 @@ For measured optical constants:
 
 The CC0 Mo/Windt dataset is the current positive example.
 
-Silicon EUV optical data remains issue #28 because public availability alone did not establish a clean redistribution chain. See `docs/SILICON_OPTICAL_DATA_RESEARCH.md`.
+The silicon-at-13.5-nm investigation is completed as a **verified data gap**: the checked CC0 Si candidate is out of range, while EUV-range public data has not yet been shown to have suitable redistribution permission for vendoring its numerical table. See `docs/SILICON_OPTICAL_DATA_GAP.md` and `evidence/optical-data-gaps.json`.
 
-Do not copy a public web table into the repo when its data redistribution rights are unclear.
+Do not copy a public web table into the repo when its redistribution rights are unclear.
 
 ## Patent contributions
 
-Patent research should include:
-
-- publication and family IDs;
-- priority/publication dates;
-- subsystem links;
-- public assignee/application metadata when available;
-- public source URL;
-- an original concise summary.
+Patent research should include publication/family IDs, priority/publication dates, subsystem links, public assignee/application metadata when available, a public source URL and an original concise summary.
 
 Use the patent normalizer/audit helpers. The metadata completeness score measures fields, not commercial importance.
+
+The provenance CLI reads `src/data/patents.ts` through `src/lib/patentSourceParser.mjs`; parser changes need regression tests because a formatting-only edit must not silently erase patent coverage.
 
 Do not copy patent figures into the repository merely because a patent is public. Never present a patent drawing as confirmed production geometry.
 
@@ -159,13 +184,9 @@ A case follows:
 
 `public fact → why it matters → public boundary → explicit unknowns`
 
-Each case should contain shared claim IDs and direct public source URLs. Run:
+Each case should contain shared claim IDs and direct public source URLs. Prefer first-party sources.
 
-```bash
-npm run validate:fab
-```
-
-Prefer first-party sources. Do not infer confidential recipes, private layer choices, yield, internal line layouts, inspection thresholds, cleaning chemistry, private scanner settings or private qualification criteria.
+Do not infer confidential recipes, private layer choices, yield, internal line layouts, inspection thresholds, cleaning chemistry, private scanner settings or private qualification criteria.
 
 ## Renderer/performance contributions
 
@@ -190,10 +211,11 @@ Keep internationally recognizable technical terms when useful, e.g. `reticle`, `
 - `[PHYSICS]` multilayers, public data and reproducibility
 - `[PATENT]` curated family metadata and provenance review
 - `[FAB]` first-party manufacturing/mask-lifecycle context
-- `[EVIDENCE]` sourcing, real review, supersession and unknowns
-- `[EDU]` Assembly Explorer and L0→L5 learning material
+- `[EVIDENCE]` sourcing, provenance, real review, supersession and unknowns
+- `[EDU]` Assembly Explorer and L0→L5 learning/checkpoints
+- `[SEARCH]` deterministic local atlas navigation
 - `[I18N]` technical translation
-- `[QA]` unit/browser/accessibility/manual deployment checks
+- `[QA]` preflight/unit/browser/accessibility/manual deployment checks
 - `[PERF]` real-device renderer benchmarks
 
 Structured GitHub Issue Forms are provided for evidence/research, 3D/visual work, bugs and real-device performance contributions. Blank issues are disabled so sourcing/privacy boundaries are visible before submission.
