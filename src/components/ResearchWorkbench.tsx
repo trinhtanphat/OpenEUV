@@ -4,6 +4,7 @@ import { AnamorphicLab } from './AnamorphicLab'
 import { FourierImagingLab } from './FourierImagingLab'
 import { HighNAComparison } from './HighNAComparison'
 import { Mask3DEffectsLab } from './Mask3DEffectsLab'
+import { MirrorVacuumConceptLab } from './MirrorVacuumConceptLab'
 import { MultilayerSimulator } from './MultilayerSimulator'
 import { WaferStageLab } from './WaferStageLab'
 
@@ -28,6 +29,13 @@ const labGuide = [
     titleVi: 'Fourier imaging',
     bodyEn: 'See a normalized square pattern as spatial-frequency harmonics and watch an ideal pupil transfer attenuate high-frequency detail.',
     bodyVi: 'Xem pattern vuông chuẩn hóa dưới dạng các harmonic spatial-frequency và quan sát pupil lý tưởng làm suy giảm chi tiết tần số cao.',
+  },
+  {
+    id: 'vacuum-mirrors',
+    titleEn: 'Why vacuum & mirrors?',
+    titleVi: 'Vì sao cần vacuum & mirrors?',
+    bodyEn: 'Compare normalized absorption and cumulative reflection transfer using public evidence that EUV is strongly absorbed by air and conventional transmissive materials.',
+    bodyVi: 'So sánh hấp thụ chuẩn hóa và tổn hao phản xạ tích lũy dựa trên bằng chứng công khai rằng EUV bị không khí và vật liệu truyền qua thông thường hấp thụ mạnh.',
   },
   {
     id: 'multilayer',
@@ -62,9 +70,9 @@ const labGuide = [
 export function ResearchWorkbench({ language }: { language: Language }) {
   return (
     <section className="workbench" id="labs" data-language={language}>
-      <div className="section-heading workbench-heading"><div><div className="eyebrow">{t(language, 'workbench')}</div><h2>{t(language, 'workbenchTitle')}</h2><p className="muted">{t(language, 'workbenchBody')}</p></div><div className="workbench-badges"><span>13.5 nm</span><span>NA 0.33 → 0.55</span><span>4× / 8× anamorphic</span><span>Fourier / MTF</span><span>6-DoF</span><span>aberration + overlay</span></div></div>
+      <div className="section-heading workbench-heading"><div><div className="eyebrow">{t(language, 'workbench')}</div><h2>{t(language, 'workbenchTitle')}</h2><p className="muted">{t(language, 'workbenchBody')}</p></div><div className="workbench-badges"><span>13.5 nm</span><span>NA 0.33 → 0.55</span><span>4× / 8× anamorphic</span><span>Fourier / MTF</span><span>vacuum + mirrors</span><span>6-DoF</span><span>aberration + overlay</span></div></div>
       <div className="lab-guide" aria-label={language === 'vi' ? 'Hướng dẫn các mô phỏng kỹ thuật' : 'Technical lab guide'}>{labGuide.map((item) => <article key={item.id} data-lab-guide={item.id}><strong>{language === 'vi' ? item.titleVi : item.titleEn}</strong><p>{language === 'vi' ? item.bodyVi : item.bodyEn}</p></article>)}</div>
-      <div className="lab-grid"><HighNAComparison /><AnamorphicLab /><FourierImagingLab language={language} /><MultilayerSimulator /><Mask3DEffectsLab /></div>
+      <div className="lab-grid"><HighNAComparison /><AnamorphicLab /><FourierImagingLab language={language} /><MirrorVacuumConceptLab language={language} /><MultilayerSimulator /><Mask3DEffectsLab /></div>
       <AberrationFocusLab />
       <WaferStageLab />
     </section>
