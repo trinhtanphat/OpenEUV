@@ -21,7 +21,7 @@ test('atlas core interactions remain usable', async ({ page }, testInfo) => {
   await exploded.fill('0.72')
   await expect(exploded).toHaveValue('0.72')
 
-  const sourceButton = page.locator('.subsystem-nav button').filter({ hasText: /Source/ }).first()
+  const sourceButton = page.locator('button[data-subsystem-id="source"]')
   await sourceButton.click()
   await expect(sourceButton).toHaveClass(/active/)
 
@@ -67,7 +67,7 @@ test('procedural scanner fallback survives a blocked source asset', async ({ pag
   await page.route('**/models/euv-source-collector-concept.gltf', (route) => route.abort())
   await page.goto('/')
   await expect(page.locator('.scanner-canvas canvas')).toBeVisible()
-  const sourceButton = page.locator('.subsystem-nav button').filter({ hasText: /Source/ }).first()
+  const sourceButton = page.locator('button[data-subsystem-id="source"]')
   await sourceButton.click()
   await expect(sourceButton).toHaveClass(/active/)
   await expect(page.locator('.subsystem-detail h3')).toContainText(/Source|Nguồn/i)
