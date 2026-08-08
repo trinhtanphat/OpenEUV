@@ -1,13 +1,29 @@
 import { expect, test } from '@playwright/test'
 
-test('renderer benchmark produces a schema-ready privacy-safe capture', async ({ page }, testInfo) => {
+test('renderer benchmark v2 produces a schema-ready privacy-safe capture', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop-chromium', 'Benchmark smoke runs once on desktop Chromium')
 
   await page.goto('/benchmarks/render-benchmark.html?auto=1')
-  await expect(page.locator('html')).toHaveAttribute('data-benchmark-complete', 'true', { timeout: 20_000 })
+  await expect(page.locator('html')).toHaveAttribute('data-benchmark-complete', 'true', { timeout: 30_000 })
   await expect(page.locator('#webgl-result')).toContainText('"status": "ok"')
   await expect(page.locator('#copy')).toBeEnabled()
   await expect(page.locator('#download')).toBeEnabled()
+
+  const raw = await page.evaluate(() => (window as typeof window & { __OPENEUV_BENCHMARK__?: unknown }).__OPENEUV_BENCHMARK__)
+  expect(raw).toBeTruthy()
+  const benchmark = raw as {
+    benchmarkVersion: number
+    syncMode: string
+    webgl: { status: string; samples?: number; averageMs?: number }
+    webgpu: { status: string; samples?: number }
+  }
+  expect(benchmark.benchmarkVersion).toBe(2)
+  expect(benchmark.syncMode).toBe('explicit-gpu-completion')
+  expect(benchmark.webgl.status).toBe('ok')
+  expect(benchmark.webgl.samples).toBeGreaterThan(50)
+  expect(benchmark.webgl.averageMs).toBeGreaterThan(0)
+  expect(['ok', 'skipped']).toContain(benchmark.webgpu.status)
+  if (benchmark.webgpu.status === 'ok') expect(benchmark.webgpu.samples).toBeGreaterThan(50)
 
   await page.locator('#device-class').selectOption('desktop')
   await page.locator('#os').fill('Playwright test OS')
