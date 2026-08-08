@@ -21,6 +21,7 @@ import './learning-checkpoints.css'
 import './v6.css'
 import './v7.css'
 import './source-library.css'
+import './literature-v8.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
