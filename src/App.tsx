@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { BuildMachine } from './components/BuildMachine'
 import { EvidenceDashboard } from './components/EvidenceDashboard'
 import { EvidenceGraph } from './components/EvidenceGraph'
+import { EvidenceInspector } from './components/EvidenceInspector'
 import { FabFlow } from './components/FabFlow'
 import { PatentExplorer } from './components/PatentExplorer'
 import { ResearchWorkbench } from './components/ResearchWorkbench'
@@ -15,10 +16,15 @@ const confidenceLabel = { official: 'Officially documented', patent: 'Patent-sup
 
 export default function App() {
   const [selectedId, setSelectedId] = useState('projection')
+  const [selectedNode, setSelectedNode] = useState<string | null>(null)
   const [exploded, setExploded] = useState(0.18)
   const [language, setLanguage] = useState<Language>('en')
   const selected = useMemo(() => subsystems.find((item) => item.id === selectedId) ?? subsystems[0], [selectedId])
   const localized = language === 'vi' ? subsystemVi[selected.id] : undefined
+  const selectSubsystem = (id: string, nodeName?: string) => {
+    setSelectedId(id)
+    setSelectedNode(nodeName ?? null)
+  }
 
   return (
     <main>
@@ -36,7 +42,7 @@ export default function App() {
 
       <section className="explorer" id="explorer">
         <div className="section-heading"><div><div className="eyebrow">Interactive public-source reconstruction</div><h2>Exploded EUV scanner</h2><p className="muted">Conceptual digital twin with public-source evidence boundaries. Geometry not established by lawful sources remains explicitly illustrative.</p></div><div className="exploded-control"><span>{t(language, 'assembled')}</span><input aria-label="Exploded view" type="range" min="0" max="1" step="0.01" value={exploded} onChange={(e) => setExploded(Number(e.target.value))} /><span>{t(language, 'exploded')}</span></div></div>
-        <div className="explorer-grid"><ScannerScene selected={selected} exploded={exploded} onSelect={setSelectedId} /><aside className="subsystem-panel"><div className="subsystem-nav">{subsystems.map((item) => <button key={item.id} data-subsystem-id={item.id} onClick={() => setSelectedId(item.id)} className={item.id === selected.id ? 'active' : ''}><span>{item.short}</span>{language === 'vi' ? subsystemVi[item.id]?.title ?? item.title : item.title}</button>)}</div><div className="subsystem-detail"><div className={`confidence ${selected.confidence}`}>{confidenceLabel[selected.confidence]}</div><h3>{localized?.title ?? selected.title}</h3><div className="subtitle">{localized?.subtitle ?? selected.subtitle}</div><p>{selected.description}</p><h4>What we know</h4><ul>{selected.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul><h4>Open contributor questions</h4><ul className="questions">{selected.openQuestions.map((question) => <li key={question}>{question}</li>)}</ul></div></aside></div>
+        <div className="explorer-grid"><ScannerScene selected={selected} exploded={exploded} onSelect={selectSubsystem} /><aside className="subsystem-panel"><div className="subsystem-nav">{subsystems.map((item) => <button key={item.id} data-subsystem-id={item.id} onClick={() => selectSubsystem(item.id)} className={item.id === selected.id ? 'active' : ''}><span>{item.short}</span>{language === 'vi' ? subsystemVi[item.id]?.title ?? item.title : item.title}</button>)}</div><div className="subsystem-detail"><div className={`confidence ${selected.confidence}`}>{confidenceLabel[selected.confidence]}</div><h3>{localized?.title ?? selected.title}</h3><div className="subtitle">{localized?.subtitle ?? selected.subtitle}</div><p>{selected.description}</p><h4>What we know</h4><ul>{selected.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul><h4>Open contributor questions</h4><ul className="questions">{selected.openQuestions.map((question) => <li key={question}>{question}</li>)}</ul><EvidenceInspector subsystemId={selected.id} nodeName={selectedNode} /></div></aside></div>
       </section>
 
       <section className="feature-strip"><div><span className="feature-icon">◫</span><strong>3D Atlas</strong><span>Interactive subsystem reconstruction</span></div><div><span className="feature-icon">λ</span><strong>Physics labs</strong><span>NA, anamorphic, masks and multilayers</span></div><div><span className="feature-icon">⌘</span><strong>Evidence graph</strong><span>CI-validated claims and unknowns</span></div><div><span className="feature-icon">≡</span><strong>Patent map</strong><span>Public disclosures by subsystem</span></div></section>
