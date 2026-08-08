@@ -24,11 +24,11 @@ export function AssemblyExplorer({ language }: { language: Language }) {
     <section className="research-section assembly-explorer" id="assembly-explorer" data-language={language}>
       <div className="research-heading">
         <div>
-          <span className="eyebrow">{language === 'vi' ? 'How it’s made — public-source systems view' : 'How it’s made — public-source systems view'}</span>
-          <h2>{language === 'vi' ? 'Assembly Explorer: từ module đến scanner hoàn chỉnh' : 'Assembly Explorer: modules to integrated scanner'}</h2>
+          <span className="eyebrow">How it’s made — public-source systems view</span>
+          <h2>{language === 'vi' ? 'Assembly Explorer: từ module đến hệ thống tích hợp' : 'Assembly Explorer: modules to integrated system'}</h2>
           <p>{language === 'vi'
-            ? 'Một bản đồ lắp ráp ở mức hệ thống để học cách các subsystem liên hệ với nhau. Đây không phải hướng dẫn chế tạo laser/plasma, service manual hay blueprint sản xuất.'
-            : 'A system-level assembly map for learning how subsystems relate. It is not a laser/plasma construction guide, service manual, or production blueprint.'}</p>
+            ? 'Bản đồ systems-engineering để học subsystem, evidence, dependency và unknown. Đây không phải hướng dẫn chế tạo/vận hành nguồn thật, service manual hay production blueprint.'
+            : 'A systems-engineering map for learning subsystems, evidence, dependencies and unknowns. It is not a real-source construction/operation guide, service manual, or production blueprint.'}</p>
         </div>
         <div className="assembly-progress" aria-label={language === 'vi' ? 'Tiến trình các stage' : 'Assembly stage progress'}>
           <strong>{assemblyStages.findIndex((stage) => stage.id === selected.id) + 1}/{assemblyStages.length}</strong>
@@ -70,8 +70,33 @@ export function AssemblyExplorer({ language }: { language: Language }) {
             </div>
           </div>
 
+          <div className="assembly-context-grid">
+            <div>
+              <h4>{language === 'vi' ? 'Shared evidence claims' : 'Shared evidence claims'}</h4>
+              <div className="assembly-chip-list" data-assembly-claims={selected.id}>
+                {selected.claimIds.length > 0
+                  ? selected.claimIds.map((claimId) => <a key={claimId} data-assembly-claim={claimId} href={`#evidence-${claimId}`}><code>{claimId}</code></a>)
+                  : <span className="assembly-gap">{language === 'vi' ? 'Chưa có direct shared claim — đây là evidence gap công khai.' : 'No direct shared claim yet — this is an explicit evidence gap.'}</span>}
+              </div>
+            </div>
+            <div>
+              <h4>{language === 'vi' ? 'Named atlas nodes' : 'Named atlas nodes'}</h4>
+              <div className="assembly-chip-list" data-assembly-nodes={selected.id}>
+                {selected.atlasNodes.length > 0
+                  ? selected.atlasNodes.map((node) => <a key={node} data-assembly-node={node} href="#explorer"><code>{node}</code></a>)
+                  : <span className="assembly-gap">{language === 'vi' ? 'Chưa có named 3D node trực tiếp.' : 'No direct named 3D node yet.'}</span>}
+              </div>
+            </div>
+          </div>
+
+          <h4>{language === 'vi' ? 'Lab / learning liên quan' : 'Related labs / learning'}</h4>
+          <div className="assembly-learning-links">{selected.learningLinks.map((link) => <a key={`${selected.id}-${link.href}-${link.label.en}`} href={link.href}>{link.label[language]} ↗</a>)}</div>
+
           <h4>{language === 'vi' ? 'Đầu ra học tập' : 'Learning outputs'}</h4>
           <ul className="assembly-output-list">{selected.outputs[language].map((item) => <li key={item}>{item}</li>)}</ul>
+
+          <h4>{language === 'vi' ? 'Câu hỏi nghiên cứu mở' : 'Open research questions'}</h4>
+          <ul className="assembly-question-list" data-assembly-questions={selected.id}>{selected.questions[language].map((question) => <li key={question}>{question}</li>)}</ul>
 
           <h4>{language === 'vi' ? 'Phụ thuộc module' : 'Module dependencies'}</h4>
           <div className="assembly-dependencies">
