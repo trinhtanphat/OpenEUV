@@ -25,6 +25,7 @@ runValidator('evidence validator', 'scripts/validate-evidence.mjs')
 runValidator('evidence review validator', 'scripts/validate-evidence-reviews.mjs')
 runValidator('fab-case validator', 'scripts/validate-fab-cases.mjs')
 runValidator('renderer capture validator', 'scripts/analyze-render-benchmarks.mjs', ['--validate-only'])
+runValidator('cross-dataset graph audit', 'scripts/audit-repository-integrity.mjs')
 
 const [claims, unknowns, reviews, manifest, conceptLabels, conceptLabelsV4] = await Promise.all([
   readJson('evidence/claims.json'),
@@ -87,7 +88,7 @@ const rawEntries = await readdir(rawDir, { withFileTypes: true })
 const rawFiles = rawEntries.filter((entry) => entry.isFile() && entry.name.endsWith('.json') && entry.name !== 'RESULT_TEMPLATE.json').map((entry) => entry.name).sort()
 const captures = []
 for (const filename of rawFiles) {
-  try { captures.push(JSON.parse(await readFile(path.join(rawDir, filename), 'utf8'))) } catch { /* validator check above already reports malformed JSON */ }
+  try { captures.push(JSON.parse(await readFile(path.join(rawDir, filename), 'utf8'))) } catch { /* capture validator above reports malformed JSON */ }
 }
 const rendererReadiness = summarizeRenderBenchmarkCaptures(captures)
 
