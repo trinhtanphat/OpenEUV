@@ -1,0 +1,8 @@
+REFERENCES: |
+    Synthetic test-only record for OpenEUV importer validation.
+DATA:
+  - type: tabulated nk
+    data: |
+        0.0120 0.9000 0.0200
+        0.0135 0.9500 0.0300
+        0.0150 0.9800 0.0400
