@@ -7,7 +7,7 @@ import { learningPath } from './learningPath'
 import { patents } from './patents'
 import { subsystems } from './subsystems'
 
-export type AtlasSearchType = 'subsystem' | 'evidence' | 'unknown' | 'patent' | 'fab-case' | 'assembly' | 'learning' | 'glossary'
+export type AtlasSearchType = 'subsystem' | 'evidence' | 'unknown' | 'patent' | 'fab-case' | 'assembly' | 'learning' | 'lab' | 'glossary'
 
 export type AtlasSearchItem = {
   id: string
@@ -22,6 +22,79 @@ export type AtlasSearchItem = {
 }
 
 const sourceNames = (sources: Array<{ name?: string; url?: string }> | undefined) => (sources ?? []).flatMap((source) => [source.name ?? '', source.url ?? '']).filter(Boolean)
+
+const labItems: AtlasSearchItem[] = [
+  {
+    id: 'lab:high-na',
+    type: 'lab',
+    title: 'Low-NA vs High-NA',
+    titleVi: 'Low-NA vs High-NA',
+    subtitle: 'Educational NA 0.33 ↔ 0.55 resolution comparison',
+    subtitleVi: 'So sánh phân giải giáo dục NA 0,33 ↔ 0,55',
+    keywords: ['high na', 'low na', 'numerical aperture', 'khẩu độ số', '0.33', '0.55', 'resolution', 'HIGHNA-NA-001'],
+    href: '#high-na-lab',
+  },
+  {
+    id: 'lab:anamorphic',
+    type: 'lab',
+    title: 'Anamorphic 4× / 8× field',
+    titleVi: 'Anamorphic 4× / 8×',
+    subtitle: 'Visualize public High-NA anisotropic demagnification geometry',
+    subtitleVi: 'Minh họa hình học demagnification bất đẳng hướng High-NA công khai',
+    keywords: ['anamorphic', '4x', '8x', '4×', '8×', 'high na', 'field', 'HIGHNA-ANAMORPHIC-001'],
+    href: '#anamorphic-lab',
+  },
+  {
+    id: 'lab:fourier',
+    type: 'lab',
+    title: 'Fourier imaging & MTF',
+    titleVi: 'Fourier imaging & MTF',
+    subtitle: 'Normalized spatial-frequency and circular-pupil transfer learning lab',
+    subtitleVi: 'Lab spatial-frequency và circular-pupil transfer chuẩn hóa',
+    keywords: ['fourier', 'mtf', 'spatial frequency', 'pupil', 'transfer function', 'imaging'],
+    href: '#fourier-imaging-lab',
+  },
+  {
+    id: 'lab:multilayer',
+    type: 'lab',
+    title: 'Multilayer & polarization',
+    titleVi: 'Multilayer & phân cực',
+    subtitle: 'Characteristic-matrix thin-film interference learning model',
+    subtitleVi: 'Mô hình học giao thoa màng mỏng characteristic-matrix',
+    keywords: ['multilayer', 'mo si', 'molybdenum silicon', 'polarization', 'phân cực', 'reflectivity', 'ACADEMIC-MOSI-MULTILAYER-001'],
+    href: '#multilayer-lab',
+  },
+  {
+    id: 'lab:mask-3d',
+    type: 'lab',
+    title: 'Reflective-mask 3D effects',
+    titleVi: 'Hiệu ứng 3D của reflective mask',
+    subtitle: 'Normalized oblique-incidence and geometric shadowing intuition',
+    subtitleVi: 'Trực giác chuẩn hóa về chiếu xiên và geometric shadowing',
+    keywords: ['mask 3d', 'reticle', 'shadowing', 'oblique incidence', 'reflective mask', 'ACADEMIC-EUV-MASK-MODEL-001'],
+    href: '#mask-3d-lab',
+  },
+  {
+    id: 'lab:aberration',
+    type: 'lab',
+    title: 'Aberration, focus & overlay',
+    titleVi: 'Quang sai, focus & overlay',
+    subtitle: 'Normalized image-quality and alignment concept lab',
+    subtitleVi: 'Lab khái niệm chuẩn hóa về chất lượng ảnh và căn chỉnh',
+    keywords: ['aberration', 'quang sai', 'focus', 'overlay', 'leveling', 'coma', 'astigmatism'],
+    href: '#aberration-lab',
+  },
+  {
+    id: 'lab:stage',
+    type: 'lab',
+    title: 'Wafer stage · 6 degrees of freedom',
+    titleVi: 'Wafer stage · 6 bậc tự do',
+    subtitle: 'Conceptual X/Y/Z + Rx/Ry/Rz motion learning lab',
+    subtitleVi: 'Lab chuyển động khái niệm X/Y/Z + Rx/Ry/Rz',
+    keywords: ['wafer stage', '6 dof', '6-dof', 'six degrees of freedom', 'x y z', 'rx ry rz', 'metrology'],
+    href: '#stage-lab',
+  },
+]
 
 export const atlasSearchIndex: AtlasSearchItem[] = [
   ...subsystems.map((item): AtlasSearchItem => ({
@@ -87,6 +160,7 @@ export const atlasSearchIndex: AtlasSearchItem[] = [
     href: '#learning-path',
     targetSelector: `button[data-learning-level="${item.id}"]`,
   })),
+  ...labItems,
   ...glossary.map((item): AtlasSearchItem => ({
     id: `glossary:${item.id}`,
     type: 'glossary',
