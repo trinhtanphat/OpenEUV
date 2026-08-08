@@ -3,6 +3,7 @@ import { BuildMachine } from './components/BuildMachine'
 import { EvidenceDashboard } from './components/EvidenceDashboard'
 import { EvidenceGraph } from './components/EvidenceGraph'
 import { EvidenceInspector } from './components/EvidenceInspector'
+import { FabCaseStudies } from './components/FabCaseStudies'
 import { FabFlow } from './components/FabFlow'
 import { PatentExplorer } from './components/PatentExplorer'
 import { ResearchWorkbench } from './components/ResearchWorkbench'
@@ -51,7 +52,7 @@ export default function App() {
     <main>
       <header className="topbar">
         <a className="brand" href="#top"><span className="brand-mark">OE</span><span>OpenEUV <small>Atlas</small></span></a>
-        <nav><a href="#explorer">{t(language, 'navExplorer')}</a><a href="#labs">{t(language, 'navLabs')}</a><a href="#patents">{t(language, 'navPatents')}</a><a href="#fab-timeline">{t(language, 'navFab')}</a><a href="#unknowns">{t(language, 'navEvidence')}</a><a href="#contribute">{t(language, 'navContribute')}</a></nav>
+        <nav><a href="#explorer">{t(language, 'navExplorer')}</a><a href="#labs">{t(language, 'navLabs')}</a><a href="#patents">{t(language, 'navPatents')}</a><a href="#fab-cases">{t(language, 'navFab')}</a><a href="#unknowns">{t(language, 'navEvidence')}</a><a href="#contribute">{t(language, 'navContribute')}</a></nav>
         <button className="language-button" onClick={() => setLanguage((current) => current === 'en' ? 'vi' : 'en')}>{t(language, 'language')}</button>
         <a className="github-button" href="https://github.com/trinhtanphat/OpenEUV" target="_blank" rel="noreferrer">GitHub</a>
       </header>
@@ -72,6 +73,7 @@ export default function App() {
       <div className="two-col"><ResolutionSimulator /><BuildMachine /></div>
       <PatentExplorer />
       <FabFlow />
+      <FabCaseStudies />
       <TsmcTimeline />
       <EvidenceDashboard />
       <EvidenceGraph />
