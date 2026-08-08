@@ -1,0 +1,53 @@
+name: Bug report
+description: Report a reproducible OpenEUV UI, data, simulation, accessibility, build, or deployment bug.
+title: "[BUG] "
+labels: []
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - 3D atlas / WebGL
+        - Assembly / learning UI
+        - Physics / simulation
+        - Evidence / review
+        - Patent / fab data
+        - I18N / documentation
+        - Tests / validation
+        - Build / deployment
+        - Renderer benchmark
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: What happened?
+      description: Include the visible error and the smallest reproducible sequence.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser/OS/device class and commit SHA when known. Do not include account IDs, tokens, IP addresses, serial numbers, or other private identifiers.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence_impact
+    attributes:
+      label: Evidence / data impact
+      description: If this could make an illustrative/inferred claim look authoritative, identify the affected claim/node/dataset.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy confirmation
+      options:
+        - label: I removed credentials, private identifiers and confidential material from logs/screenshots.
+          required: true
