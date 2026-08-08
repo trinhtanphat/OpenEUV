@@ -10,6 +10,23 @@ test('exact evidence ID opens the evidence record with Enter', async ({ page }) 
   await expect.poll(async () => page.evaluate(() => window.location.hash)).toBe('#evidence-EUV-VACUUM-001')
 })
 
+test('patent and stateful learning results use stable targets', async ({ page }) => {
+  await page.goto('/')
+  const input = page.locator('#atlas-search-input')
+
+  await input.fill('EP4239410A1')
+  await expect(page.locator('[data-search-result="patent:EP4239410A1"]')).toBeVisible()
+  await input.press('Enter')
+  await expect.poll(async () => page.evaluate(() => window.location.hash)).toBe('#patent-EP4239410A1')
+  await expect(page.locator('#patent-EP4239410A1')).toBeVisible()
+
+  await input.fill('scanner systems engineering')
+  await expect(page.locator('[data-search-result="learning:scanner-systems"]')).toBeVisible()
+  await input.press('Enter')
+  await expect(page.locator('button[data-learning-level="scanner-systems"]')).toHaveClass(/active/)
+  await expect(page.locator('[data-learning-active="scanner-systems"]')).toBeVisible()
+})
+
 test('direct lab result navigates to the exact lab anchor', async ({ page }) => {
   await page.goto('/')
   const input = page.locator('#atlas-search-input')
