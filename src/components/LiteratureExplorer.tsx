@@ -38,7 +38,7 @@ export function LiteratureExplorer({ language }: { language: Language }) {
   const [publicationType, setPublicationType] = useState<'all' | PublicationType>('all')
   const [query, setQuery] = useState('')
   const vi = language === 'vi'
-  const populatedTopics = literatureTopics.filter((item) => coverage.byTopic[item] > 0)
+  const populatedTopics = literatureTopics.filter((item: string) => coverage.byTopic[item] > 0)
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
     return records.filter((record) => {
@@ -64,7 +64,7 @@ export function LiteratureExplorer({ language }: { language: Language }) {
 
       <div className="literature-filters">
         <label><span>{vi ? 'Tìm paper' : 'Search papers'}</span><input data-literature-search type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={vi ? 'DOI, tác giả, topic, claim…' : 'DOI, author, topic, claim…'} /></label>
-        <label><span>Topic</span><select data-literature-topic value={topic} onChange={(event) => setTopic(event.target.value)}><option value="all">{vi ? 'Tất cả topic' : 'All topics'}</option>{populatedTopics.map((item) => <option key={item} value={item}>{topicLabel[item]?.[language] ?? item} ({coverage.byTopic[item]})</option>)}</select></label>
+        <label><span>Topic</span><select data-literature-topic value={topic} onChange={(event) => setTopic(event.target.value)}><option value="all">{vi ? 'Tất cả topic' : 'All topics'}</option>{populatedTopics.map((item: string) => <option key={item} value={item}>{topicLabel[item]?.[language] ?? item} ({coverage.byTopic[item]})</option>)}</select></label>
         <label><span>{vi ? 'Loại publication' : 'Publication type'}</span><select data-literature-type value={publicationType} onChange={(event) => setPublicationType(event.target.value as 'all' | PublicationType)}><option value="all">{vi ? 'Tất cả' : 'All'}</option>{(['journal', 'conference', 'preprint'] as PublicationType[]).map((item) => <option key={item} value={item}>{typeLabel[item][language]}</option>)}</select></label>
       </div>
 
