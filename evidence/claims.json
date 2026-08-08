@@ -113,6 +113,26 @@
     ]
   },
   {
+    "id": "ACADEMIC-MOSI-MULTILAYER-001",
+    "component": "projection",
+    "claim": "Public academic literature studies periodic Mo/Si multilayer mirrors for EUV wavelengths and shows that layer/interface properties materially influence optical performance.",
+    "class": "C",
+    "confidence": 0.95,
+    "sources": [
+      { "name": "Structure of periodic Mo/Si multilayers for EUV lithography", "url": "https://arxiv.org/abs/1212.1258" }
+    ]
+  },
+  {
+    "id": "ACADEMIC-EUV-MASK-MODEL-001",
+    "component": "reticle",
+    "claim": "A public refined EUV mask model represents the reflective stack with Mo/Si multilayers, a protective layer and an absorber stack for electromagnetic simulation.",
+    "class": "C",
+    "confidence": 0.95,
+    "sources": [
+      { "name": "A refined EUV mask model", "url": "https://arxiv.org/abs/1912.09075" }
+    ]
+  },
+  {
     "id": "INFERRED-SCANNER-MODULE-MAP-001",
     "component": "system",
     "claim": "OpenEUV groups the scanner into source, illumination, reticle, projection, wafer stage, metrology and vacuum domains for educational navigation.",
