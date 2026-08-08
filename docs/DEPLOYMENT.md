@@ -23,7 +23,16 @@ After the first successful Workers deployment, attach a custom domain from the C
 
 ## Vercel alternative
 
-OpenEUV can also be deployed as a standard Vite static application on Vercel. Use build command `npm run build` and output directory `dist`. This is an optional hosting path; the repository's primary checked-in deployment configuration is Cloudflare Workers Static Assets.
+The repository also includes `vercel.json` for a Vite SPA deployment:
+
+- framework: Vite;
+- build command: `npm run build`;
+- output directory: `dist`;
+- official SPA catch-all rewrite: `/(.*)` → `/index.html`.
+
+This means a newly imported Vercel project can use the checked-in configuration without adding a GitHub Actions workflow.
+
+The currently connected Vercel account does not yet contain an OpenEUV project, so a live Vercel URL is not claimed until the repository is explicitly imported/created there.
 
 ## GitHub Pages
 
@@ -41,6 +50,8 @@ npm run e2e
 
 A deployment should be treated as unverified if these commands have not been run in the deploying environment. Tests remain in the repository even though GitHub Actions is disabled.
 
+Renderer benchmark capture validation is included in `npm run check`; hardware benchmark collection itself remains manual and must not be replaced by emulated/fabricated results.
+
 ## Rollback
 
-Keep deployments tied to Git commit SHAs. If a release is bad, check out the last known-good commit, rebuild, and run `npm run deploy:cloudflare` again. Avoid editing production assets directly in a dashboard because that breaks reproducibility.
+Keep deployments tied to Git commit SHAs. If a release is bad, check out the last known-good commit, rebuild, and run `npm run deploy:cloudflare` again (or redeploy that commit on Vercel). Avoid editing production assets directly in a dashboard because that breaks reproducibility.
