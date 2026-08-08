@@ -47,6 +47,8 @@ OpenEUV develops a public-source engineering atlas, not a reproduction of propri
 - [x] Pinned CC0 Mo/Windt 1988 public optical constants dataset including the original 13.55 nm sample.
 - [x] Illustrative-value fallback when a suitable public dataset is unavailable.
 - [x] V4 normalized Fourier/circular-pupil MTF learning lab with deterministic tests and public-reference methodology.
+- [x] V4 silicon-at-13.5-nm data-gap decision recorded as machine-readable provenance: verified CC0 Si candidate is out of range, while the EUV-range public candidate is not vendored without verified redistribution rights.
+- [x] Regression guard forbidding silent Si extrapolation or license-ambiguous numerical-table vendoring.
 
 ## Completed — evidence & public research graph
 
@@ -59,6 +61,7 @@ OpenEUV develops a public-source engineering atlas, not a reproduction of propri
 - [x] DOI/literature metadata normalization.
 - [x] Public dataset manifest/versioning foundation.
 - [x] V4 deterministic evidence-review queue and campaign workflow that never fabricates reviewer identity.
+- [x] V4 review-campaign readiness reporting with exact reviewed/missing counts and evidence-category coverage.
 
 ## Completed — patents
 
@@ -93,6 +96,7 @@ OpenEUV develops a public-source engineering atlas, not a reproduction of propri
 - [x] JS ↔ Python reproducibility cross-checks where applicable.
 - [x] Method-v2 renderer benchmark harness with explicit GPU completion.
 - [x] Privacy-safe benchmark capture schema/validator/analyzer.
+- [x] Renderer benchmark readiness report with required/missing paired captures and device classes.
 - [x] Manual Cloudflare Workers Static Assets deployment configuration.
 - [x] Vercel-compatible Vite SPA configuration documented.
 - [x] Structured GitHub Issue Forms for evidence, 3D, bugs and real-device benchmarks.
@@ -102,38 +106,25 @@ OpenEUV develops a public-source engineering atlas, not a reproduction of propri
 
 Software/methodology is complete. Remaining acceptance work requires **real hardware**:
 
-- [ ] Collect WebGL/WebGPU raw results from multiple real laptop/mobile/desktop hardware classes.
+- [ ] Collect at least 3 paired WebGL/WebGPU raw results across at least 2 real laptop/mobile/desktop hardware classes.
 - [ ] Commit anonymized schema-valid captures.
 - [ ] Analyze startup time, median/p95 frame time and observable memory pressure.
 - [ ] Keep WebGL as production baseline unless reproducible multi-device evidence supports a change.
 
-Synthetic, headless/emulated or invented values do not close this issue.
+Synthetic, headless/emulated or invented values do not close this issue. The analyzer reports the exact remaining capture/device-class gap.
 
 See `benchmarks/README.md`.
 
-## Open external dependency — #28 silicon EUV optical data
-
-The project has verified that suitable public silicon EUV data exists, but has not established a redistribution chain as clear as the CC0 Mo dataset.
-
-- [ ] Identify a 13.5 nm-range silicon optical-constants record with redistribution terms suitable for inclusion.
-- [ ] Pin exact upstream record/revision and bibliography/license.
-- [ ] Add source-sample regression tests without extrapolation.
-- [ ] Register the dataset and enable it in the browser adapter only after provenance validation.
-
-License-ambiguous public tables and extrapolated visible/IR data do not close this issue.
-
-See `docs/SILICON_OPTICAL_DATA_RESEARCH.md`.
-
 ## Open external dependency — #29 first real evidence-review campaign
 
-Review machinery and queue tooling are complete. Remaining work requires **real human reviewers**:
+Review machinery, queue tooling and readiness reporting are complete. Remaining work requires **real human reviewers**:
 
 - [ ] Review at least 10 high-impact claims/unknowns against the cited public sources.
 - [ ] Record only real public reviewer handles after actual review.
 - [ ] Correct/narrow/supersede claims where needed while preserving history.
 - [ ] Publish review coverage and unresolved questions.
 
-Generated identities or synthetic review state do not close this issue.
+Generated identities or synthetic review state do not close this issue. The review report shows reviewed `current/10`, missing count and category coverage.
 
 See `docs/EVIDENCE_REVIEW_CAMPAIGN.md`.
 
