@@ -13,6 +13,7 @@ import './completion.css'
 import './fourier.css'
 import './education-v4.css'
 import './fab-v4.css'
+import './search.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
