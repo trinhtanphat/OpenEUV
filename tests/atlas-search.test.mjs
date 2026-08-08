@@ -6,6 +6,8 @@ const index = [
   prepareAtlasSearchItem({ id: 'evidence:HIGHNA-NA-001', type: 'evidence', title: 'HIGHNA-NA-001', subtitle: 'High-NA increases numerical aperture to 0.55', keywords: ['ZEISS', 'projection'], href: '#evidence-HIGHNA-NA-001' }),
   prepareAtlasSearchItem({ id: 'patent:EP4239410A1', type: 'patent', title: 'EP4239410A1 — Reticle stage', subtitle: 'ASML Netherlands B.V.', keywords: ['reticle', 'stage'], href: '#patent-EP4239410A1' }),
   prepareAtlasSearchItem({ id: 'fab:tsmc', type: 'fab-case', title: 'TSMC N7+ EUV volume production', subtitle: 'TSMC · 2019', keywords: ['foundry', 'N7+'], href: '#fab-case-tsmc' }),
+  prepareAtlasSearchItem({ id: 'lab:fourier', type: 'lab', title: 'Fourier imaging & MTF', subtitle: 'Normalized spatial-frequency learning lab', keywords: ['fourier', 'mtf', 'spatial frequency', 'pupil'], href: '#fourier-imaging-lab' }),
+  prepareAtlasSearchItem({ id: 'learning:l1', type: 'learning', title: 'L1 — Optics foundations', subtitle: 'Learn imaging and spatial frequency', keywords: ['fourier imaging', 'mtf'], href: '#learning-path' }),
   prepareAtlasSearchItem({ id: 'glossary:numerical-aperture', type: 'glossary', title: 'Numerical aperture (NA)', subtitle: 'Khẩu độ số', keywords: ['khau do so', 'optics'], href: '#glossary' }),
 ]
 
@@ -23,6 +25,12 @@ test('organization and bilingual technical terms remain searchable', () => {
   assert.equal(searchAtlas(index, 'TSMC')[0].id, 'fab:tsmc')
   assert.equal(searchAtlas(index, 'khẩu độ')[0].id, 'glossary:numerical-aperture')
   assert.equal(searchAtlas(index, 'ZEISS projection')[0].id, 'evidence:HIGHNA-NA-001')
+})
+
+test('direct lab title outranks a learning-level keyword match', () => {
+  const results = searchAtlas(index, 'Fourier imaging & MTF')
+  assert.equal(results[0].id, 'lab:fourier')
+  assert.equal(results[0].href, '#fourier-imaging-lab')
 })
 
 test('all query tokens receive a coverage bonus', () => {
