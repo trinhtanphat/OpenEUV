@@ -1,7 +1,117 @@
 [
-  {"id":"EUV-WAVELENGTH-001","component":"source","claim":"Commercial EUV lithography uses radiation around 13.5 nm.","class":"A","confidence":1.0,"sources":[{"name":"ASML lithography principles","url":"https://www.asml.com/en/technology/lithography-principles"},{"name":"ZEISS EUV overview","url":"https://www.zeiss.com/semiconductor-manufacturing-technology/smt-magazine/so-does-euv-lithography-work.html"}]},
-  {"id":"HIGHNA-NA-001","component":"projection","claim":"High-NA EUV raises numerical aperture from 0.33 to 0.55.","class":"A","confidence":1.0,"sources":[{"name":"ZEISS High-NA EUV","url":"https://www.zeiss.com/semiconductor-manufacturing-technology/inspiring-technology/high-na-euv-lithography.html"}]},
-  {"id":"HIGHNA-PARTS-001","component":"projection","claim":"ZEISS reports more than 40,000 parts in High-NA projection optics, weighing around twelve tons.","class":"A","confidence":1.0,"sources":[{"name":"ZEISS High-NA EUV","url":"https://www.zeiss.com/semiconductor-manufacturing-technology/inspiring-technology/high-na-euv-lithography.html"}]},
-  {"id":"TSMC-N7PLUS-001","component":"fab-integration","claim":"TSMC N7+ was its first EUV process to enter volume production.","class":"A","confidence":1.0,"sources":[{"name":"TSMC N7+","url":"https://www.tsmc.com/english/campaign/N7plus"}]},
-  {"id":"EUV-PROJECTION-PATENT-001","component":"projection","claim":"Published patents describe EUV projection systems using multiple multilayer-film reflective mirrors, reflective reticles, scanning stages and vacuum/load-lock architecture.","class":"B","confidence":0.95,"sources":[{"name":"US6803994B2","url":"https://patents.google.com/patent/US6803994B2/en"}]}
+  {
+    "id": "EUV-WAVELENGTH-001",
+    "component": "source",
+    "claim": "Commercial EUV lithography uses radiation around 13.5 nm.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "ASML lithography principles", "url": "https://www.asml.com/en/technology/lithography-principles" },
+      { "name": "ZEISS EUV overview", "url": "https://www.zeiss.com/semiconductor-manufacturing-technology/smt-magazine/so-does-euv-lithography-work.html" }
+    ]
+  },
+  {
+    "id": "HIGHNA-NA-001",
+    "component": "projection",
+    "claim": "High-NA EUV raises numerical aperture from 0.33 to 0.55.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "ZEISS High-NA EUV", "url": "https://www.zeiss.com/semiconductor-manufacturing-technology/inspiring-technology/high-na-euv-lithography.html" }
+    ]
+  },
+  {
+    "id": "HIGHNA-ILLUMINATION-001",
+    "component": "illuminator",
+    "claim": "ZEISS reports that the High-NA illumination system contains more than 25,000 parts and weighs over six tons.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "ZEISS High-NA EUV", "url": "https://www.zeiss.com/semiconductor-manufacturing-technology/inspiring-technology/high-na-euv-lithography.html" }
+    ]
+  },
+  {
+    "id": "HIGHNA-PARTS-001",
+    "component": "projection",
+    "claim": "ZEISS reports more than 40,000 parts in High-NA projection optics, weighing around twelve tons.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "ZEISS High-NA EUV", "url": "https://www.zeiss.com/semiconductor-manufacturing-technology/inspiring-technology/high-na-euv-lithography.html" }
+    ]
+  },
+  {
+    "id": "TSMC-N7PLUS-001",
+    "component": "fab-integration",
+    "claim": "TSMC N7+ was its first EUV process to enter volume production, beginning volume production in 2019.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "TSMC N7+ technology", "url": "https://www.tsmc.com/english/campaign/N7plus" },
+      { "name": "TSMC 7nm technology", "url": "https://www.tsmc.com/english/dedicatedFoundry/technology/logic/l_7nm" }
+    ]
+  },
+  {
+    "id": "TSMC-N6-001",
+    "component": "fab-integration",
+    "claim": "TSMC states N6 uses additional EUV layers and has been in volume production since 2020.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "TSMC advanced smartphone technologies", "url": "https://www.tsmc.com/english/dedicatedFoundry/technology/platform_smartphone_tech_advancedTech" }
+    ]
+  },
+  {
+    "id": "PATENT-RETICLE-STAGE-001",
+    "component": "reticle",
+    "claim": "A published ASML patent application describes an EUV reticle stage supporting a reflective reticle with configurable shielding elements.",
+    "class": "B",
+    "confidence": 0.98,
+    "sources": [
+      { "name": "EP4239410A1 - Reticle stage", "url": "https://patents.google.com/patent/EP4239410A1/en" }
+    ]
+  },
+  {
+    "id": "PATENT-REFLECTIVE-MEMBER-001",
+    "component": "projection",
+    "claim": "A published ASML patent application describes a lithographic apparatus with an illuminator, reflective patterning device, substrate table and reflective projection system for EUV use.",
+    "class": "B",
+    "confidence": 0.98,
+    "sources": [
+      { "name": "US20250328068A1 - Reflective member for EUV lithography", "url": "https://patents.google.com/patent/US20250328068A1/en" }
+    ]
+  },
+  {
+    "id": "PATENT-SOURCE-CONTAMINATION-001",
+    "component": "source",
+    "claim": "A published ASML patent application discusses contamination from plasma target material in an EUV light source and mitigation around collection optics.",
+    "class": "B",
+    "confidence": 0.98,
+    "sources": [
+      { "name": "US20240103387A1 - EUV source contamination", "url": "https://patents.google.com/patent/US20240103387A1/en" }
+    ]
+  },
+  {
+    "id": "PATENT-DROPLET-ACCELERATOR-001",
+    "component": "source",
+    "claim": "Published ASML patents describe EUV target droplets and droplet-acceleration concepts within an EUV radiation source.",
+    "class": "B",
+    "confidence": 0.96,
+    "sources": [
+      { "name": "US8598551B2 - EUV radiation source comprising a droplet accelerator", "url": "https://patents.google.com/patent/US8598551B2/en" },
+      { "name": "US20230164900A1 - Accelerating droplets in a droplet generator", "url": "https://patents.google.com/patent/US20230164900A1/en" }
+    ]
+  },
+  {
+    "id": "INFERRED-SCANNER-MODULE-MAP-001",
+    "component": "system",
+    "claim": "OpenEUV groups the scanner into source, illumination, reticle, projection, wafer stage, metrology and vacuum domains for educational navigation.",
+    "class": "D",
+    "confidence": 0.78,
+    "rationale": "This is an educational taxonomy inferred by combining recurring subsystem boundaries across first-party descriptions and public patent diagrams; it is not an ASML product BOM or service decomposition.",
+    "sources": [
+      { "name": "ZEISS High-NA EUV", "url": "https://www.zeiss.com/semiconductor-manufacturing-technology/inspiring-technology/high-na-euv-lithography.html" },
+      { "name": "US20250328068A1", "url": "https://patents.google.com/patent/US20250328068A1/en" }
+    ]
+  }
 ]
