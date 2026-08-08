@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
+import { registerOfflineShell } from './offline'
 import './styles.css'
 import './research.css'
 import './advanced.css'
@@ -24,3 +25,9 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>,
 )
+
+if (import.meta.env.PROD) {
+  window.addEventListener('load', () => {
+    void registerOfflineShell().catch((error) => console.warn('OpenEUV offline shell registration failed', error))
+  }, { once: true })
+}
