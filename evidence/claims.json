@@ -72,6 +72,36 @@
     ]
   },
   {
+    "id": "SAMSUNG-7LPP-EUV-2018",
+    "component": "fab-integration",
+    "claim": "Samsung announced on October 18, 2018 that it had started wafer production of its 7LPP process using EUV lithography, with initial production at its S3 Fab in Hwaseong, Korea.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "Samsung Electronics Starts Production of EUV-based 7nm LPP Process", "url": "https://news.samsung.com/us/samsung-electronics-starts-production-euv-based-7nm-lpp-process/" }
+    ]
+  },
+  {
+    "id": "SAMSUNG-V1-EUV-2020",
+    "component": "fab-integration",
+    "claim": "Samsung announced in February 2020 that its V1 line in Hwaseong had begun mass production and was Samsung's first semiconductor production line dedicated to EUV lithography, producing at 7 nm and below.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "Samsung Electronics Begins Mass Production at New EUV Manufacturing Line", "url": "https://news.samsung.com/global/samsung-electronics-begins-mass-production-at-new-euv-manufacturing-line" }
+    ]
+  },
+  {
+    "id": "INTEL-HIGHNA-D1X-2024",
+    "component": "fab-integration",
+    "claim": "Intel reported in April 2024 that installation of its ASML High-NA EUV tool at D1X in Hillsboro, Oregon was complete and calibration had started; Intel described the 165-ton system as the industry's first commercial High-NA EUV lithography system.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "Intel Press Kit: High NA EUV at Intel", "url": "https://newsroom.intel.com/press-kit/intel-high-na-euv" }
+    ]
+  },
+  {
     "id": "PATENT-RETICLE-STAGE-001",
     "component": "reticle",
     "claim": "A published ASML patent application describes an EUV reticle stage supporting a reflective reticle with configurable shielding elements.",
@@ -110,6 +140,26 @@
     "sources": [
       { "name": "US8598551B2 - EUV radiation source comprising a droplet accelerator", "url": "https://patents.google.com/patent/US8598551B2/en" },
       { "name": "US20230164900A1 - Accelerating droplets in a droplet generator", "url": "https://patents.google.com/patent/US20230164900A1/en" }
+    ]
+  },
+  {
+    "id": "PATENT-COLLECTOR-MIRROR-001",
+    "component": "collector",
+    "claim": "A published EUV collector-mirror patent describes a reflecting surface and a pump-light grating concept associated with source/collector operation.",
+    "class": "B",
+    "confidence": 0.96,
+    "sources": [
+      { "name": "EP4045949A1 - EUV collector mirror", "url": "https://patents.google.com/patent/EP4045949A1/en" }
+    ]
+  },
+  {
+    "id": "PATENT-EUV-MEMBRANE-001",
+    "component": "reticle",
+    "claim": "A published ASML patent family describes a membrane for EUV lithography associated with the mask/reticle environment.",
+    "class": "B",
+    "confidence": 0.96,
+    "sources": [
+      { "name": "WO2017186486A1 - A membrane for EUV lithography", "url": "https://patents.google.com/patent/WO2017186486A1/en" }
     ]
   },
   {
