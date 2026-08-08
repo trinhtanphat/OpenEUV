@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/trinhtanphat/OpenEUV/evidence/schema.json",
+  "title": "OpenEUV evidence claim",
+  "type": "object",
+  "required": ["id", "component", "claim", "class", "confidence", "sources"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[A-Z0-9-]+$" },
+    "component": { "type": "string", "minLength": 2 },
+    "claim": { "type": "string", "minLength": 12 },
+    "class": { "enum": ["A", "B", "C", "D", "?"] },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "rationale": { "type": "string" },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "url"],
+        "properties": {
+          "name": { "type": "string", "minLength": 2 },
+          "url": { "type": "string", "format": "uri" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
