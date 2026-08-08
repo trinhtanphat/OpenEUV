@@ -50,7 +50,7 @@ export function EvidenceDashboard() {
           {claims.map((claim) => {
             const review = reviewById.get(claim.id)
             const reviewState = review?.state ?? 'unreviewed'
-            return <article key={claim.id} data-evidence-id={claim.id} data-review-state={reviewState}><div><span className={`claim-grade grade-${claim.class === '?' ? 'unknown' : claim.class.toLowerCase()}`}>{claim.class}</span><code>{claim.id}</code><span className={`review-state ${reviewState}`}>{reviewState}</span></div><p>{claim.claim}</p><small>{claim.component} · confidence {Math.round(claim.confidence * 100)}%</small>{review && <div className="review-attribution">{review.contributors?.length ? <span>contributors: {review.contributors.join(', ')}</span> : null}{review.reviewers?.length ? <span>reviewers: {review.reviewers.join(', ')}</span> : null}{review.supersededBy ? <span>superseded by {review.supersededBy}</span> : null}</div>}</article>
+            return <article id={`evidence-${claim.id}`} key={claim.id} data-evidence-id={claim.id} data-review-state={reviewState}><div><span className={`claim-grade grade-${claim.class === '?' ? 'unknown' : claim.class.toLowerCase()}`}>{claim.class}</span><code>{claim.id}</code><span className={`review-state ${reviewState}`}>{reviewState}</span></div><p>{claim.claim}</p><small>{claim.component} · confidence {Math.round(claim.confidence * 100)}%</small>{review && <div className="review-attribution">{review.contributors?.length ? <span>contributors: {review.contributors.join(', ')}</span> : null}{review.reviewers?.length ? <span>reviewers: {review.reviewers.join(', ')}</span> : null}{review.supersededBy ? <span>superseded by {review.supersededBy}</span> : null}</div>}</article>
           })}
         </div>
         <div className="unknown-list">
@@ -58,7 +58,7 @@ export function EvidenceDashboard() {
           {unknowns.map((unknown) => {
             const review = reviewById.get(unknown.id)
             const reviewState = review?.state ?? 'unreviewed'
-            return <article key={unknown.id} data-evidence-id={unknown.id} data-review-state={reviewState}><div><span className={`priority ${unknown.priority}`}>{unknown.priority}</span><code>{unknown.id}</code><span className={`review-state ${reviewState}`}>{reviewState}</span></div><p>{unknown.question}</p><small>{unknown.component} · {unknown.status}</small>{review && <div className="review-attribution">{review.contributors?.length ? <span>contributors: {review.contributors.join(', ')}</span> : null}{review.reviewers?.length ? <span>reviewers: {review.reviewers.join(', ')}</span> : null}</div>}</article>
+            return <article id={`evidence-${unknown.id}`} key={unknown.id} data-evidence-id={unknown.id} data-review-state={reviewState}><div><span className={`priority ${unknown.priority}`}>{unknown.priority}</span><code>{unknown.id}</code><span className={`review-state ${reviewState}`}>{reviewState}</span></div><p>{unknown.question}</p><small>{unknown.component} · {unknown.status}</small>{review && <div className="review-attribution">{review.contributors?.length ? <span>contributors: {review.contributors.join(', ')}</span> : null}{review.reviewers?.length ? <span>reviewers: {review.reviewers.join(', ')}</span> : null}</div>}</article>
           })}
         </div>
       </div>
