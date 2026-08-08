@@ -2,7 +2,9 @@ function extractObjectsFromArray(source, marker) {
   const text = String(source ?? '')
   const markerIndex = text.indexOf(marker)
   if (markerIndex < 0) return []
-  const arrayStart = text.indexOf('[', markerIndex)
+  const assignmentIndex = text.indexOf('=', markerIndex)
+  if (assignmentIndex < 0) return []
+  const arrayStart = text.indexOf('[', assignmentIndex)
   if (arrayStart < 0) return []
 
   const objects = []
