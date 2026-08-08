@@ -1,0 +1,70 @@
+name: Public evidence / research contribution
+description: Propose a lawful public claim, source, patent, fab milestone, unknown-resolution, or evidence correction.
+title: "[EVIDENCE] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        OpenEUV accepts lawful public evidence only. Do not upload leaked confidential material, trade secrets, proprietary service manuals/CAD, credentials, or paywalled full-text copies without redistribution rights.
+  - type: dropdown
+    id: contribution_type
+    attributes:
+      label: Contribution type
+      options:
+        - First-party public claim / milestone
+        - Published patent metadata
+        - Academic / public research metadata
+        - Resolve or narrow an open unknown
+        - Correct an existing claim or source
+        - Evidence review / supersession
+    validations:
+      required: true
+  - type: input
+    id: target
+    attributes:
+      label: Existing claim / unknown / subsystem ID
+      description: Use an existing ID when applicable; otherwise name the subsystem/topic.
+      placeholder: e.g. HIGHNA-NA-001, UNKNOWN-..., projection, fab-integration
+  - type: textarea
+    id: proposed_claim
+    attributes:
+      label: What does the public source support?
+      description: State the smallest defensible claim. Separate source wording from your interpretation.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Public source links and identifiers
+      description: Include first-party URL, patent publication/family ID, DOI, or other lawful public record.
+    validations:
+      required: true
+  - type: dropdown
+    id: evidence_class
+    attributes:
+      label: Proposed evidence class
+      options:
+        - A — first-party public source
+        - B — published patent / public standard
+        - C — academic / public research
+        - D — public-source inference with rationale
+        - ? — insufficient evidence / open unknown
+    validations:
+      required: true
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Boundary and unknowns
+      description: What does the source NOT establish? List any proprietary geometry, recipe, process, performance, or implementation details that remain unknown.
+    validations:
+      required: true
+  - type: checkboxes
+    id: sourcing_check
+    attributes:
+      label: Sourcing confirmation
+      options:
+        - label: I used lawful public sources and did not include leaked/confidential/trade-secret material or credentials.
+          required: true
+        - label: I did not present a patent drawing or illustrative geometry as confirmed production geometry.
+          required: true
