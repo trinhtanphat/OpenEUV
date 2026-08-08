@@ -17,9 +17,13 @@
     "audit:integrity:json": "node scripts/audit-repository-integrity.mjs --json",
     "audit:a11y": "node scripts/audit-accessibility-contract.mjs",
     "audit:a11y:json": "node scripts/audit-accessibility-contract.mjs --json",
+    "audit:sources": "node scripts/audit-source-library.mjs",
+    "audit:sources:json": "node scripts/audit-source-library.mjs --json",
     "provenance:report": "node tools/provenance-report.mjs",
     "provenance:report:json": "node tools/provenance-report.mjs --json",
     "research:snapshot": "node tools/research-snapshot.mjs",
+    "research:snapshot:verify": "node tools/research-snapshot-inspect.mjs verify",
+    "research:snapshot:diff": "node tools/research-snapshot-inspect.mjs diff",
     "evidence:review-report": "node tools/evidence-review-report.mjs",
     "evidence:review-report:json": "node tools/evidence-review-report.mjs --json",
     "validate:benchmarks": "node scripts/analyze-render-benchmarks.mjs --validate-only",
@@ -28,8 +32,8 @@
     "preflight": "node tools/repository-preflight.mjs",
     "preflight:json": "node tools/repository-preflight.mjs --json",
     "check": "npm run preflight && npm test && npm run typecheck && npm run build",
-    "deploy:cloudflare": "npm run build && wrangler deploy",
-    "deploy:cloudflare:dry": "npm run build && wrangler deploy --dry-run"
+    "deploy:cloudflare": "node tools/manual-cloudflare-deploy.mjs",
+    "deploy:cloudflare:dry": "node tools/manual-cloudflare-deploy.mjs --dry-run"
   },
   "dependencies": {
     "react": "^19.1.1",
