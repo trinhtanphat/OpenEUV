@@ -1,3 +1,4 @@
+import { buildInfo } from '../buildInfo'
 import { t, type Language } from '../i18n'
 
 export function Topbar({ language, onToggleLanguage }: { language: Language; onToggleLanguage: () => void }) {
@@ -55,5 +56,6 @@ export function ContributorSection({ language }: { language: Language }) {
 }
 
 export function Footer({ language }: { language: Language }) {
-  return <footer><div><span className="brand-mark">OE</span><strong>OpenEUV</strong></div><p>{language === 'vi' ? 'Tái dựng từ nguồn công khai cho giáo dục và nghiên cứu. Không liên kết với ASML, ZEISS, TSMC, Samsung, Intel, Micron, SK hynix, Rapidus, TRUMPF hoặc Cymer.' : 'Public-source reconstruction for education and research. Not affiliated with ASML, ZEISS, TSMC, Samsung, Intel, Micron, SK hynix, Rapidus, TRUMPF or Cymer.'}</p></footer>
+  const buildLabel = buildInfo.commit === 'unknown' ? `v${buildInfo.version} · commit unknown` : `v${buildInfo.version} · ${buildInfo.commit}`
+  return <footer><div><span className="brand-mark">OE</span><strong>OpenEUV</strong><code data-build-provenance title={`build source: ${buildInfo.source}`}>{buildLabel}</code></div><p>{language === 'vi' ? 'Tái dựng từ nguồn công khai cho giáo dục và nghiên cứu. Build metadata chỉ định danh bản public đang deploy, không phải telemetry người dùng.' : 'Public-source reconstruction for education and research. Build metadata identifies the public deployed build; it is not user telemetry.'}</p></footer>
 }
