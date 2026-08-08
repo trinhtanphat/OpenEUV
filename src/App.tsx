@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react'
 import { BuildMachine } from './components/BuildMachine'
+import { EvidenceDashboard } from './components/EvidenceDashboard'
 import { EvidenceGraph } from './components/EvidenceGraph'
+import { FabFlow } from './components/FabFlow'
 import { PatentExplorer } from './components/PatentExplorer'
 import { ResearchWorkbench } from './components/ResearchWorkbench'
 import { ResolutionSimulator } from './components/ResolutionSimulator'
@@ -22,7 +24,7 @@ export default function App() {
     <main>
       <header className="topbar">
         <a className="brand" href="#top"><span className="brand-mark">OE</span><span>OpenEUV <small>Atlas</small></span></a>
-        <nav><a href="#explorer">{t(language, 'navExplorer')}</a><a href="#labs">{t(language, 'navLabs')}</a><a href="#patents">{t(language, 'navPatents')}</a><a href="#fab-timeline">{t(language, 'navFab')}</a><a href="#evidence">{t(language, 'navEvidence')}</a><a href="#contribute">{t(language, 'navContribute')}</a></nav>
+        <nav><a href="#explorer">{t(language, 'navExplorer')}</a><a href="#labs">{t(language, 'navLabs')}</a><a href="#patents">{t(language, 'navPatents')}</a><a href="#fab-timeline">{t(language, 'navFab')}</a><a href="#unknowns">{t(language, 'navEvidence')}</a><a href="#contribute">{t(language, 'navContribute')}</a></nav>
         <button className="language-button" onClick={() => setLanguage((current) => current === 'en' ? 'vi' : 'en')}>{t(language, 'language')}</button>
         <a className="github-button" href="https://github.com/trinhtanphat/OpenEUV" target="_blank" rel="noreferrer">GitHub</a>
       </header>
@@ -37,15 +39,17 @@ export default function App() {
         <div className="explorer-grid"><ScannerScene selected={selected} exploded={exploded} onSelect={setSelectedId} /><aside className="subsystem-panel"><div className="subsystem-nav">{subsystems.map((item) => <button key={item.id} onClick={() => setSelectedId(item.id)} className={item.id === selected.id ? 'active' : ''}><span>{item.short}</span>{language === 'vi' ? subsystemVi[item.id]?.title ?? item.title : item.title}</button>)}</div><div className="subsystem-detail"><div className={`confidence ${selected.confidence}`}>{confidenceLabel[selected.confidence]}</div><h3>{localized?.title ?? selected.title}</h3><div className="subtitle">{localized?.subtitle ?? selected.subtitle}</div><p>{selected.description}</p><h4>What we know</h4><ul>{selected.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul><h4>Open contributor questions</h4><ul className="questions">{selected.openQuestions.map((question) => <li key={question}>{question}</li>)}</ul></div></aside></div>
       </section>
 
-      <section className="feature-strip"><div><span className="feature-icon">◫</span><strong>3D Atlas</strong><span>Interactive subsystem reconstruction</span></div><div><span className="feature-icon">λ</span><strong>Physics labs</strong><span>NA, diffraction and multilayers</span></div><div><span className="feature-icon">⌘</span><strong>Evidence graph</strong><span>CI-validated claims and unknowns</span></div><div><span className="feature-icon">≡</span><strong>Patent map</strong><span>Public disclosures by subsystem</span></div></section>
+      <section className="feature-strip"><div><span className="feature-icon">◫</span><strong>3D Atlas</strong><span>Interactive subsystem reconstruction</span></div><div><span className="feature-icon">λ</span><strong>Physics labs</strong><span>NA, anamorphic, masks and multilayers</span></div><div><span className="feature-icon">⌘</span><strong>Evidence graph</strong><span>CI-validated claims and unknowns</span></div><div><span className="feature-icon">≡</span><strong>Patent map</strong><span>Public disclosures by subsystem</span></div></section>
 
       <ResearchWorkbench />
       <div className="two-col"><ResolutionSimulator /><BuildMachine /></div>
       <PatentExplorer />
+      <FabFlow />
       <TsmcTimeline />
+      <EvidenceDashboard />
       <EvidenceGraph />
 
-      <section className="contribute" id="contribute"><div className="eyebrow">Contributor launchpad</div><h2>Don't just read it. Map what humanity publicly knows.</h2><p>Pick a lane: 3D, optics, physics, patents, semiconductor process, frontend, visualization, Vietnamese/English translation, or evidence review.</p><div className="mission-grid">{[['3D','Model a subsystem','Create original GLB/glTF assets and document every evidence-backed geometry choice.'],['OPTICS','Extend High-NA labs','Visualize reflective paths, mask effects and NA tradeoffs.'],['PATENT','Map a patent family','Turn public disclosures into structured subsystem evidence.'],['EVIDENCE','Resolve an unknown','Find stronger lawful sources and upgrade confidence.'],['SIM','Add a physics lab','Implement educational models with explicit assumptions.'],['FAB','Map TSMC integration','Document first-party EUV process milestones and fab context.'],['I18N','Improve EN / VI','Translate UI and technical explanations without duplicating claim IDs.'],['QA','Strengthen validation','Add schema tests, accessibility checks and visual regression coverage.']].map(([tag,title,text]) => <article key={tag}><span>{tag}</span><h3>{title}</h3><p>{text}</p></article>)}</div><a className="primary-button" href="https://github.com/trinhtanphat/OpenEUV/issues" target="_blank" rel="noreferrer">Open contributor missions</a></section>
+      <section className="contribute" id="contribute"><div className="eyebrow">Contributor launchpad</div><h2>Don't just read it. Map what humanity publicly knows.</h2><p>Pick a lane: 3D, optics, physics, patents, semiconductor process, frontend, visualization, Vietnamese/English translation, or evidence review.</p><div className="mission-grid">{[['3D','Model a subsystem','Create original GLB/glTF assets and document every evidence-backed geometry choice.'],['OPTICS','Extend High-NA labs','Visualize reflective paths, mask effects and NA tradeoffs.'],['PATENT','Map a patent family','Turn public disclosures into structured subsystem evidence.'],['EVIDENCE','Resolve an unknown','Find stronger lawful sources and upgrade confidence.'],['SIM','Add a physics lab','Implement educational models with explicit assumptions.'],['FAB','Map foundry integration','Document first-party EUV process milestones and fab context.'],['I18N','Improve EN / VI','Translate UI and technical explanations without duplicating claim IDs.'],['QA','Strengthen validation','Add schema tests, accessibility checks and visual regression coverage.']].map(([tag,title,text]) => <article key={tag}><span>{tag}</span><h3>{title}</h3><p>{text}</p></article>)}</div><a className="primary-button" href="https://github.com/trinhtanphat/OpenEUV/issues" target="_blank" rel="noreferrer">Open contributor missions</a></section>
       <footer><div><span className="brand-mark">OE</span><strong>OpenEUV</strong></div><p>Public-source reconstruction for education and research. Not affiliated with ASML, ZEISS, TSMC, TRUMPF or Cymer.</p></footer>
     </main>
   )
