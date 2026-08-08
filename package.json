@@ -19,7 +19,9 @@
     "validate:benchmarks": "node scripts/analyze-render-benchmarks.mjs --validate-only",
     "benchmark:analyze": "node scripts/analyze-render-benchmarks.mjs",
     "benchmark:analyze:json": "node scripts/analyze-render-benchmarks.mjs --json",
-    "check": "npm run validate:evidence && npm run validate:fab && npm run validate:benchmarks && npm run audit:integrity && npm test && npm run typecheck && npm run build",
+    "preflight": "node tools/repository-preflight.mjs",
+    "preflight:json": "node tools/repository-preflight.mjs --json",
+    "check": "npm run preflight && npm test && npm run typecheck && npm run build",
     "deploy:cloudflare": "npm run build && wrangler deploy",
     "deploy:cloudflare:dry": "npm run build && wrangler deploy --dry-run"
   },
