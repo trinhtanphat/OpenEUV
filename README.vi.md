@@ -2,50 +2,51 @@
 
 **Bản đồ kỹ thuật tương tác, mã nguồn mở về quang khắc EUV (Extreme Ultraviolet), được tái dựng từ nguồn công khai hợp pháp.**
 
-OpenEUV kết nối 3D scanner dạng conceptual digital twin, exploded view, Assembly Explorer, lộ trình học từ cơ bản đến nghiên cứu, mô phỏng quang/vật lý, patent-family graph, evidence/review system, public fab case studies và các open unknowns để cộng đồng cùng contributor.
+OpenEUV kết nối 3D scanner dạng conceptual digital twin, exploded view, Assembly Explorer, lộ trình học L0→L5, mô phỏng quang/vật lý, patent-family graph, evidence/review system, public fab & mask-lifecycle case studies và các open unknowns để cộng đồng cùng contributor.
 
-> **Ranh giới quan trọng:** OpenEUV là dự án giáo dục/nghiên cứu độc lập, không liên kết với ASML, ZEISS, TSMC, Samsung, Intel, Micron, SK hynix, Rapidus, TRUMPF, Cymer hoặc đối tác của họ. Mô hình trong repo **không phải** CAD thương mại, service manual, production recipe, fab blueprint hay hướng dẫn vận hành laser/plasma nguy hiểm.
+> **Ranh giới quan trọng:** OpenEUV là dự án giáo dục/nghiên cứu độc lập, không liên kết với ASML, ZEISS, TSMC, Samsung, Intel, Micron, SK hynix, Rapidus, imec hoặc đối tác của họ. Mô hình trong repo **không phải** CAD thương mại, service manual, production recipe, fab blueprint hay hướng dẫn vận hành thực tế nguy hiểm.
 
 ## 1. Atlas 3D
 
 - React + Three.js conceptual EUV scanner.
 - Exploded view, orbit/zoom, chọn subsystem.
 - Concept asset gốc của OpenEUV cho source/collector, reticle và projection optics.
-- Procedural fallback khi glTF không tải được.
-- Guided camera tour.
-- Named-node highlight.
+- Procedural fallback khi external model không tải được.
+- V4 thêm procedural concept geometry cho **illumination** và **vacuum/platform**, có stable named nodes.
+- Guided camera tour và named-node highlight.
 - Screen-space label gắn trực tiếp với evidence claim và geometry status.
-- Adaptive LOD `high / balanced / low`: thiết bị mobile/low-power tự giảm pixel ratio, shadow, grid/detail và source animation nhưng không ẩn ranh giới evidence.
+- Adaptive LOD `high / balanced / low`: mobile/low-power tự giảm pixel ratio, shadow, secondary geometry/detail và source animation nhưng không ẩn evidence boundary.
 
-Hình học chưa được nguồn công khai xác nhận luôn được đánh dấu là `illustrative` hoặc public-source inference.
+Hình học chưa được nguồn công khai xác nhận luôn được đánh dấu `illustrative` hoặc `public-inference`; function được nguồn xác nhận không đồng nghĩa shape/kích thước render là CAD thật.
 
-## 2. Assembly Explorer — “How it’s made” ở mức systems engineering
+Xem [`docs/3D_V4_ILLUMINATION_VACUUM.md`](docs/3D_V4_ILLUMINATION_VACUUM.md).
 
-Assembly Explorer trình bày chuỗi tích hợp khái niệm:
+## 2. Assembly Explorer — systems engineering
 
-`architecture → vacuum/mechanical platform → EUV source → illumination → reflective reticle → projection optics → wafer stage/metrology → system integration/qualification`
+Assembly Explorer trình bày chuỗi:
 
-Mỗi stage có:
+`architecture → vacuum/platform → source → illumination → reticle → projection → stage/metrology → system integration`
 
-- evidence công khai hỗ trợ điều gì;
-- dependency giữa module;
-- learning output;
-- boundary nói rõ điều gì **không biết/không suy diễn**.
+V4 thêm cho từng stage:
 
-Đây không phải hướng dẫn chế tạo nguồn laser/plasma hay installation/service manual.
+- shared claim IDs;
+- named atlas nodes khi có;
+- link tới lab/learning liên quan;
+- câu hỏi nghiên cứu mở EN/VI;
+- explicit evidence/node gaps thay vì bịa mapping để lấp chỗ trống.
+
+Evidence chip có deep-link tới đúng record trong Evidence Dashboard.
 
 Xem [`docs/ASSEMBLY_EXPLORER.md`](docs/ASSEMBLY_EXPLORER.md).
 
 ## 3. Lộ trình học L0 → L5
 
 - **L0:** chip, wafer, resist, lithography cơ bản.
-- **L1:** wavelength, diffraction, NA, imaging.
+- **L1:** wavelength, diffraction, NA, spatial frequency, Fourier/MTF imaging.
 - **L2:** EUV physics, vacuum, complex refractive index, multilayer.
 - **L3:** scanner systems: source/illumination/reticle/projection/stage/metrology.
-- **L4:** High-NA, anamorphic 4×/8×, mask 3D, aberration/focus/overlay.
-- **L5:** patent, evidence, public dataset, computational/reproducible research.
-
-Mỗi level liên kết trực tiếp với lab và loại contribution phù hợp.
+- **L4:** High-NA, anamorphic 4×/8×, spatial-frequency filtering, mask 3D, aberration/focus/overlay.
+- **L5:** patent, evidence, public dataset, reproducibility/computational research.
 
 Xem [`docs/LEARNING_PATH.md`](docs/LEARNING_PATH.md).
 
@@ -53,7 +54,8 @@ Xem [`docs/LEARNING_PATH.md`](docs/LEARNING_PATH.md).
 
 - Low-NA **0,33** vs High-NA **0,55**.
 - High-NA anamorphic **4× / 8×**.
-- Rayleigh-style resolution playground, có Python cross-check độc lập.
+- Rayleigh-style resolution playground.
+- V4 **Fourier imaging / circular-pupil MTF** learning lab với frequency/cutoff chuẩn hóa.
 - Multilayer characteristic-matrix với complex index và phân cực `s / p / unpolarized`.
 - Built-in **Mo/Windt 1988 optical constants dataset** từ database CC0, pin đúng upstream revision và giữ nguyên điểm 13,55 nm.
 - Adapter nạp optical dataset có source/license/provenance.
@@ -61,31 +63,40 @@ Xem [`docs/LEARNING_PATH.md`](docs/LEARNING_PATH.md).
 - Aberration/focus/leveling/overlay.
 - Wafer stage 6 bậc tự do: X/Y/Z + Rx/Ry/Rz.
 
-Layer/material nào chưa có dataset public đủ provenance vẫn để `illustrative`, không extrapolate ngầm rồi gọi là dữ liệu thật.
+Các lab là mô hình học tập, không phải production scanner/process predictor. Xem [`docs/FOURIER_IMAGING_LAB.md`](docs/FOURIER_IMAGING_LAB.md).
 
 ## 5. Evidence & review system
 
-OpenEUV dùng các lớp chứng cứ:
+OpenEUV dùng:
 
 | Class | Ý nghĩa |
 | --- | --- |
 | A | Nguồn công khai chính thức của hãng/foundry |
 | B | Patent/standard công khai |
-| C | Nguồn học thuật |
+| C | Nguồn học thuật/public research |
 | D | Suy luận từ nguồn công khai, bắt buộc có rationale |
 | ? | Chưa đủ chứng cứ công khai |
 
-Review metadata hỗ trợ:
+Review lifecycle:
 
 `proposed → reviewed → superseded`
 
-Claim chưa có người review thật sẽ hiện **unreviewed**. Repo không tự gắn tên reviewer giả để làm coverage đẹp hơn.
+Claim chưa có người review thật sẽ hiện **unreviewed**. Repo không tự gắn reviewer giả để tăng coverage.
 
-Claim ID, source URL, patent/publication ID và confidence dùng chung giữa EN/VI.
+V4 có deterministic review queue:
+
+```bash
+node tools/evidence-review-queue.mjs --limit 12
+node tools/evidence-review-queue.mjs --limit 12 --json
+```
+
+Queue chỉ chọn việc cần review; nó không tự thay review state hay sinh identity.
+
+Xem [`docs/EVIDENCE_REVIEW_CAMPAIGN.md`](docs/EVIDENCE_REVIEW_CAMPAIGN.md).
 
 ## 6. Patent Explorer
 
-Patent Explorer hiện có:
+Patent Explorer có:
 
 - family ID/member;
 - priority/publication date;
@@ -98,37 +109,47 @@ Patent Explorer hiện có:
 
 Patent là bằng chứng về **concept được công bố**, không chứng minh drawing chính là production geometry.
 
-## 7. Fab & mask-lifecycle case studies
+## 7. Fab & mask-lifecycle
 
-Case study first-party hiện gồm:
+Runtime source-of-truth là [`evidence/fab-cases.json`](evidence/fab-cases.json).
 
-- TSMC;
-- Samsung;
-- Intel;
-- Micron;
-- SK hynix;
-- Rapidus.
+Case hiện gồm:
 
-Ngoài ra có source/collector contamination và reflective-mask/membrane lifecycle context từ patent/học thuật công khai.
+- TSMC, Samsung, Intel, Micron, SK hynix, Rapidus EUV milestones;
+- TSMC public EUV-mask dry-clean context;
+- imec CNT-pellicle protection research;
+- ZEISS AIMS EUV mask-qualification context;
+- source/collector contamination;
+- reflective-mask/membrane lifecycle research.
 
-Mỗi case theo format:
+Mỗi case lưu shared claim IDs, direct public source URLs, **public boundary** và explicit unknowns.
 
-`public fact → why it matters → public boundary → explicit unknowns`
+Repo không suy diễn private layer count, recipe, yield, fab layout, private scanner setting, inspection threshold hay private process condition.
 
-Repo không suy diễn private layer count, recipe, yield, fab layout, scanner setting, inspection threshold hay cleaning chemistry.
+## 8. Public data & provenance
 
-## 8. Chạy local
+Mo/Windt là optical dataset đo đạc đầu tiên được vendor vì nguồn refractiveindex.info có CC0 rõ ràng.
+
+Silicon EUV data quanh 13,5 nm hiện vẫn là **research gap**: OpenEUV xác định được nguồn công khai phù hợp về range nhưng chưa xác lập được redistribution chain sạch tương đương CC0 để copy numerical table vào repo.
+
+Vì vậy Si-like default vẫn `illustrative`, không copy bảng thiếu license và không extrapolate dữ liệu vùng khác rồi gọi là measured EUV data.
+
+Xem [`docs/SILICON_OPTICAL_DATA_RESEARCH.md`](docs/SILICON_OPTICAL_DATA_RESEARCH.md).
+
+## 9. Chạy local
 
 ```bash
 npm install
 npm run dev
 ```
 
-Kiểm tra code/data/build:
+Local gate:
 
 ```bash
 npm run check
 ```
+
+Gate hiện gồm evidence/review validation, runtime fab-case validation, renderer-capture validation, unit tests, TypeScript typecheck và production Vite build.
 
 Browser QA:
 
@@ -143,11 +164,11 @@ Regenerate concept assets:
 python tools/generate-concept-assets.py all
 ```
 
-## 9. Deploy
+## 10. Deploy
 
-**GitHub Actions đã được tắt có chủ đích.** Push GitHub sẽ không tự chạy CI và không tự deploy.
+**GitHub Actions đã tắt có chủ đích.** Push GitHub không tự chạy CI và không tự deploy.
 
-Deploy manual bằng Cloudflare Workers Static Assets:
+Cloudflare Workers Static Assets:
 
 ```bash
 npm install
@@ -156,49 +177,45 @@ npm run deploy:cloudflare:dry
 npm run deploy:cloudflare
 ```
 
-`wrangler.jsonc` serve thư mục `dist/` và có SPA fallback.
-
-Vercel cũng tương thích: build command `npm run build`, output directory `dist`.
+Repo cũng có `vercel.json` cho Vite SPA. Không tuyên bố live URL cho tới khi đúng commit thật sự build/deploy trên hosting target.
 
 Xem [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 
-## 10. Public research/data tooling
+## 11. Contributor workflow
 
-Repo có tooling cho:
+GitHub có structured Issue Forms cho:
 
-- patent JSON/CSV normalization;
-- patent metadata completeness/conflict audit;
-- DOI/literature metadata normalization;
-- fab-case validation;
-- optical-constants import/provenance;
-- public dataset manifest/versioning;
-- JS ↔ Python reproducibility checks;
-- renderer benchmark harness + raw-result template.
+- public evidence/research;
+- 3D/visual contribution;
+- bug report;
+- real-device renderer benchmark.
 
-## 11. Renderer benchmark
+Blank issue đã tắt để sourcing/privacy/evidence guard hiện ngay trước khi submit.
 
-WebGL vẫn là production baseline.
+Các track chính: `3d`, `optics`, `physics`, `patent-research`, `fab`, `evidence`, `education`, `i18n`, `qa`, `perf`.
 
-OpenEUV có WebGL/WebGPU benchmark harness, nhưng **không bịa số benchmark laptop/mobile**. Raw result thực phải được chạy thủ công trên hardware thật rồi lưu theo [`benchmarks/README.md`](benchmarks/README.md).
+Đọc [`CONTRIBUTING.md`](CONTRIBUTING.md) và [`SOURCING_POLICY.md`](SOURCING_POLICY.md) trước.
 
-Đây là research gap còn mở có chủ đích.
+## 12. Ba dependency bên ngoài còn mở
 
-## 12. Cách contribute
+Phần software khả thi của V1→V4 đã được đẩy khá xa. Ba issue còn mở có chủ đích:
 
-Bạn có thể tham gia theo các track:
+- **#27 PERF:** cần raw WebGL/WebGPU từ hardware laptop/mobile/desktop thật. Benchmark method v2, schema, validator/analyzer đã có; emulator/headless/số bịa không tính.
+- **#28 DATA:** cần silicon EUV optical dataset có quyền redistribution đủ rõ để vendor/pin; public table thiếu license không tính.
+- **#29 EVIDENCE:** cần ít nhất 10 record được reviewer người thật kiểm tra và gắn public handle thật; generated/fake attribution không tính.
 
-- `3d`: glTF/GLB, labels, camera tour, LOD;
-- `physics`: multilayer, diffraction, optical datasets, mask imaging;
-- `optics`: NA, aberration, metrology concepts;
-- `patent-research`: family metadata, provenance review;
-- `fab`: first-party public case studies;
-- `evidence`: claim validation, review state, supersession, unknowns;
-- `i18n`: EN/VI và language pack sau này;
-- `qa`: unit/browser/manual deployment checks;
-- `education`: Assembly Explorer và L0→L5 content;
-- `perf`: benchmark thật trên hardware thật.
+Đây là external research dependencies, không phải placeholder nên đóng bằng dữ liệu giả.
 
-Đọc thêm [`CONTRIBUTING.md`](CONTRIBUTING.md), [`SOURCING_POLICY.md`](SOURCING_POLICY.md), [`ROADMAP.md`](ROADMAP.md) và [`docs/LANGUAGES.md`](docs/LANGUAGES.md).
+## Verification policy
+
+Vì GitHub Actions tắt, một commit push thành công **không đồng nghĩa build/test PASS**.
+
+Trước deploy hoặc claim verified:
+
+```bash
+npm run check
+npm run e2e
+```
 
 ## Không đưa vào repo
 
@@ -207,8 +224,8 @@ Bạn có thể tham gia theo các track:
 - proprietary CAD/service manual không có quyền phát hành;
 - private fab recipe;
 - credential/token;
-- hướng dẫn thực hành nguy hiểm với laser/plasma;
-- full paper có bản quyền khi không có quyền redistribution;
-- anonymous claim được trình bày như sự thật.
+- full copyrighted paper khi không có quyền redistribution;
+- anonymous/unverifiable claim được trình bày như sự thật;
+- hướng dẫn thực hành nguy hiểm với nguồn laser/plasma.
 
-Mục tiêu của OpenEUV là xem cộng đồng có thể tái dựng được bao xa **bằng chứng cứ công khai, có provenance rõ và có ranh giới uncertainty minh bạch**.
+Mục tiêu OpenEUV là xem cộng đồng có thể tái dựng và giảng giải được bao xa **bằng chứng cứ công khai, provenance rõ và uncertainty minh bạch**.
