@@ -13,6 +13,8 @@
     "notes": "Do not include usernames, serial numbers, IP addresses or other private identifiers."
   },
   "benchmark": {
+    "benchmarkVersion": 2,
+    "syncMode": "explicit-gpu-completion",
     "timestamp": "PASTE-UNEDITED-HARNESS-TIMESTAMP",
     "userAgent": "PASTE-HARNESS-USER-AGENT",
     "hardwareConcurrency": null,
