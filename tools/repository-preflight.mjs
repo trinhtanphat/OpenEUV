@@ -31,6 +31,7 @@ runValidator('source citation audit', 'scripts/audit-source-library.mjs')
 runValidator('provenance coverage audit', 'tools/provenance-report.mjs', ['--json'])
 runValidator('learning checkpoint validator', 'scripts/validate-learning-checkpoints.mjs')
 runValidator('accessibility contract audit', 'scripts/audit-accessibility-contract.mjs')
+runValidator('EN/VI coverage audit', 'scripts/audit-i18n-coverage.mjs')
 
 const [claims, unknowns, reviews, manifest, conceptLabels, conceptLabelsV4] = await Promise.all([
   readJson('evidence/claims.json'),
@@ -72,6 +73,7 @@ const requiredDocs = [
   'docs/V6_ACCESSIBILITY_EXPORT.md',
   'docs/V7_RELEASE_OFFLINE_A11Y.md',
   'docs/V8_RESEARCH_OPERATIONS.md',
+  'docs/V9_BIBLIO_I18N.md',
 ]
 const missingDocs = []
 for (const relativePath of requiredDocs) {
