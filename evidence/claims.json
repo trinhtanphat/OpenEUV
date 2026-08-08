@@ -11,6 +11,17 @@
     ]
   },
   {
+    "id": "EUV-VACUUM-001",
+    "component": "vacuum",
+    "claim": "ASML and ZEISS publicly state that EUV light is absorbed even by air, so the EUV optical light path operates in vacuum and uses reflective optics rather than conventional transmissive lenses.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "ASML EUV lithography systems - vacuum chamber", "url": "https://www.asml.com/en/en/products/euv-lithography-systems" },
+      { "name": "ZEISS - Light of the future: EUV lithography", "url": "https://www.zeiss.com/semiconductor-manufacturing-technology/smt-magazine/so-does-euv-lithography-work.html" }
+    ]
+  },
+  {
     "id": "HIGHNA-NA-001",
     "component": "projection",
     "claim": "High-NA EUV raises numerical aperture from 0.33 to 0.55.",
@@ -94,7 +105,7 @@
   {
     "id": "INTEL-HIGHNA-D1X-2024",
     "component": "fab-integration",
-    "claim": "Intel reported in April 2024 that installation of its ASML High-NA EUV tool at D1X in Hillsboro, Oregon was complete and calibration had started; Intel described the 165-ton system as the industry's first commercial High-NA EUV lithography system.",
+    "claim": "Intel reported in April 2024 that installation of its ASML High-NA EUV tool at D1X in Hillsboro was complete and calibration had started; Intel described the 165-ton system as the industry's first commercial High-NA EUV lithography system.",
     "class": "A",
     "confidence": 1.0,
     "sources": [
