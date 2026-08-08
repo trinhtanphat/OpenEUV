@@ -4,6 +4,7 @@ import { buildResearchSnapshot, serializeResearchSnapshot, validateResearchSnaps
 
 const input = {
   generatedAt: '2026-08-08T12:00:00.000Z',
+  build: { version: '0.9.0', commit: 'abcdef123456', source: 'cloudflare' },
   claims: [{ id: 'A-1', class: 'A', claim: 'Public claim', sources: [{ name: 'Example', url: 'https://example.com/source' }] }],
   unknowns: [{ id: 'U-1', status: 'open', question: 'Open question' }],
   fabCases: [{ id: 'fab-1', sourceUrls: ['https://example.com/fab'] }],
@@ -12,10 +13,12 @@ const input = {
   provenanceCoverage: { evidence: { claims: 1 }, ipAddress: 'must-not-export', IP_Address: 'also-private' },
 }
 
-test('research snapshot is deterministic when generatedAt and inputs are fixed', () => {
+test('research snapshot v2 is deterministic and carries public build provenance', () => {
   const first = buildResearchSnapshot(input)
   const second = buildResearchSnapshot(input)
   assert.deepEqual(first, second)
+  assert.equal(first.schemaVersion, 2)
+  assert.deepEqual(first.build, input.build)
   assert.equal(serializeResearchSnapshot(first), serializeResearchSnapshot(second))
 })
 
@@ -37,7 +40,10 @@ test('research snapshot validator rejects forbidden fields supplied after constr
   assert.ok(validation.errors.some((error) => error.includes('Device-Memory')))
 })
 
-test('research snapshot requires explicit valid generatedAt', () => {
+test('research snapshot requires explicit valid generatedAt and build metadata', () => {
   assert.throws(() => buildResearchSnapshot({ ...input, generatedAt: '' }), /generatedAt/)
   assert.throws(() => buildResearchSnapshot({ ...input, generatedAt: 'not-a-date' }), /generatedAt/)
+  const snapshot = buildResearchSnapshot(input)
+  delete snapshot.build
+  assert.equal(validateResearchSnapshot(snapshot).ok, false)
 })
