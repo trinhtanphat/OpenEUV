@@ -9,8 +9,7 @@ OpenEUV is a public-source engineering/learning atlas, not a reconstruction of p
 - [x] Original OpenEUV source/collector, reticle and projection concept assets with procedural fallbacks.
 - [x] Evidence classes A/B/C/D/? with machine-readable claims and unknowns.
 - [x] Public patent-family explorer and metadata auditing.
-- [x] Foundry/fab context for TSMC, Samsung, Intel and later public milestones.
-- [x] Low-NA/High-NA, anamorphic, resolution, multilayer, mask-3D, aberration/focus/overlay and wafer-stage learning tools.
+- [x] Foundry/fab context and core optics/physics learning tools.
 - [x] EN/VI technical content, glossary and browser/local validation foundation.
 
 ## Completed — V4 depth
@@ -22,69 +21,72 @@ OpenEUV is a public-source engineering/learning atlas, not a reconstruction of p
 - [x] Normalized Fourier/circular-pupil MTF learning lab.
 - [x] Pinned CC0 Mo/Windt 1988 optical constants dataset.
 - [x] Silicon-at-13.5-nm decision recorded as a verified data/license gap; no unsupported extrapolation or ambiguous vendoring.
-- [x] Expanded mask lifecycle context: TSMC cleaning, imec pellicle research and ZEISS AIMS EUV qualification context.
-- [x] Machine-readable fab-case source of truth + validator.
-- [x] Deterministic evidence-review queue and readiness reporting without synthetic reviewer identity.
+- [x] Expanded mask lifecycle/fab context and machine-readable fab-case validation.
+- [x] Evidence-review queue/readiness reporting without synthetic reviewer identity.
 - [x] Renderer benchmark method v2, privacy-safe capture schema/analyzer and readiness thresholds.
 
 ## Completed — V5 navigation, provenance and QA
 
 - [x] Local-only global Atlas Search across subsystems, claims/unknowns, patents, fab cases, assembly, learning, labs and glossary.
-- [x] EN/VI accent-insensitive search and keyboard Arrow/Enter/Escape navigation.
+- [x] EN/VI accent-insensitive search and keyboard navigation.
 - [x] Evidence provenance trace from claims to explicit 3D/Assembly/fab usages.
-- [x] Unified repository preflight separating build invariants from external research readiness.
-- [x] Cross-dataset integrity audit for IDs/paths/references.
+- [x] Unified repository preflight and cross-dataset integrity audit.
 - [x] Human-readable + JSON provenance coverage report.
-- [x] Robust brace-aware TypeScript patent parser used by provenance tooling.
-- [x] Mirror/vacuum concept lab.
-- [x] Evidence-aware EN/VI L0→L5 checkpoints with session-only progress.
-- [x] Duplicate search/provenance tooling consolidated into canonical paths.
+- [x] Robust patent source parser.
+- [x] Mirror/vacuum concept lab and evidence-aware EN/VI L0→L5 checkpoints.
 
 ## Completed — V6 accessibility, provenance UI and export
 
-- [x] In-browser provenance overview using the same provenance summary helper as CLI.
+- [x] In-browser provenance overview using the same summary helper as CLI.
 - [x] Evidence/review/unknown/patent/fab/data-gap coverage with deep links.
-- [x] Privacy-safe browser research snapshot export with deterministic schema/validation.
-- [x] Reproducible CLI research snapshot with explicit caller-supplied timestamp.
+- [x] Privacy-safe browser + CLI research snapshots.
 - [x] Case/format-insensitive stripping/rejection of client/private snapshot fields.
-- [x] Visible-on-focus skip link and separate semantic header/main landmarks.
-- [x] Reduced-motion-aware search navigation and CSS reduced-motion guard.
+- [x] Skip-to-content, semantic landmarks and reduced-motion-aware navigation.
 - [x] Keyboard-only search/checkpoint and snapshot-download browser coverage.
 
 ## Completed — V7 release provenance, offline portability and accessibility QA
 
-- [x] Package version advanced to `0.9.0`.
-- [x] Build-time public metadata resolver for package version + optional short commit SHA.
-- [x] Recognized SHA sources limited to `OPENEUV_COMMIT_SHA`, `CF_PAGES_COMMIT_SHA` and `VERCEL_GIT_COMMIT_SHA`, with safe `unknown` fallback.
-- [x] Footer exposes public version/commit; build metadata is not user telemetry.
-- [x] Research snapshot schema v2 includes the same public build provenance.
-- [x] Web app manifest + original OpenEUV SVG icon.
-- [x] Production-only module service worker; Vite development mode remains uncached.
-- [x] Same-origin GET-only offline policy; cross-origin, `/api/`, Authorization and non-GET traffic are excluded.
-- [x] Network-first runtime behavior and explicit offline fallback.
-- [x] Versioned OpenEUV cache namespace with old OpenEUV-cache cleanup on activation.
-- [x] `private` / `no-store` responses excluded from both install and runtime cache writes.
-- [x] Deterministic service-worker policy + shell-contract tests.
-- [x] Static accessibility contract audit wired into repository preflight.
-- [x] Accessibility contract covers skip/main/search/status/reduced-motion and duplicate literal shell IDs.
+- [x] Package version `0.9.0` and build-time public version/commit metadata.
+- [x] Recognized commit sources limited to explicit/Cloudflare/Vercel public SHA variables, with safe `unknown` fallback.
+- [x] Footer + research snapshot build provenance.
+- [x] Web manifest + original icon.
+- [x] Production-only same-origin GET network-first offline shell.
+- [x] Versioned OpenEUV cache cleanup and `private`/`no-store` cache exclusion.
+- [x] Deterministic offline policy/shell tests.
+- [x] Static accessibility contract audit wired into preflight.
 
 See `docs/V7_RELEASE_OFFLINE_A11Y.md`.
 
-## Completed — V8 research provenance and literature
+## Completed — V8 research operations, sources and literature
 
-- [x] Package version advanced to `0.10.0`.
-- [x] Provenance-aware manual Cloudflare helper records the exact Git commit through `OPENEUV_COMMIT_SHA` and refuses dirty worktrees by default.
-- [x] Explicit dry-run, `--allow-dirty` and `--skip-check` operator paths without re-enabling GitHub Actions or dumping environment secrets.
-- [x] Derived Source Library built from existing claims/fab/patent provenance rather than a duplicate factual registry.
-- [x] Source filtering by domain, usage type and evidence class with links back to repository records.
-- [x] Citation-consistency audit for URL/label problems wired into repository preflight.
-- [x] Local research-snapshot verify and deterministic diff CLI with timestamp-only changes separated from research-content changes.
+- [x] Package version `0.10.0`.
+- [x] Provenance-aware manual Cloudflare helper records exact Git HEAD and refuses dirty worktrees by default.
+- [x] Explicit dry-run, `--allow-dirty` and `--skip-check` operator paths without re-enabling GitHub Actions.
+- [x] Derived Source Library from existing claims/fab/patent provenance, with source→record links and filters.
+- [x] Source citation-consistency audit wired into preflight.
+- [x] Research-snapshot verify + deterministic diff CLI with timestamp-only changes separated from research-content changes.
 - [x] Curated `evidence/literature.json` academic metadata registry with DOI/source/topic/publication-type and claim/lab links.
-- [x] Interactive EN/VI Literature Explorer with topic/type/query filters and public DOI/source links.
-- [x] Literature records indexed in Atlas Search and registered in the dataset manifest.
-- [x] Literature/source/snapshot/deploy unit or browser regression coverage added to the repository.
+- [x] Interactive EN/VI Literature Explorer and literature-aware Atlas Search.
+- [x] Literature dataset manifest registration and structural validator in preflight.
+- [x] Duplicate V8 browser/docs implementations consolidated into canonical paths.
 
-See `docs/V8_RESEARCH_PROVENANCE.md` and `docs/DEPLOYMENT.md`.
+See `docs/V8_RESEARCH_OPERATIONS.md` and `docs/DEPLOYMENT.md`.
+
+## Completed — V9 bibliography handoff and EN/VI QA
+
+- [x] Package version advanced to `0.11.0`.
+- [x] Deterministic literature citation keys from normalized author token, year and DOI-derived hash, with collision suffixes.
+- [x] BibTeX export derived from the curated literature registry without fabricated publisher/volume/page metadata.
+- [x] CSL-JSON export with author names preserved literally instead of guessed given/family parsing.
+- [x] Local citation-export CLI supporting stdout and optional file output.
+- [x] Literature Explorer Copy BibTeX / Download CSL-JSON actions use only currently filtered papers.
+- [x] Pure tests cover citation determinism, escaping, collision handling and metadata boundaries.
+- [x] Repository-local EN/VI structural coverage helper/audit for canonical UI copy, learning checkpoints and learning-path field structure.
+- [x] EN/VI audit detects missing/empty/placeholder pairs, unsupported language identifiers and duplicate flat copy keys where structurally observable.
+- [x] `audit:i18n` wired into repository preflight.
+- [x] V9 documentation explicitly distinguishes structural coverage from native/domain-expert linguistic review.
+
+See `docs/V9_BIBLIO_I18N.md`.
 
 ## QA / deployment policy
 
@@ -106,9 +108,11 @@ npm run preflight
 npm run audit:integrity
 npm run audit:a11y
 npm run audit:sources
+npm run audit:i18n
 npm run validate:literature
 npm run provenance:report
 npm run evidence:review-report
+npm run literature:export -- --format bibtex
 ```
 
 Manual Cloudflare deployment:
@@ -152,4 +156,4 @@ These are contributor directions, not promises that private information will bec
 - [ ] Add more language packs while preserving shared evidence identity.
 - [ ] Expand curated patent/literature coverage without becoming an unreviewed scrape.
 - [ ] Add more lawfully redistributable optical datasets when license/provenance/range can be pinned.
-- [ ] Continue accessibility/manual assistive-technology testing beyond the static/browser regression contracts.
+- [ ] Continue accessibility/manual assistive-technology testing beyond static/browser regression contracts.
