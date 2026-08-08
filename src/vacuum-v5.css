@@ -1,0 +1,100 @@
+.mirror-vacuum-lab {
+  position: relative;
+  overflow: hidden;
+}
+
+.mirror-vacuum-controls {
+  margin-top: 0.9rem;
+}
+
+.mirror-vacuum-paths {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.mirror-vacuum-paths article {
+  border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  border-radius: 0.75rem;
+  padding: 0.7rem;
+  background: color-mix(in srgb, currentColor 3%, transparent);
+}
+
+.mirror-vacuum-paths article > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  align-items: baseline;
+}
+
+.mirror-vacuum-paths article > div span {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.mirror-vacuum-paths article > div strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.mirror-vacuum-paths article > i {
+  display: block;
+  height: 0.65rem;
+  margin: 0.55rem 0 0.35rem;
+  border-radius: 999px;
+  overflow: hidden;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.mirror-vacuum-paths article > i > b {
+  display: block;
+  min-width: 1px;
+  max-width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0.65;
+  transition: width 180ms ease;
+}
+
+.mirror-vacuum-paths small {
+  opacity: 0.7;
+}
+
+.mirror-vacuum-evidence {
+  margin-top: 0.9rem;
+  padding: 0.8rem;
+  border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  border-radius: 0.75rem;
+}
+
+.mirror-vacuum-evidence > strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.mirror-vacuum-evidence p {
+  margin: 0 0 0.6rem;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.mirror-vacuum-evidence > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.8rem;
+}
+
+.mirror-vacuum-evidence a {
+  font-size: 0.78rem;
+}
+
+@media (max-width: 700px) {
+  .mirror-vacuum-paths article > div {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+}
