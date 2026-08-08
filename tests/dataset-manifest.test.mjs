@@ -5,10 +5,14 @@ import { summarizeDatasetManifest, validateDatasetManifest } from '../src/lib/da
 
 const manifest = JSON.parse(await readFile(new URL('../datasets/manifest.json', import.meta.url), 'utf8'))
 
-test('repository dataset manifest is valid', () => {
+test('repository dataset manifest is valid and includes measured public optical data', () => {
   const result = validateDatasetManifest(manifest)
   assert.equal(result.ok, true, result.errors.join('; '))
-  assert.equal(result.manifest.datasets.length, 4)
+  assert.equal(result.manifest.datasets.length, 6)
+  const mo = result.manifest.datasets.find((dataset) => dataset.id === 'optical-constants-mo-windt-1988')
+  assert.ok(mo)
+  assert.match(mo.license, /CC0/i)
+  assert.match(mo.source, /6f3b772c3339d68a21538cb2562d2acb36731302/)
 })
 
 test('manifest rejects duplicate IDs and invalid semantic versions', () => {
@@ -29,7 +33,9 @@ test('manifest requires provenance and redistribution notes', () => {
 
 test('manifest summary groups datasets by kind', () => {
   const summary = summarizeDatasetManifest(manifest)
-  assert.equal(summary.datasets, 4)
+  assert.equal(summary.datasets, 6)
   assert.equal(summary.byKind.evidence, 2)
+  assert.equal(summary.byKind['evidence-review-metadata'], 1)
   assert.equal(summary.byKind['patent-metadata'], 1)
+  assert.equal(summary.byKind['optical-constants'], 1)
 })
