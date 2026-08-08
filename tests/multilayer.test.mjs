@@ -27,5 +27,5 @@ test('illustrative multilayer result stays finite and bounded', () => {
   })
   assert.ok(Number.isFinite(result.reflectivity))
   assert.ok(result.reflectivity >= 0 && result.reflectivity <= 1)
-  assert.equal(result.physicalPeriodNm, 6.9)
+  assert.ok(Math.abs(result.physicalPeriodNm - 6.9) < 1e-12)
 })
