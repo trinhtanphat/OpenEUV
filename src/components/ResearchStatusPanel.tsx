@@ -41,8 +41,8 @@ function snapshotText() {
 
 export function ResearchStatusPanel({ language }: { language: Language }) {
   const [message, setMessage] = useState('')
-  const classEntries = useMemo(() => Object.entries(provenanceCoverage.evidence.byClass).sort(), [])
-  const reviewEntries = useMemo(() => Object.entries(provenanceCoverage.evidence.byReviewState), [])
+  const classEntries = useMemo(() => Object.entries(provenanceCoverage.evidence.byClass) as Array<[string, number]>, [])
+  const reviewEntries = useMemo(() => Object.entries(provenanceCoverage.evidence.byReviewState) as Array<[string, number]>, [])
   const vi = language === 'vi'
 
   const copySnapshot = async () => {
@@ -90,7 +90,7 @@ export function ResearchStatusPanel({ language }: { language: Language }) {
         <article><span>{vi ? 'Open unknowns' : 'Open unknowns'}</span><strong>{provenanceCoverage.evidence.openUnknownIds.length}</strong><a href="#unknowns">{vi ? 'Mở Evidence Dashboard' : 'Open Evidence Dashboard'} →</a></article>
         <article><span>{vi ? 'Patent metadata' : 'Patent metadata'}</span><strong>{(provenanceCoverage.patents.averageMetadataCompleteness * 100).toFixed(0)}%</strong><a href="#patents">{provenanceCoverage.patents.records} {vi ? 'record đã curate' : 'curated records'} →</a></article>
         <article><span>{vi ? 'Fab source coverage' : 'Fab source coverage'}</span><strong>{provenanceCoverage.fab.casesWithDirectSources}/{provenanceCoverage.fab.cases}</strong><a href="#fab-cases">{vi ? 'Xem public boundaries' : 'View public boundaries'} →</a></article>
-        <article><span>{vi ? 'Data/license gap' : 'Data/license gaps'}</span><strong>{provenanceCoverage.dataLicenseGaps.length}</strong><div className="data-gap-list">{provenanceCoverage.dataLicenseGaps.length ? provenanceCoverage.dataLicenseGaps.map((gap) => <small key={`${gap.material}:${gap.source}`}>{gap.material} @ {gap.wavelengthNm ?? '?'} nm · {gap.license}</small>) : <small>{vi ? 'Không có gap nào được ghi nhận.' : 'No recorded gaps.'}</small>}</div></article>
+        <article><span>{vi ? 'Data/license gap' : 'Data/license gaps'}</span><strong>{provenanceCoverage.dataLicenseGaps.length}</strong><div className="data-gap-list">{provenanceCoverage.dataLicenseGaps.length ? provenanceCoverage.dataLicenseGaps.map((gap: { material: string; source: string; wavelengthNm?: number | null; license: string }) => <small key={`${gap.material}:${gap.source}`}>{gap.material} @ {gap.wavelengthNm ?? '?'} nm · {gap.license}</small>) : <small>{vi ? 'Không có gap nào được ghi nhận.' : 'No recorded gaps.'}</small>}</div></article>
       </div>
 
       <p className="snapshot-privacy">{vi
