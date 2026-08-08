@@ -70,6 +70,16 @@
       "license": "CC0-1.0 for the refractiveindex.info database record",
       "provenance": "OpenEUV converts the source wavelength unit from micrometres to nanometres without fitting or extrapolating the checked-in samples; includes the original 13.55 nm n=0.9413, k=0.00604 point",
       "schema": "evidence/optical-constants.schema.json"
+    },
+    {
+      "id": "optical-data-gap-silicon-euv",
+      "version": "1.0.0",
+      "path": "evidence/optical-data-gaps.json",
+      "kind": "optical-data-gap-metadata",
+      "source": "OpenEUV verification of redistributable and public silicon optical-constant candidates for the 13.5 nm educational target",
+      "license": "OpenEUV gap metadata is repository-licensed; linked upstream datasets/literature retain their own redistribution terms",
+      "provenance": "Pins the checked CC0 refractiveindex.info Si candidate and records the separate EUV-range LBNL/CXRO literature candidate without copying numerical tables whose redistribution permission was not verified",
+      "schema": "tests/optical-data-gaps.test.mjs"
     }
   ]
 }
