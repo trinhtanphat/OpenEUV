@@ -4,6 +4,7 @@ import dataGap from '../../evidence/optical-data-gaps.json'
 import reviewRegistry from '../../evidence/reviews.json'
 import unknowns from '../../evidence/unknowns.json'
 import manifest from '../../datasets/manifest.json'
+import { buildInfo } from '../buildInfo'
 import { fabCases } from '../data/fabCases'
 import { patents } from '../data/patents'
 import type { Language } from '../i18n'
@@ -27,6 +28,7 @@ const reviewCoverage = summarizeEvidenceReviewReadiness({ claims, unknowns, regi
 function snapshotText() {
   const snapshot = buildResearchSnapshot({
     generatedAt: new Date().toISOString(),
+    build: buildInfo,
     claims,
     unknowns,
     fabCases,
@@ -67,7 +69,7 @@ export function ResearchStatusPanel({ language }: { language: Language }) {
   }
 
   return (
-    <section className="research-section research-status-panel" id="provenance-overview" data-provenance-overview>
+    <section className="research-section research-status-panel" id="provenance-overview" data-provenance-overview data-build-version={buildInfo.version} data-build-commit={buildInfo.commit}>
       <div className="research-heading">
         <div>
           <span className="eyebrow">{vi ? 'Tình trạng nguồn & research snapshot' : 'Sourcing status & research snapshot'}</span>
@@ -77,49 +79,23 @@ export function ResearchStatusPanel({ language }: { language: Language }) {
             : 'These counts are sourcing/review bookkeeping, not a ranking of commercial or scientific importance. The snapshot bundles only public repository metadata.'}</p>
         </div>
         <div className="snapshot-actions" aria-label={vi ? 'Xuất research snapshot' : 'Export research snapshot'}>
-          <button type="button" onClick={copySnapshot} data-copy-research-snapshot>{vi ? 'Copy JSON' : 'Copy JSON'}</button>
+          <button type="button" onClick={copySnapshot} data-copy-research-snapshot>Copy JSON</button>
           <button type="button" onClick={downloadSnapshot} data-download-research-snapshot>{vi ? 'Tải JSON' : 'Download JSON'}</button>
         </div>
       </div>
 
       <div className="provenance-overview-grid">
-        <article>
-          <span>{vi ? 'Evidence class' : 'Evidence classes'}</span>
-          <strong>{provenanceCoverage.evidence.claims}</strong>
-          <div className="coverage-chips">{classEntries.map(([grade, count]) => <a key={grade} href="#unknowns">Class {grade}: {count}</a>)}</div>
-        </article>
-        <article>
-          <span>{vi ? 'Review state' : 'Review states'}</span>
-          <strong>{reviewCoverage.reviewedRecords}/{reviewCoverage.minimumReviewedRecords}</strong>
-          <div className="coverage-chips">{reviewEntries.map(([state, count]) => <a key={state} href="#unknowns">{state}: {count}</a>)}</div>
-        </article>
-        <article>
-          <span>{vi ? 'Open unknowns' : 'Open unknowns'}</span>
-          <strong>{provenanceCoverage.evidence.openUnknownIds.length}</strong>
-          <a href="#unknowns">{vi ? 'Mở Evidence Dashboard' : 'Open Evidence Dashboard'} →</a>
-        </article>
-        <article>
-          <span>{vi ? 'Patent metadata' : 'Patent metadata'}</span>
-          <strong>{(provenanceCoverage.patents.averageMetadataCompleteness * 100).toFixed(0)}%</strong>
-          <a href="#patents">{provenanceCoverage.patents.records} {vi ? 'record đã curate' : 'curated records'} →</a>
-        </article>
-        <article>
-          <span>{vi ? 'Fab source coverage' : 'Fab source coverage'}</span>
-          <strong>{provenanceCoverage.fab.casesWithDirectSources}/{provenanceCoverage.fab.cases}</strong>
-          <a href="#fab-cases">{vi ? 'Xem public boundaries' : 'View public boundaries'} →</a>
-        </article>
-        <article>
-          <span>{vi ? 'Data/license gap' : 'Data/license gaps'}</span>
-          <strong>{provenanceCoverage.dataLicenseGaps.length}</strong>
-          <div className="data-gap-list">{provenanceCoverage.dataLicenseGaps.length
-            ? provenanceCoverage.dataLicenseGaps.map((gap) => <small key={`${gap.material}:${gap.source}`}>{gap.material} @ {gap.wavelengthNm ?? '?'} nm · {gap.license}</small>)
-            : <small>{vi ? 'Không có gap nào được ghi nhận.' : 'No recorded gaps.'}</small>}</div>
-        </article>
+        <article><span>{vi ? 'Evidence class' : 'Evidence classes'}</span><strong>{provenanceCoverage.evidence.claims}</strong><div className="coverage-chips">{classEntries.map(([grade, count]) => <a key={grade} href="#unknowns">Class {grade}: {count}</a>)}</div></article>
+        <article><span>{vi ? 'Review state' : 'Review states'}</span><strong>{reviewCoverage.reviewedRecords}/{reviewCoverage.minimumReviewedRecords}</strong><div className="coverage-chips">{reviewEntries.map(([state, count]) => <a key={state} href="#unknowns">{state}: {count}</a>)}</div></article>
+        <article><span>{vi ? 'Open unknowns' : 'Open unknowns'}</span><strong>{provenanceCoverage.evidence.openUnknownIds.length}</strong><a href="#unknowns">{vi ? 'Mở Evidence Dashboard' : 'Open Evidence Dashboard'} →</a></article>
+        <article><span>{vi ? 'Patent metadata' : 'Patent metadata'}</span><strong>{(provenanceCoverage.patents.averageMetadataCompleteness * 100).toFixed(0)}%</strong><a href="#patents">{provenanceCoverage.patents.records} {vi ? 'record đã curate' : 'curated records'} →</a></article>
+        <article><span>{vi ? 'Fab source coverage' : 'Fab source coverage'}</span><strong>{provenanceCoverage.fab.casesWithDirectSources}/{provenanceCoverage.fab.cases}</strong><a href="#fab-cases">{vi ? 'Xem public boundaries' : 'View public boundaries'} →</a></article>
+        <article><span>{vi ? 'Data/license gap' : 'Data/license gaps'}</span><strong>{provenanceCoverage.dataLicenseGaps.length}</strong><div className="data-gap-list">{provenanceCoverage.dataLicenseGaps.length ? provenanceCoverage.dataLicenseGaps.map((gap) => <small key={`${gap.material}:${gap.source}`}>{gap.material} @ {gap.wavelengthNm ?? '?'} nm · {gap.license}</small>) : <small>{vi ? 'Không có gap nào được ghi nhận.' : 'No recorded gaps.'}</small>}</div></article>
       </div>
 
       <p className="snapshot-privacy">{vi
-        ? 'Export chạy hoàn toàn trong trình duyệt: không gửi query, browser history, localStorage, IP, username hay hardware identifier.'
-        : 'Export runs entirely in your browser: no queries, browser history, localStorage, IP, username or hardware identifiers are sent or included.'}</p>
+        ? `Export chạy hoàn toàn trong trình duyệt và gắn build v${buildInfo.version}/${buildInfo.commit}; không gửi query, browser history, localStorage, IP, username hay hardware identifier.`
+        : `Export runs entirely in your browser and records build v${buildInfo.version}/${buildInfo.commit}; no queries, browser history, localStorage, IP, username or hardware identifiers are sent or included.`}</p>
       <div className="sr-status" role="status" aria-live="polite" data-snapshot-status>{message}</div>
     </section>
   )
