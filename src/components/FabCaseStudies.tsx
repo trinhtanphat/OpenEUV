@@ -22,6 +22,7 @@ export function FabCaseStudies() {
           <p>{item.summary}</p>
           <div className="case-why"><strong>Why it matters</strong><p>{item.whyItMatters}</p></div>
           <div className="case-evidence"><strong>Evidence</strong>{linkedClaims.map((claim) => claim && <div key={claim.id}><span className={`claim-grade grade-${claim.class.toLowerCase()}`}>{claim.class}</span><code>{claim.id}</code>{claim.sources.slice(0, 1).map((source) => <a key={source.url} href={source.url} target="_blank" rel="noreferrer">{source.name} ↗</a>)}</div>)}</div>
+          <div className="case-sources"><strong>Public sources</strong><div>{item.sourceUrls.map((url, index) => <a key={url} data-fab-source href={url} target="_blank" rel="noreferrer">Source {index + 1} ↗</a>)}</div></div>
           <div className="case-boundary"><strong>Public boundary</strong><p>{item.publicBoundary}</p></div>
           <details><summary>What remains unknown</summary><ul>{item.unknowns.map((unknown) => <li key={unknown}>{unknown}</li>)}</ul></details>
         </article>
