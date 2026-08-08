@@ -11,9 +11,9 @@ export const tsmcTimeline: FabMilestone[] = [
   {
     year: 2019,
     title: 'N7+ enters volume production',
-    detail: 'TSMC announced N7+ customer products in high volume and described it as its first EUV process to enter volume production.',
-    sourceLabel: 'TSMC N7+ announcement',
-    sourceUrl: 'https://pr.tsmc.com/english/news/2010',
+    detail: 'TSMC announced N7+ customer products in high volume and describes N7+ as its first EUV process to enter volume production.',
+    sourceLabel: 'TSMC N7+ technology',
+    sourceUrl: 'https://www.tsmc.com/english/campaign/N7plus',
     evidenceClass: 'A',
   },
   {
