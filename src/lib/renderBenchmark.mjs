@@ -109,7 +109,11 @@ export function summarizeRenderBenchmarkCaptures(captures, { minimumImprovement 
   const averageMedianImprovement = average(medianImprovements)
   const averageP95Improvement = average(p95Improvements)
 
-  const enoughEvidence = paired.length >= 3 && pairedClasses >= 2
+  const requiredPairedCaptures = 3
+  const requiredDeviceClasses = 2
+  const missingPairedCaptures = Math.max(0, requiredPairedCaptures - paired.length)
+  const missingDeviceClasses = Math.max(0, requiredDeviceClasses - pairedClasses)
+  const enoughEvidence = missingPairedCaptures === 0 && missingDeviceClasses === 0
   const meaningfulGain = averageMedianImprovement >= minimumImprovement && averageP95Improvement >= minimumImprovement
   const noMaterialRegression = worstMedianImprovement >= -0.1
   const adoptWebGpu = enoughEvidence && meaningfulGain && noMaterialRegression
@@ -119,6 +123,11 @@ export function summarizeRenderBenchmarkCaptures(captures, { minimumImprovement 
     rejectedCaptures: rejected.length,
     pairedCaptures: paired.length,
     pairedDeviceClasses: pairedClasses,
+    requiredPairedCaptures,
+    requiredDeviceClasses,
+    missingPairedCaptures,
+    missingDeviceClasses,
+    readyForDecision: enoughEvidence,
     minimumImprovement,
     averageMedianImprovement,
     averageP95Improvement,
@@ -139,8 +148,11 @@ export function renderBenchmarkSummaryMarkdown(summary) {
     '',
     `- Valid captures: ${summary.validCaptures}`,
     `- Rejected captures: ${summary.rejectedCaptures}`,
-    `- Paired WebGL/WebGPU captures: ${summary.pairedCaptures}`,
-    `- Device classes with paired captures: ${summary.pairedDeviceClasses}`,
+    `- Paired WebGL/WebGPU captures: ${summary.pairedCaptures}/${summary.requiredPairedCaptures}`,
+    `- Device classes with paired captures: ${summary.pairedDeviceClasses}/${summary.requiredDeviceClasses}`,
+    `- Missing paired captures: ${summary.missingPairedCaptures}`,
+    `- Missing paired device classes: ${summary.missingDeviceClasses}`,
+    `- Ready for renderer decision: **${summary.readyForDecision ? 'yes' : 'no'}**`,
     `- Average median-frame improvement: ${pct(summary.averageMedianImprovement)}`,
     `- Average p95-frame improvement: ${pct(summary.averageP95Improvement)}`,
     `- Worst paired median improvement: ${pct(summary.worstMedianImprovement)}`,
