@@ -11,6 +11,7 @@ const typeLabel: Record<AtlasSearchItem['type'], { en: string; vi: string }> = {
   'fab-case': { en: 'Fab case', vi: 'Fab case' },
   assembly: { en: 'Assembly stage', vi: 'Assembly stage' },
   learning: { en: 'Learning level', vi: 'Level học' },
+  lab: { en: 'Learning lab', vi: 'Lab học' },
   glossary: { en: 'Glossary', vi: 'Thuật ngữ' },
 }
 
