@@ -2,39 +2,57 @@
 
 OpenEUV can load wavelength-dependent optical constants, but it must not silently copy third-party datasets whose redistribution terms are unclear.
 
-## Candidate source: refractiveindex.info database
+## Current checked-in public dataset
 
-The public `polyanskiy/refractiveindex.info-database` repository publishes a database license file and material data files separately from the OpenEUV repository. The database is distributed under **CC0 1.0 Universal** according to its repository license.
+OpenEUV currently vendors one measured optical-constants dataset:
 
-OpenEUV therefore treats this database as a candidate source for lawfully redistributable optical-constant samples, subject to all of the following checks before a dataset is vendored:
+- dataset ID: `RIINFO-MO-WINDT-1988-R6F3B772`;
+- material: molybdenum (Mo);
+- repository path: `public/datasets/optical/mo-windt-1988.json`;
+- upstream record: `database/data/main/Mo/nk/Windt.yml` from `polyanskiy/refractiveindex.info-database`;
+- pinned upstream revision: `6f3b772c3339d68a21538cb2562d2acb36731302`;
+- upstream database license: CC0 1.0 / public-domain waiver;
+- original reference: D. L. Windt et al., *Applied Optics* 27, 246–278 (1988), DOI `10.1364/AO.27.000246`;
+- the checked-in record includes the source point at **13.55 nm: n = 0.9413, k = 0.00604**.
 
-1. record the exact upstream file path and revision/commit;
-2. preserve the upstream database/source references contained in the material file;
-3. keep the dataset license/provenance metadata alongside the samples;
-4. import only the numerical data needed by the educational adapter;
-5. never reinterpret the data as a production EUV coating recipe;
-6. do not combine a public optical dataset with proprietary thicknesses, interface models or mirror prescriptions and present the result as commercial hardware.
+OpenEUV converts the source wavelength unit from micrometres to nanometres. The checked-in samples are not fitted or extrapolated in the dataset file.
+
+## Upstream source: refractiveindex.info database
+
+The public `polyanskiy/refractiveindex.info-database` repository publishes optical-data records with a CC0 public-domain waiver. A new OpenEUV import from this database must still record the exact upstream file and revision rather than citing only the database homepage.
 
 Upstream repository:
 
 - `https://github.com/polyanskiy/refractiveindex.info-database`
 - license: `https://github.com/polyanskiy/refractiveindex.info-database/blob/master/LICENSE`
 
-## Mo / Si candidates
+## Import requirements
 
-The upstream database contains multiple Mo and Si optical-data records. OpenEUV should not assume that a record named after an author is automatically the best EUV source. A contributor importing a record must document:
+Before vendoring another optical dataset:
 
-- material;
-- upstream record/file;
-- wavelength range;
-- original reference embedded in the record;
-- whether 13.5 nm lies inside the tabulated range rather than being extrapolated;
-- the exact OpenEUV dataset version created from that upstream record.
+1. record the exact upstream file path and revision/commit;
+2. preserve the upstream database/source references contained in the material file;
+3. keep license and provenance metadata alongside the numerical samples;
+4. record the wavelength range and units;
+5. state whether the EUV wavelength of interest lies inside the source range;
+6. avoid silent extrapolation;
+7. register the dataset in `datasets/manifest.json`;
+8. add regression tests for at least one original source sample;
+9. never reinterpret measured n/k data as a production coating recipe;
+10. do not combine public constants with proprietary thicknesses, interface models or mirror prescriptions and present the result as commercial hardware.
 
-The existing browser adapter in `src/lib/opticalConstants.mjs` already rejects datasets without source URL, license and non-empty numerical samples.
+## Silicon status
 
-## Import status
+The multilayer UI still labels the default Layer B as **illustrative Si-like** unless the user supplies another provenance-valid dataset.
 
-**No measured Mo/Si n/k values are vendored by this document.** This is deliberate: source-license verification is only the first gate. A future import should pin an upstream revision and retain record-level provenance before closing Physics V3 issue #19.
+OpenEUV does not currently vendor a measured Si record covering the EUV neighborhood with the same level of pinned provenance used for Mo/Windt. The project intentionally keeps that gap visible rather than extrapolating or mixing unrelated records and presenting the result as measured 13.5 nm silicon data.
 
-Until then, the multilayer UI continues to default to explicitly **illustrative** constants and may load a user-supplied public dataset that passes the provenance validator.
+## Browser behavior
+
+`src/lib/opticalConstants.mjs` validates source URL, redistribution/license note and numerical samples before accepting an imported dataset.
+
+The Multilayer Simulator can load the built-in Mo/Windt dataset directly. When a wavelength falls between tabulated points, the educational adapter may interpolate according to its documented behavior; when outside a dataset range, the UI must visibly indicate endpoint/extrapolation behavior rather than silently treating it as measured data.
+
+## Evidence boundary
+
+Measured optical constants improve the educational model, but they do **not** make OpenEUV a predictive production mirror model. Interface roughness, interdiffusion, graded layers, proprietary mirror prescriptions, real coating-process conditions and production correction models remain separate questions and must only be added with explicit public assumptions and evidence.
