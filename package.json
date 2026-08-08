@@ -1,7 +1,7 @@
 {
   "name": "openeuv",
   "private": true,
-  "version": "0.7.0",
+  "version": "0.8.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -16,6 +16,7 @@
     "audit:integrity:json": "node scripts/audit-repository-integrity.mjs --json",
     "provenance:report": "node tools/provenance-report.mjs",
     "provenance:report:json": "node tools/provenance-report.mjs --json",
+    "research:snapshot": "node tools/research-snapshot.mjs",
     "evidence:review-report": "node tools/evidence-review-report.mjs",
     "evidence:review-report:json": "node tools/evidence-review-report.mjs --json",
     "validate:benchmarks": "node scripts/analyze-render-benchmarks.mjs --validate-only",
