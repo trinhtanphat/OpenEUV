@@ -19,6 +19,7 @@ import './provenance-v5.css'
 import './vacuum-v5.css'
 import './learning-checkpoints.css'
 import './v6.css'
+import './v7.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
