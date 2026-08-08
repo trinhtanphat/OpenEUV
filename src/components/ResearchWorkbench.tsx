@@ -1,6 +1,7 @@
 import { t, type Language } from '../i18n'
 import { AberrationFocusLab } from './AberrationFocusLab'
 import { AnamorphicLab } from './AnamorphicLab'
+import { FourierImagingLab } from './FourierImagingLab'
 import { HighNAComparison } from './HighNAComparison'
 import { Mask3DEffectsLab } from './Mask3DEffectsLab'
 import { MultilayerSimulator } from './MultilayerSimulator'
@@ -20,6 +21,13 @@ const labGuide = [
     titleVi: 'Anamorphic 4× / 8×',
     bodyEn: 'Visualize ASML’s public description of different demagnification in orthogonal directions and the smaller exposure field.',
     bodyVi: 'Minh họa mô tả công khai của ASML về độ thu nhỏ khác nhau theo hai phương vuông góc và vùng phơi sáng nhỏ hơn.',
+  },
+  {
+    id: 'fourier',
+    titleEn: 'Fourier imaging',
+    titleVi: 'Fourier imaging',
+    bodyEn: 'See a normalized square pattern as spatial-frequency harmonics and watch an ideal pupil transfer attenuate high-frequency detail.',
+    bodyVi: 'Xem pattern vuông chuẩn hóa dưới dạng các harmonic spatial-frequency và quan sát pupil lý tưởng làm suy giảm chi tiết tần số cao.',
   },
   {
     id: 'multilayer',
@@ -54,9 +62,9 @@ const labGuide = [
 export function ResearchWorkbench({ language }: { language: Language }) {
   return (
     <section className="workbench" id="labs" data-language={language}>
-      <div className="section-heading workbench-heading"><div><div className="eyebrow">{t(language, 'workbench')}</div><h2>{t(language, 'workbenchTitle')}</h2><p className="muted">{t(language, 'workbenchBody')}</p></div><div className="workbench-badges"><span>13.5 nm</span><span>NA 0.33 → 0.55</span><span>4× / 8× anamorphic</span><span>6-DoF</span><span>aberration + overlay</span></div></div>
+      <div className="section-heading workbench-heading"><div><div className="eyebrow">{t(language, 'workbench')}</div><h2>{t(language, 'workbenchTitle')}</h2><p className="muted">{t(language, 'workbenchBody')}</p></div><div className="workbench-badges"><span>13.5 nm</span><span>NA 0.33 → 0.55</span><span>4× / 8× anamorphic</span><span>Fourier / MTF</span><span>6-DoF</span><span>aberration + overlay</span></div></div>
       <div className="lab-guide" aria-label={language === 'vi' ? 'Hướng dẫn các mô phỏng kỹ thuật' : 'Technical lab guide'}>{labGuide.map((item) => <article key={item.id} data-lab-guide={item.id}><strong>{language === 'vi' ? item.titleVi : item.titleEn}</strong><p>{language === 'vi' ? item.bodyVi : item.bodyEn}</p></article>)}</div>
-      <div className="lab-grid"><HighNAComparison /><AnamorphicLab /><MultilayerSimulator /><Mask3DEffectsLab /></div>
+      <div className="lab-grid"><HighNAComparison /><AnamorphicLab /><FourierImagingLab language={language} /><MultilayerSimulator /><Mask3DEffectsLab /></div>
       <AberrationFocusLab />
       <WaferStageLab />
     </section>
