@@ -1,0 +1,34 @@
+[
+  {
+    "id": "UNKNOWN-HIGHNA-MIRROR-GEOMETRY-001",
+    "component": "projection",
+    "question": "Which aspects of High-NA mirror geometry can be established from lawful public sources without implying proprietary production CAD?",
+    "priority": "high",
+    "status": "open",
+    "relatedClaimIds": ["HIGHNA-NA-001", "HIGHNA-PARTS-001"]
+  },
+  {
+    "id": "UNKNOWN-SOURCE-INTEGRATION-001",
+    "component": "source",
+    "question": "How can public patents be cross-checked to map source, collector and contamination-mitigation functions without treating a patent embodiment as the exact production configuration?",
+    "priority": "high",
+    "status": "open",
+    "relatedClaimIds": ["EUV-WAVELENGTH-001", "PATENT-SOURCE-CONTAMINATION-001"]
+  },
+  {
+    "id": "UNKNOWN-STAGE-METROLOGY-001",
+    "component": "metrology",
+    "question": "Which public sources best explain the relationship between stage motion, focus, overlay and metrology at an educational system level?",
+    "priority": "medium",
+    "status": "open",
+    "relatedClaimIds": ["PATENT-RETICLE-STAGE-001"]
+  },
+  {
+    "id": "UNKNOWN-TSMC-EUV-MILESTONES-001",
+    "component": "fab-integration",
+    "question": "Which additional TSMC first-party milestones can expand the public EUV process timeline without inferring confidential layer counts or internal fab layouts?",
+    "priority": "medium",
+    "status": "open",
+    "relatedClaimIds": ["TSMC-N7PLUS-001", "TSMC-N6-001"]
+  }
+]
