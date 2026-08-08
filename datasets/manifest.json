@@ -3,12 +3,12 @@
   "datasets": [
     {
       "id": "evidence-claims",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "path": "evidence/claims.json",
       "kind": "evidence",
       "source": "OpenEUV compilation of first-party public pages, published patents and public academic metadata linked per record",
       "license": "OpenEUV metadata compilation is distributed under the repository license; upstream sources retain their own rights",
-      "provenance": "Each claim records source class, source URL(s), confidence and optional rationale",
+      "provenance": "Each claim records source class, source URL(s), confidence and optional rationale; V1.1 adds further first-party foundry/fab milestones",
       "schema": "evidence/schema.json"
     },
     {
@@ -22,13 +22,23 @@
       "schema": "OpenEUV unknowns structure"
     },
     {
-      "id": "patent-seed-metadata",
+      "id": "evidence-reviews",
       "version": "1.0.0",
+      "path": "evidence/reviews.json",
+      "kind": "evidence-review-metadata",
+      "source": "OpenEUV public review-state registry",
+      "license": "OpenEUV metadata compilation is distributed under the repository license",
+      "provenance": "Stores only public contributor/reviewer handles and review/supersession state; currently empty until real reviews are recorded",
+      "schema": "src/lib/evidenceReview.mjs"
+    },
+    {
+      "id": "patent-seed-metadata",
+      "version": "1.1.0",
       "path": "src/data/patents.ts",
       "kind": "patent-metadata",
-      "source": "Curated public patent metadata with links to Google Patents records",
+      "source": "Curated public patent metadata with links to public Google Patents records",
       "license": "OpenEUV original summaries/metadata compilation are repository-licensed; patent documents remain public records with their own legal status",
-      "provenance": "No patent figures or full patent text are copied into the dataset",
+      "provenance": "No patent figures or full patent text are copied; V1.1 expands source/metrology/vacuum coverage and provenance scoring",
       "schema": "src/lib/patentMetadata.mjs"
     },
     {
@@ -39,6 +49,16 @@
       "source": "OpenEUV empty provenance-first template",
       "license": "Repository license",
       "provenance": "Contains no measured n/k data; contributors must populate only from lawfully redistributable public sources",
+      "schema": "evidence/optical-constants.schema.json"
+    },
+    {
+      "id": "optical-constants-mo-windt-1988",
+      "version": "1.0.0",
+      "path": "public/datasets/optical/mo-windt-1988.json",
+      "kind": "optical-constants",
+      "source": "refractiveindex.info Mo/Windt.yml pinned at upstream revision 6f3b772c3339d68a21538cb2562d2acb36731302; original data Windt et al., Applied Optics 27, 246-278 (1988)",
+      "license": "CC0-1.0 for the refractiveindex.info database record",
+      "provenance": "OpenEUV converts the source wavelength unit from micrometres to nanometres without fitting or extrapolating the checked-in samples; includes the original 13.55 nm n=0.9413, k=0.00604 point",
       "schema": "evidence/optical-constants.schema.json"
     }
   ]
