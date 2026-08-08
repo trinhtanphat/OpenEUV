@@ -1,7 +1,7 @@
 import claims from '../../evidence/claims.json'
 import reviewRegistry from '../../evidence/reviews.json'
 import unknowns from '../../evidence/unknowns.json'
-import { assetNodeEvidence, assetNodeGeometryStatus, subsystemAssetNodes } from '../data/componentEvidence'
+import { assetNodeEvidence, assetNodeGeometryStatus, subsystemAssetNodes } from '../data/componentEvidenceV4'
 import { t, type Language } from '../i18n'
 
 const classLabel: Record<Language, Record<string, string>> = {
@@ -33,7 +33,7 @@ export function EvidenceInspector({ subsystemId, nodeName, onNodeSelect, languag
 
   return (
     <section className="evidence-inspector" data-evidence-inspector data-subsystem={subsystemId} data-node={nodeName ?? ''} data-language={language}>
-      <div className="inspector-head"><div><span className="eyebrow">{t(language, 'evidenceContext')}</span><h4>{nodeName ?? (language === 'vi' ? `Subsystem: ${subsystemId}` : `${subsystemId} subsystem`)}</h4></div>{nodeName && <span className="geometry-status">{assetNodeGeometryStatus[nodeName] ?? 'illustrative-geometry'}</span>}</div>
+      <div className="inspector-head"><div><span className="eyebrow">{t(language, 'evidenceContext')}</span><h4>{nodeName ?? (language === 'vi' ? `Subsystem: ${subsystemId}` : `${subsystemId} subsystem`)}</h4></div>{nodeName && <span className="geometry-status">{assetNodeGeometryStatus[nodeName] ?? 'illustrative'}</span>}</div>
       {availableNodes.length > 0 && <div className="concept-node-nav" aria-label={language === 'vi' ? 'Các node của concept asset' : 'Concept asset nodes'}><button className={!nodeName ? 'active' : ''} onClick={() => onNodeSelect?.(null)}>{language === 'vi' ? 'Toàn subsystem' : 'Subsystem'}</button>{availableNodes.map((name) => <button key={name} data-evidence-node={name} className={nodeName === name ? 'active' : ''} onClick={() => onNodeSelect?.(name)}>{name}</button>)}</div>}
       {nodeName && <p className="inspector-note">{t(language, 'evidenceNodeNote')}</p>}
       <div className="inspector-claims">
