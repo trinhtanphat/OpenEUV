@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import type { Subsystem } from '../data/subsystems'
+import { lodSettings, type LodMode } from '../lib/lodPolicy.mjs'
 
 const palette: Record<string, number> = { source: 0xf472b6, illuminator: 0xa78bfa, reticle: 0x38bdf8, projection: 0x60a5fa, wafer: 0x22d3ee, metrology: 0x34d399, vacuum: 0xfbbf24 }
 const moduleConfig = [
@@ -29,9 +30,10 @@ type ScannerSceneProps = {
   onSelect: SelectHandler
   highlightedNode?: string | null
   focusId?: string | null
+  lodMode?: LodMode
 }
 
-export function ScannerScene({ selected, exploded, onSelect, highlightedNode = null, focusId = null }: ScannerSceneProps) {
+export function ScannerScene({ selected, exploded, onSelect, highlightedNode = null, focusId = null, lodMode = 'balanced' }: ScannerSceneProps) {
   const mountRef = useRef<HTMLDivElement>(null)
   const stateRef = useRef({ selected: selected.id, exploded, onSelect, highlightedNode, focusId })
   stateRef.current = { selected: selected.id, exploded, onSelect, highlightedNode, focusId }
@@ -39,6 +41,7 @@ export function ScannerScene({ selected, exploded, onSelect, highlightedNode = n
   useEffect(() => {
     const mount = mountRef.current
     if (!mount) return
+    const quality = lodSettings(lodMode)
 
     const scene = new THREE.Scene()
     scene.background = new THREE.Color(0x050914)
@@ -46,16 +49,16 @@ export function ScannerScene({ selected, exploded, onSelect, highlightedNode = n
     const camera = new THREE.PerspectiveCamera(41, 1, 0.1, 100)
     camera.position.set(8.3, 5.6, 10.8)
     camera.lookAt(0, 0, 0)
-    const renderer = new THREE.WebGLRenderer({ antialias: true })
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75))
-    renderer.shadowMap.enabled = true
+    const renderer = new THREE.WebGLRenderer({ antialias: lodMode !== 'low' })
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, quality.pixelRatioCap))
+    renderer.shadowMap.enabled = quality.shadowMaps
     renderer.outputColorSpace = THREE.SRGBColorSpace
     mount.appendChild(renderer.domElement)
 
     scene.add(new THREE.HemisphereLight(0xb9dcff, 0x0b1020, 1.8))
     const key = new THREE.DirectionalLight(0xffffff, 2.8)
     key.position.set(6, 9, 5)
-    key.castShadow = true
+    key.castShadow = quality.shadowMaps
     scene.add(key)
     const accent = new THREE.PointLight(0x7dd3fc, 38, 16)
     accent.position.set(-6, 3, 4)
@@ -71,7 +74,7 @@ export function ScannerScene({ selected, exploded, onSelect, highlightedNode = n
     moduleConfig.forEach((config) => {
       const mesh = new THREE.Mesh(new THREE.BoxGeometry(config.size[0], config.size[1], config.size[2]), material(config.id))
       mesh.position.set(config.base[0], config.base[1], config.base[2])
-      mesh.castShadow = true
+      mesh.castShadow = quality.shadowMaps
       mesh.userData.id = config.id
       mesh.userData.assetLoaded = false
       root.add(mesh)
@@ -80,9 +83,9 @@ export function ScannerScene({ selected, exploded, onSelect, highlightedNode = n
 
     const sourceAnimation = new THREE.Group()
     objects.get('source')!.add(sourceAnimation)
-    const conceptualDroplet = new THREE.Mesh(new THREE.SphereGeometry(0.07, 18, 18), new THREE.MeshBasicMaterial({ color: 0xfff0a8 }))
+    const conceptualDroplet = new THREE.Mesh(new THREE.SphereGeometry(0.07, lodMode === 'low' ? 10 : 18, lodMode === 'low' ? 10 : 18), new THREE.MeshBasicMaterial({ color: 0xfff0a8 }))
     conceptualDroplet.position.set(-0.18, 0.55, 0)
-    const conceptualPlasma = new THREE.Mesh(new THREE.SphereGeometry(0.14, 22, 22), new THREE.MeshBasicMaterial({ color: 0x9deeff, transparent: true, opacity: 0.72 }))
+    const conceptualPlasma = new THREE.Mesh(new THREE.SphereGeometry(0.14, lodMode === 'low' ? 12 : 22, lodMode === 'low' ? 12 : 22), new THREE.MeshBasicMaterial({ color: 0x9deeff, transparent: true, opacity: 0.72 }))
     conceptualPlasma.position.set(0.08, 0.06, 0)
     sourceAnimation.add(conceptualDroplet, conceptualPlasma)
 
@@ -90,7 +93,7 @@ export function ScannerScene({ selected, exploded, onSelect, highlightedNode = n
     objects.get('projection')!.add(projectionDetails)
     const mirrorMaterial = new THREE.MeshPhysicalMaterial({ color: 0xc4b5fd, metalness: 0.9, roughness: 0.08, clearcoat: 1 })
     ;[[-0.45, 0.8, -0.25], [0.45, 0.2, 0.25], [-0.45, -0.45, -0.25]].forEach(([x, y, rz]) => {
-      const mirror = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.08, 40), mirrorMaterial)
+      const mirror = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.08, lodMode === 'low' ? 20 : 40), mirrorMaterial)
       mirror.position.set(x, y, 0)
       mirror.rotation.set(Math.PI / 2, 0, rz)
       projectionDetails.add(mirror)
@@ -109,8 +112,8 @@ export function ScannerScene({ selected, exploded, onSelect, highlightedNode = n
           node.userData.subsystem = id
           if (node.name && !node.name.startsWith('OpenEUV-')) node.userData.conceptNodeName = node.name
           if (node instanceof THREE.Mesh) {
-            node.castShadow = true
-            node.receiveShadow = true
+            node.castShadow = quality.shadowMaps
+            node.receiveShadow = quality.shadowMaps
             node.material = Array.isArray(node.material) ? node.material.map((entry) => entry.clone()) : node.material.clone()
             if (node.name) conceptNodes.set(node.name, node)
           }
@@ -134,14 +137,14 @@ export function ScannerScene({ selected, exploded, onSelect, highlightedNode = n
     root.add(vacuum)
     objects.set('vacuum', vacuum)
 
-    const wafer = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.82, 0.06, 64), new THREE.MeshPhysicalMaterial({ color: 0x67e8f9, metalness: 0.45, roughness: 0.18, iridescence: 0.85 }))
+    const wafer = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.82, 0.06, lodMode === 'low' ? 32 : 64), new THREE.MeshPhysicalMaterial({ color: 0x67e8f9, metalness: 0.45, roughness: 0.18, iridescence: 0.85 }))
     wafer.position.set(0, 0.26, 0)
     objects.get('wafer')!.add(wafer)
 
     const beamMaterial = new THREE.LineBasicMaterial({ color: 0x7dd3fc, transparent: true, opacity: 0.82 })
     const beamGeometry = new THREE.BufferGeometry()
     root.add(new THREE.Line(beamGeometry, beamMaterial))
-    const grid = new THREE.GridHelper(30, 60, 0x25415f, 0x13233a)
+    const grid = new THREE.GridHelper(30, quality.gridDivisions, 0x25415f, 0x13233a)
     grid.position.y = -1.62
     scene.add(grid)
 
@@ -214,10 +217,16 @@ export function ScannerScene({ selected, exploded, onSelect, highlightedNode = n
         camera.lookAt(lookTarget)
       }
 
-      conceptualDroplet.position.y = 0.55 - ((time * 0.00035) % 0.7)
-      const pulse = 0.88 + (Math.sin(time * 0.008) + 1) * 0.22
-      conceptualPlasma.scale.setScalar(pulse)
-      ;(conceptualPlasma.material as THREE.MeshBasicMaterial).opacity = 0.42 + (Math.sin(time * 0.008) + 1) * 0.18
+      if (quality.animateSource) {
+        conceptualDroplet.position.y = 0.55 - ((time * 0.00035) % 0.7)
+        const pulse = 0.88 + (Math.sin(time * 0.008) + 1) * 0.22
+        conceptualPlasma.scale.setScalar(pulse)
+        ;(conceptualPlasma.material as THREE.MeshBasicMaterial).opacity = 0.42 + (Math.sin(time * 0.008) + 1) * 0.18
+      } else {
+        conceptualDroplet.position.y = 0.15
+        conceptualPlasma.scale.setScalar(1)
+        ;(conceptualPlasma.material as THREE.MeshBasicMaterial).opacity = 0.58
+      }
 
       moduleConfig.forEach((config) => {
         const mesh = objects.get(config.id)!
@@ -254,7 +263,7 @@ export function ScannerScene({ selected, exploded, onSelect, highlightedNode = n
         [3.25 + amount, 0.35, 0],
         [4.45 + amount * 1.6, -0.65, 0],
       ].map(([x, y, z]) => new THREE.Vector3(x, y, z))
-      beamGeometry.setFromPoints(new THREE.CatmullRomCurve3(points).getPoints(90))
+      beamGeometry.setFromPoints(new THREE.CatmullRomCurve3(points).getPoints(lodMode === 'low' ? 42 : 90))
       renderer.render(scene, camera)
     }
     frame = requestAnimationFrame(animate)
@@ -276,7 +285,7 @@ export function ScannerScene({ selected, exploded, onSelect, highlightedNode = n
       renderer.dispose()
       if (renderer.domElement.parentElement === mount) mount.removeChild(renderer.domElement)
     }
-  }, [])
+  }, [lodMode])
 
-  return <div className="scanner-canvas" ref={mountRef}><div className="asset-layer-note">OpenEUV concept assets · source animation is illustrative, not timing/scale accurate</div><div className="canvas-help">drag to orbit · wheel to zoom · click a module or concept node</div><div className="canvas-caption">Public-source conceptual reconstruction · original OpenEUV glTF assets · not ASML CAD</div></div>
+  return <div className="scanner-canvas" ref={mountRef}><div className="asset-layer-note">OpenEUV concept assets · source animation is illustrative, not timing/scale accurate · LOD {lodMode}</div><div className="canvas-help">drag to orbit · wheel to zoom · click a module, concept node or evidence label</div><div className="canvas-caption">Public-source conceptual reconstruction · original OpenEUV glTF assets · not ASML CAD</div></div>
 }
