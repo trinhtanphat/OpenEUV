@@ -4,6 +4,22 @@ OpenEUV keeps WebGL as the production baseline. WebGPU is an experimental candid
 
 GitHub Actions is intentionally disabled. Renderer benchmarks are **manual, hardware-specific measurements**.
 
+## Current benchmark method
+
+Current captures use **benchmark method v2**:
+
+```text
+benchmarkVersion = 2
+syncMode = explicit-gpu-completion
+```
+
+Every measured frame explicitly waits for submitted GPU work to complete:
+
+- WebGL2: `gl.finish()`;
+- WebGPU: `device.queue.onSubmittedWorkDone()`.
+
+This synchronization intentionally favors comparability over maximum asynchronous throughput. Do not mix captures from an older/requestAnimationFrame-only method with v2 results. The validator rejects incompatible method versions.
+
 ## Run the benchmark
 
 1. Run the app locally:
@@ -26,7 +42,7 @@ http://localhost:5173/benchmarks/render-benchmark.html
 7. Commit the result under a descriptive name such as:
 
 ```text
-benchmarks/raw/2026-08-08-windows11-rtx4060-chrome151.json
+benchmarks/raw/2026-08-08-windows11-rtx4060-chrome151-v2.json
 ```
 
 The machine-readable schema is `benchmarks/schema.json`. `benchmarks/raw/RESULT_TEMPLATE.json` remains available for manual/offline capture preparation.
@@ -44,7 +60,7 @@ A committed raw result must state:
 - power mode (`plugged-in`, `battery`, `unknown`);
 - viewport information;
 - whether WebGPU was available;
-- the unedited benchmark payload;
+- the unedited benchmark v2 payload;
 - optional notes about thermal/power conditions.
 
 Do not include serial numbers, private machine identifiers, usernames, IP addresses, account IDs or other unnecessary personal information. The repository validator rejects common identifying-field names such as `serialNumber`, `username`, `ipAddress`, `machineId` and `deviceId`.
@@ -55,7 +71,7 @@ Do not include serial numbers, private machine identifiers, usernames, IP addres
 npm run validate:benchmarks
 ```
 
-This scans `benchmarks/raw/*.json`, excluding `RESULT_TEMPLATE.json`, and fails on malformed JSON, invalid capture metadata, missing WebGL baseline data or disallowed identifying metadata fields.
+This scans `benchmarks/raw/*.json`, excluding `RESULT_TEMPLATE.json`, and fails on malformed JSON, incompatible method version, invalid capture metadata, missing WebGL baseline data or disallowed identifying metadata fields.
 
 `npm run check` includes this validation.
 
@@ -83,10 +99,11 @@ Current workload:
 - 20 warm-up frames;
 - 90 measured frames;
 - equivalent high-level visual workload for WebGL2 and WebGPU;
-- startup/setup time plus average, median and p95 frame time;
+- explicit GPU completion for each warm-up and measured frame;
+- setup time plus average, median and p95 synchronized frame time;
 - JS heap information only when the browser exposes it.
 
-This benchmark does **not** claim to reproduce the full OpenEUV atlas workload or GPU-driver internals. It is a controlled renderer-comparison harness.
+This benchmark does **not** claim to reproduce the full OpenEUV atlas workload, GPU-driver internals, battery efficiency, thermals or production scanner computation. It is a controlled renderer-comparison harness.
 
 ## Conservative adoption gate
 
@@ -103,6 +120,8 @@ Even when the report says `consider-webgpu`, it does **not** switch renderer cod
 ## Test fixtures are not hardware evidence
 
 Unit tests contain synthetic fixtures solely to verify validator/aggregation logic. They do not live in `benchmarks/raw/`, are clearly named as fixtures and must never be cited as device benchmark results.
+
+Playwright smoke tests verify that the benchmark page can produce a schema-ready v2 capture. A headless/browser-emulated smoke run is also **not** a real-device benchmark result.
 
 ## Raw-data integrity
 
