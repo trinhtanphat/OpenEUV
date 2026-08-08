@@ -41,6 +41,16 @@
     ]
   },
   {
+    "id": "HIGHNA-ANAMORPHIC-001",
+    "component": "projection",
+    "claim": "ASML describes High-NA EXE anamorphic optics as demagnifying the reticle pattern 4x in one direction and 8x in the other, resulting in an exposure field half the size of NXE.",
+    "class": "A",
+    "confidence": 1.0,
+    "sources": [
+      { "name": "ASML - 5 things you should know about High NA EUV lithography", "url": "https://www.asml.com/en/en/news/stories/2024/5-things-high-na-euv" }
+    ]
+  },
+  {
     "id": "TSMC-N7PLUS-001",
     "component": "fab-integration",
     "claim": "TSMC N7+ was its first EUV process to enter volume production, beginning volume production in 2019.",
