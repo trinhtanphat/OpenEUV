@@ -2,6 +2,24 @@
 
 OpenEUV treats every visual asset as an evidence-bearing research artifact. A model can be useful without pretending to be proprietary production CAD.
 
+## Reproducible source geometry
+
+The small concept assets in this repository are source-controlled in two forms:
+
+- inspectable glTF files in `public/models/`;
+- a dependency-free Python source generator in `tools/generate-concept-assets.py`.
+
+Regenerate one asset or all current concept assets with:
+
+```bash
+python tools/generate-concept-assets.py source
+python tools/generate-concept-assets.py reticle
+python tools/generate-concept-assets.py projection
+python tools/generate-concept-assets.py all
+```
+
+The generator is the preferred editable source for these lightweight procedural concept assets. A `.blend` file is welcome for future hand-authored high-fidelity models, but it is not required when the source geometry is fully reproducible in code.
+
 ## `public/models/euv-source-collector-concept.gltf`
 
 - **Author:** OpenEUV project-generated original geometry.
