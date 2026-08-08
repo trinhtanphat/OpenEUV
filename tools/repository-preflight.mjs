@@ -26,6 +26,7 @@ runValidator('evidence review validator', 'scripts/validate-evidence-reviews.mjs
 runValidator('fab-case validator', 'scripts/validate-fab-cases.mjs')
 runValidator('renderer capture validator', 'scripts/analyze-render-benchmarks.mjs', ['--validate-only'])
 runValidator('cross-dataset graph audit', 'scripts/audit-repository-integrity.mjs')
+runValidator('provenance coverage audit', 'tools/provenance-report.mjs', ['--json'])
 
 const [claims, unknowns, reviews, manifest, conceptLabels, conceptLabelsV4] = await Promise.all([
   readJson('evidence/claims.json'),
