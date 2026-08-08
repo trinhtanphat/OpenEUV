@@ -1,64 +1,117 @@
 # OpenEUV Roadmap
 
-## Phase 0 — foundation
-- [x] Public-source project charter and sourcing policy.
-- [x] Interactive procedural EUV scanner.
-- [x] Exploded view and clickable subsystem explorer.
-- [x] Physics playground MVP.
-- [x] Evidence classes and seed claims.
-- [x] Contributor launchpad.
+OpenEUV develops a public-source engineering atlas, not a reproduction of proprietary scanner CAD, service documentation or fab recipes. A missing private detail should become an explicit research gap rather than a guessed value.
 
-## Phase 1 — 3D atlas
-- [x] Add original inspectable source / collector glTF concept asset with provenance.
-- [x] Add original reticle and projection-optics concept glTF assets.
-- [x] Add stable named component groups for future highlight/tour work.
-- [x] Keep procedural fallbacks for resilient browser rendering.
-- [x] Add a dependency-free reproducible concept-asset generator.
-- [ ] Add richer source / collector animation.
-- [ ] Add separate Low-NA vs High-NA 3D scenes.
-- [ ] Add 3D labels, measurement overlays and camera tours.
-- [ ] Add optimized mobile LOD assets.
-- [ ] Replace concept geometry with progressively higher-fidelity community assets where public evidence supports it.
+## Completed — foundation & interactive atlas
 
-## Phase 2 — physics playgrounds
-- [x] Diffraction / NA explorer foundation.
+- [x] Public-source charter, sourcing policy and evidence classes.
+- [x] Interactive Three.js EUV scanner with exploded view and clickable subsystems.
+- [x] Original OpenEUV source/collector, reticle and projection concept assets with procedural fallbacks.
+- [x] Guided camera tour and named-node highlighting.
+- [x] Evidence-backed screen-space concept labels.
+- [x] Adaptive high/balanced/low LOD for mobile and low-power devices.
+- [x] Reproducible concept-asset generator and asset provenance documentation.
+
+## Completed — assembly & education
+
+- [x] System-level Assembly Explorer: architecture → vacuum platform → source → illumination → reticle → projection → stage/metrology → integration/qualification.
+- [x] Public-evidence/boundary/dependency metadata for every assembly stage.
+- [x] Interactive L0→L5 curriculum from semiconductor basics to public-source EUV research.
+- [x] English/Vietnamese technical UI, glossary and long-form documentation.
+
+## Completed — physics & imaging playgrounds
+
+- [x] Rayleigh-style resolution helper with independent Python cross-check.
 - [x] Low-NA 0.33 vs High-NA 0.55 comparison.
-- [x] High-NA 4× / 8× anamorphic field visualization.
-- [x] Mask 3D shadowing explainer.
-- [x] Stage six-degree-of-freedom demo.
-- [x] Aberration / focus / overlay concept lab.
-- [x] Upgrade multilayer playground to a complex-index characteristic-matrix learning model with unit tests.
-- [ ] Add sourced wavelength-dependent optical-constant datasets and polarization-aware multilayer modeling.
-- [ ] Add diffraction / mask electromagnetic solvers as optional advanced modules.
+- [x] High-NA 4×/8× anamorphic-field visualizer.
+- [x] Mask-3D shadowing concept lab.
+- [x] Aberration/focus/leveling/overlay educational lab.
+- [x] Six-degree-of-freedom wafer-stage visualization.
+- [x] Complex-index characteristic-matrix multilayer model.
+- [x] s/p/unpolarized polarization paths.
+- [x] Provenance-aware optical-dataset adapter.
+- [x] Pinned CC0 Mo/Windt 1988 public optical constants dataset including the original 13.55 nm sample.
+- [x] Illustrative-value fallback when a suitable public dataset is unavailable.
 
-## Phase 3 — evidence & patents
-- [x] Machine-readable evidence schema.
-- [x] CI validation for duplicate IDs, confidence, URLs and inference rationale.
-- [x] Machine-readable open-unknowns dataset.
-- [x] Searchable evidence / unknowns dashboard in the web UI.
-- [x] Filterable public EUV patent explorer seed.
-- [x] Patent-family relationship graph with priority/publication metadata and subsystem links.
-- [x] Academic Class C seed claims for Mo/Si multilayers and EUV mask modeling.
-- [ ] Expand patent-family coverage beyond the curated seed set.
-- [ ] Claim-to-component links in the 3D scene.
-- [ ] Evidence review status and contributor attribution.
-- [ ] DOI / patent metadata import tooling.
+## Completed — evidence & public research graph
 
-## Phase 4 — fab integration
-- [x] TSMC first-party EUV milestone timeline foundation.
-- [x] Coat → expose → develop conceptual process context without recipes.
-- [ ] Mask lifecycle and public contamination-control case studies.
-- [ ] Throughput / availability concepts using public data only.
-- [ ] Expand first-party foundry timelines without inferring confidential recipes or layouts.
+- [x] Machine-readable claims and open-unknowns datasets.
+- [x] Local evidence validation for duplicate IDs, confidence, source URLs and inference rationale.
+- [x] Contextual Evidence links between 3D named nodes and claims.
+- [x] Review-state model: proposed → reviewed → superseded.
+- [x] Public contributor/reviewer attribution and supersession metadata.
+- [x] Evidence Dashboard/Inspector review-state rendering and review coverage.
+- [x] DOI/literature metadata normalization.
+- [x] Public dataset manifest/versioning/release documentation.
 
-## Phase 5 — community research platform
-- [x] English/Vietnamese UI foundation and translation contribution rules.
-- [x] Unit-test layer for pure physics helpers.
-- [x] Playwright desktop/mobile interaction, fallback and accessibility smoke-test suite configured in CI.
-- [x] Browser verification artifacts configured for reviewer inspection.
-- [ ] Complete bilingual subsystem explanations and docs.
-- [ ] Contributor research credits.
-- [ ] Reproducible notebooks / larger simulations.
-- [ ] Public dataset releases.
-- [ ] WebGPU experiments.
-- [ ] Additional language packs.
+## Completed — patents
+
+- [x] Curated patent-family map with family/priority/publication metadata.
+- [x] Coverage across source, collector, illumination, reticle, projection, stage, metrology and vacuum.
+- [x] JSON/CSV patent metadata normalizer.
+- [x] Duplicate-family/conflicting-date audit tooling.
+- [x] Metadata completeness/provenance score in Patent Explorer.
+- [x] Explicit warning that patent figures are not confirmed production geometry.
+
+## Completed — fab & mask-lifecycle context
+
+- [x] TSMC public EUV milestones.
+- [x] Samsung public EUV milestones.
+- [x] Intel High-NA installation/calibration milestone context.
+- [x] Micron 1-gamma EUV case.
+- [x] SK hynix 1anm EUV mass-production case.
+- [x] Rapidus IIM-1 / NXE:3800E integration milestone case.
+- [x] Public source/collector contamination case.
+- [x] Public reflective-mask/membrane lifecycle case.
+- [x] Public-boundary and explicit-unknown sections for every case.
+
+## Completed — QA, reproducibility & deployment foundation
+
+- [x] Unit tests for pure physics/data helpers.
+- [x] Playwright desktop/mobile/fallback/accessibility behavior coverage kept in the repository for local execution.
+- [x] JS ↔ Python reproducibility cross-checks.
+- [x] Renderer benchmark harness and adoption policy.
+- [x] Manual Cloudflare Workers Static Assets deployment configuration.
+- [x] Vercel-compatible static build path documented.
+- [x] GitHub Actions intentionally disabled by project-owner decision.
+
+## Open measurement campaign — renderer performance
+
+- [ ] Collect real WebGL/WebGPU raw results from multiple laptop/mobile/desktop hardware classes. See issue #27 and `benchmarks/README.md`.
+- [ ] Commit anonymized raw benchmark JSON using `benchmarks/raw/RESULT_TEMPLATE.json`.
+- [ ] Analyze startup time, average/median/p95 frame time and observable memory pressure across real devices.
+- [ ] Keep WebGL as production baseline unless reproducible multi-device evidence shows a meaningful benefit.
+
+OpenEUV deliberately does **not** fill this section with synthetic or invented hardware results.
+
+## Future contributor depth — evidence first
+
+These are directions, not promises that private information will become available:
+
+- [ ] Add additional lawfully redistributable EUV-range optical datasets where source, revision and license can be pinned.
+- [ ] Improve original concept geometry only where public evidence supports higher fidelity.
+- [ ] Add more first-party foundry/mask lifecycle cases with explicit boundaries.
+- [ ] Expand academic electromagnetic-mask and computational-lithography learning modules.
+- [ ] Add more language packs while preserving shared claim/source IDs.
+- [ ] Populate real evidence-review attribution as contributors review records.
+- [ ] Expand public patent/literature coverage without turning the repository into an uncurated scrape.
+
+## Verification policy
+
+There is no automatic GitHub Actions gate. Before deployment or claiming a change is verified, run locally:
+
+```bash
+npm install
+npm run check
+npx playwright install chromium
+npm run e2e
+```
+
+Manual Cloudflare deployment:
+
+```bash
+npm run deploy:cloudflare:dry
+npm run deploy:cloudflare
+```
+
+Do not re-enable GitHub Actions without an explicit project decision.
