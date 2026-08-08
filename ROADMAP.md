@@ -70,6 +70,22 @@ OpenEUV is a public-source engineering/learning atlas, not a reconstruction of p
 
 See `docs/V7_RELEASE_OFFLINE_A11Y.md`.
 
+## Completed — V8 research provenance and literature
+
+- [x] Package version advanced to `0.10.0`.
+- [x] Provenance-aware manual Cloudflare helper records the exact Git commit through `OPENEUV_COMMIT_SHA` and refuses dirty worktrees by default.
+- [x] Explicit dry-run, `--allow-dirty` and `--skip-check` operator paths without re-enabling GitHub Actions or dumping environment secrets.
+- [x] Derived Source Library built from existing claims/fab/patent provenance rather than a duplicate factual registry.
+- [x] Source filtering by domain, usage type and evidence class with links back to repository records.
+- [x] Citation-consistency audit for URL/label problems wired into repository preflight.
+- [x] Local research-snapshot verify and deterministic diff CLI with timestamp-only changes separated from research-content changes.
+- [x] Curated `evidence/literature.json` academic metadata registry with DOI/source/topic/publication-type and claim/lab links.
+- [x] Interactive EN/VI Literature Explorer with topic/type/query filters and public DOI/source links.
+- [x] Literature records indexed in Atlas Search and registered in the dataset manifest.
+- [x] Literature/source/snapshot/deploy unit or browser regression coverage added to the repository.
+
+See `docs/V8_RESEARCH_PROVENANCE.md` and `docs/DEPLOYMENT.md`.
+
 ## QA / deployment policy
 
 GitHub Actions remains intentionally disabled by project-owner decision. A GitHub push is not proof that the project builds.
@@ -89,6 +105,8 @@ Useful audits/reports:
 npm run preflight
 npm run audit:integrity
 npm run audit:a11y
+npm run audit:sources
+npm run validate:literature
 npm run provenance:report
 npm run evidence:review-report
 ```
