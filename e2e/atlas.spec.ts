@@ -25,6 +25,21 @@ test('atlas core interactions remain usable', async ({ page }, testInfo) => {
   await sourceButton.click()
   await expect(sourceButton).toHaveClass(/active/)
 
+  const inspector = page.locator('[data-evidence-inspector]')
+  await expect(inspector).toHaveAttribute('data-subsystem', 'source')
+  const collectorNode = page.locator('button[data-evidence-node="CollectorConcept"]')
+  await collectorNode.click()
+  await expect(inspector).toHaveAttribute('data-node', 'CollectorConcept')
+  await expect(inspector).toContainText('PATENT-SOURCE-CONTAMINATION-001')
+
+  await page.locator('button[data-tour-action="start"]').click()
+  await expect(page.locator('[data-tour-stop="source"]')).toBeVisible()
+  await expect(sourceButton).toHaveClass(/active/)
+  await page.locator('button[data-tour-action="next"]').click()
+  await expect(page.locator('[data-tour-stop="reticle"]')).toBeVisible()
+  await expect(page.locator('button[data-subsystem-id="reticle"]')).toHaveClass(/active/)
+  await page.locator('button[data-tour-action="free"]').click()
+
   const language = page.locator('.language-button')
   const beforeLanguage = (await language.textContent())?.trim()
   await language.click()
@@ -71,4 +86,5 @@ test('procedural scanner fallback survives a blocked source asset', async ({ pag
   await sourceButton.click()
   await expect(sourceButton).toHaveClass(/active/)
   await expect(page.locator('.subsystem-detail h3')).toContainText(/Source|Nguồn/i)
+  await expect(page.locator('[data-evidence-inspector]')).toHaveAttribute('data-subsystem', 'source')
 })
