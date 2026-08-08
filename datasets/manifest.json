@@ -80,6 +80,16 @@
       "license": "OpenEUV gap metadata is repository-licensed; linked upstream datasets/literature retain their own redistribution terms",
       "provenance": "Pins the checked CC0 refractiveindex.info Si candidate and records the separate EUV-range LBNL/CXRO literature candidate without copying numerical tables whose redistribution permission was not verified",
       "schema": "tests/optical-data-gaps.test.mjs"
+    },
+    {
+      "id": "learning-checkpoints",
+      "version": "1.0.0",
+      "path": "evidence/learning-checkpoints.json",
+      "kind": "education-metadata",
+      "source": "OpenEUV bilingual L0-L5 conceptual learning checkpoints based on public-source material already represented in the atlas",
+      "license": "Repository license",
+      "provenance": "One checkpoint covers each current learning level; prompts test conceptual understanding and link only to internal evidence/lab anchors. User answers are not stored in this dataset or persisted by the UI.",
+      "schema": "src/lib/learningCheckpointValidation.mjs"
     }
   ]
 }
