@@ -23,6 +23,8 @@ test('renderer benchmark produces a schema-ready privacy-safe capture', async ({
   expect(capture.capture.browser).toBe('Playwright Chromium')
   expect(capture.capture.timezone).toBeTruthy()
   expect(capture.capture.viewport).toMatch(/^\d+x\d+$/)
+  expect(capture.benchmark.benchmarkVersion).toBe(2)
+  expect(capture.benchmark.syncMode).toBe('explicit-gpu-completion')
   expect(capture.benchmark.webgl.status).toBe('ok')
   expect(capture.capture.serialNumber).toBeUndefined()
   expect(capture.capture.ipAddress).toBeUndefined()
