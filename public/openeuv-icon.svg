@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="OpenEUV">
+  <rect width="512" height="512" rx="112" fill="#050914"/>
+  <circle cx="256" cy="256" r="174" fill="none" stroke="#67e8f9" stroke-width="18" opacity=".9"/>
+  <circle cx="256" cy="256" r="116" fill="#0b2041" stroke="#818cf8" stroke-width="12"/>
+  <path d="M105 256h86m130 0h86M256 105v86m0 130v86" stroke="#67e8f9" stroke-width="14" stroke-linecap="round" opacity=".75"/>
+  <text x="256" y="276" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="92" font-weight="800" fill="#eef6ff">OE</text>
+  <text x="256" y="329" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="32" font-weight="700" fill="#7dd3fc">13.5 nm</text>
+</svg>
