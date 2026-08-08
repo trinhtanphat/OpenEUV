@@ -6,8 +6,9 @@ test('renderer benchmark v2 produces a schema-ready privacy-safe capture', async
   await page.goto('/benchmarks/render-benchmark.html?auto=1')
   await expect(page.locator('html')).toHaveAttribute('data-benchmark-complete', 'true', { timeout: 30_000 })
   await expect(page.locator('#webgl-result')).toContainText('"status": "ok"')
-  await expect(page.locator('#copy')).toBeEnabled()
-  await expect(page.locator('#download')).toBeEnabled()
+  await expect(page.locator('#copy')).toBeDisabled()
+  await expect(page.locator('#download')).toBeDisabled()
+  await expect(page.locator('#status')).toContainText(/fill required OS\/browser metadata/i)
 
   const raw = await page.evaluate(() => (window as typeof window & { __OPENEUV_BENCHMARK__?: unknown }).__OPENEUV_BENCHMARK__)
   expect(raw).toBeTruthy()
@@ -29,6 +30,9 @@ test('renderer benchmark v2 produces a schema-ready privacy-safe capture', async
   await page.locator('#os').fill('Playwright test OS')
   await page.locator('#browser').fill('Playwright Chromium')
   await page.locator('#power-mode').selectOption('unknown')
+  await expect(page.locator('#copy')).toBeEnabled()
+  await expect(page.locator('#download')).toBeEnabled()
+  await expect(page.locator('#status')).toContainText(/capture ready/i)
 
   const captureText = await page.locator('#capture-json').textContent()
   expect(captureText).toBeTruthy()
