@@ -71,6 +71,7 @@ const requiredDocs = [
   'docs/LEARNING_CHECKPOINTS.md',
   'docs/V6_ACCESSIBILITY_EXPORT.md',
   'docs/V7_RELEASE_OFFLINE_A11Y.md',
+  'docs/V8_RESEARCH_OPERATIONS.md',
 ]
 const missingDocs = []
 for (const relativePath of requiredDocs) {
