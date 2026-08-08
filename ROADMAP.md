@@ -1,183 +1,96 @@
 # OpenEUV Roadmap
 
-OpenEUV develops a public-source engineering atlas, not a reproduction of proprietary scanner CAD, service documentation or fab recipes. Missing private or unsupported detail remains an explicit research gap rather than a guessed value.
+OpenEUV is a public-source engineering/learning atlas, not a reconstruction of proprietary CAD, service documentation or private fab recipes. Unsupported/private detail remains an explicit gap instead of being guessed.
 
-## Completed — foundation & interactive atlas
+## Completed — V1–V3 foundation
 
-- [x] Public-source charter, sourcing policy and evidence classes.
-- [x] Interactive Three.js EUV scanner with exploded view and clickable subsystems.
-- [x] Original source/collector, reticle and projection concept assets with procedural fallbacks.
-- [x] Guided camera tour and named-node highlighting.
-- [x] Evidence-backed screen-space concept labels.
-- [x] Adaptive high/balanced/low LOD for mobile and low-power devices.
-- [x] Reproducible concept-asset generator and asset provenance documentation.
+- [x] React + Three.js interactive conceptual EUV scanner.
+- [x] Exploded view, subsystem selection, named-node highlighting and guided tour.
+- [x] Original OpenEUV source/collector, reticle and projection concept assets with procedural fallbacks.
+- [x] Evidence classes A/B/C/D/? with machine-readable claims and unknowns.
+- [x] Public patent-family explorer and metadata auditing.
+- [x] Foundry/fab context for TSMC, Samsung, Intel and later public milestones.
+- [x] Low-NA/High-NA, anamorphic, resolution, multilayer, mask-3D, aberration/focus/overlay and wafer-stage learning tools.
+- [x] EN/VI technical content, glossary and browser/local validation foundation.
 
-## Completed — 3D V4
+## Completed — V4 depth
 
-- [x] Original procedural illumination concept geometry with stable named nodes.
-- [x] Original procedural vacuum/platform concept geometry with stable named nodes.
-- [x] First-party shared vacuum requirement claim (`EUV-VACUUM-001`).
-- [x] Illumination/vacuum node → claim → Contextual Evidence mapping.
-- [x] Reproducible optional glTF generator presets for illumination/vacuum.
-- [x] Low-LOD simplification of secondary concept nodes.
-- [x] Browser fallback coverage with all external `/models/**` requests blocked.
-- [x] Explicit geometry-status/provenance documentation.
+- [x] Procedural illumination and vacuum/platform geometry with stable named nodes.
+- [x] First-party shared vacuum requirement evidence and node→claim links.
+- [x] Assembly Explorer with claim IDs, atlas-node links, lab links, EN/VI research questions and explicit evidence gaps.
+- [x] L0→L5 learning path from semiconductor basics to public-source research.
+- [x] Normalized Fourier/circular-pupil MTF learning lab.
+- [x] Pinned CC0 Mo/Windt 1988 optical constants dataset.
+- [x] Silicon-at-13.5-nm decision recorded as a verified data/license gap; no unsupported extrapolation or ambiguous vendoring.
+- [x] Expanded mask lifecycle context: TSMC cleaning, imec pellicle research and ZEISS AIMS EUV qualification context.
+- [x] Machine-readable fab-case source of truth + validator.
+- [x] Deterministic evidence-review queue and readiness reporting without synthetic reviewer identity.
+- [x] Renderer benchmark method v2, privacy-safe capture schema/analyzer and readiness thresholds.
 
-## Completed — assembly & education
+## Completed — V5 navigation, provenance and QA
 
-- [x] System-level Assembly Explorer: architecture → vacuum/platform → source → illumination → reticle → projection → stage/metrology → integration.
-- [x] Public-evidence/boundary/dependency metadata for every stage.
-- [x] Interactive L0→L5 curriculum from semiconductor basics to public-source EUV research.
-- [x] English/Vietnamese technical UI, glossary and long-form documentation.
-- [x] V4 assembly claim IDs, atlas-node links, related labs and bilingual research questions.
-- [x] Stable deep-links from assembly evidence chips into the Evidence Dashboard.
-- [x] Explicit direct-evidence/node gaps instead of invented mappings.
+- [x] Local-only global Atlas Search across subsystems, claims/unknowns, patents, fab cases, assembly, learning, labs and glossary.
+- [x] EN/VI accent-insensitive search and keyboard Arrow/Enter/Escape navigation.
+- [x] Evidence provenance trace from claims to explicit 3D/Assembly/fab usages.
+- [x] Unified repository preflight separating build invariants from external research readiness.
+- [x] Cross-dataset integrity audit for IDs/paths/references.
+- [x] Human-readable + JSON provenance coverage report.
+- [x] Robust brace-aware TypeScript patent parser used by provenance tooling.
+- [x] Mirror/vacuum concept lab.
+- [x] Evidence-aware EN/VI L0→L5 checkpoints with session-only progress.
+- [x] Duplicate search/provenance tooling consolidated into canonical paths.
 
-## Completed — physics & imaging playgrounds
+## Completed — V6 accessibility, provenance UI and export
 
-- [x] Rayleigh-style resolution helper with independent cross-checks.
-- [x] Low-NA 0.33 vs High-NA 0.55 comparison.
-- [x] High-NA 4×/8× anamorphic-field visualizer.
-- [x] Mask-3D shadowing concept lab.
-- [x] Aberration/focus/leveling/overlay educational lab.
-- [x] Six-degree-of-freedom wafer-stage visualization.
-- [x] Complex-index characteristic-matrix multilayer model.
-- [x] s/p/unpolarized polarization paths.
-- [x] Provenance-aware optical-dataset adapter.
-- [x] Pinned CC0 Mo/Windt 1988 public optical constants dataset including the original 13.55 nm sample.
-- [x] Illustrative-value fallback when a suitable public dataset is unavailable.
-- [x] V4 normalized Fourier/circular-pupil MTF learning lab with deterministic tests and public-reference methodology.
-- [x] V4 silicon-at-13.5-nm data-gap decision recorded as machine-readable provenance: verified CC0 Si candidate is out of range, while the EUV-range public candidate is not vendored without verified redistribution rights.
-- [x] Regression guard forbidding silent Si extrapolation or license-ambiguous numerical-table vendoring.
-
-## Completed — evidence & public research graph
-
-- [x] Machine-readable claims and open-unknowns datasets.
-- [x] Local evidence validation for duplicate IDs, confidence, source URLs and inference rationale.
-- [x] Contextual Evidence links between named 3D nodes and claims.
-- [x] Review-state model: proposed → reviewed → superseded.
-- [x] Public contributor/reviewer attribution and supersession metadata.
-- [x] Evidence Dashboard/Inspector review-state rendering and review coverage.
-- [x] DOI/literature metadata normalization.
-- [x] Public dataset manifest/versioning foundation.
-- [x] V4 deterministic evidence-review queue and campaign workflow that never fabricates reviewer identity.
-- [x] V4 review-campaign readiness reporting with exact reviewed/missing counts and evidence-category coverage.
-
-## Completed — patents
-
-- [x] Curated patent-family map with family/priority/publication metadata.
-- [x] Coverage across source, collector, illumination, reticle, projection, stage, metrology and vacuum.
-- [x] JSON/CSV patent metadata normalizer.
-- [x] Duplicate-family/conflicting-date audit tooling.
-- [x] Metadata completeness/provenance score in Patent Explorer.
-- [x] Explicit warning that patent figures are not confirmed production geometry.
-
-## Completed — fab & mask-lifecycle context
-
-- [x] TSMC public EUV milestones.
-- [x] Samsung public EUV milestones.
-- [x] Intel High-NA installation/calibration milestone context.
-- [x] Micron 1-gamma EUV case.
-- [x] SK hynix 1anm EUV mass-production case.
-- [x] Rapidus IIM-1 / NXE:3800E integration milestone case.
-- [x] Public source/collector contamination case.
-- [x] Reflective-mask/membrane lifecycle case.
-- [x] V4 TSMC EUV-mask dry-cleaning case.
-- [x] V4 imec CNT-pellicle protection case.
-- [x] V4 ZEISS AIMS EUV mask-qualification case.
-- [x] `evidence/fab-cases.json` as the single runtime/validation source of truth.
-- [x] Shared claim IDs, direct public source URLs, public-boundary and explicit-unknown fields for every runtime case.
-- [x] Runtime fab-case validator wired into the local project gate.
-
-## Completed — QA, reproducibility & deployment foundation
-
-- [x] Unit tests for pure physics/data/evidence helpers.
-- [x] Playwright desktop/mobile/fallback/accessibility behavior coverage kept for local execution.
-- [x] JS ↔ Python reproducibility cross-checks where applicable.
-- [x] Method-v2 renderer benchmark harness with explicit GPU completion.
-- [x] Privacy-safe benchmark capture schema/validator/analyzer.
-- [x] Renderer benchmark readiness report with required/missing paired captures and device classes.
-- [x] Manual Cloudflare Workers Static Assets deployment configuration.
-- [x] Vercel-compatible Vite SPA configuration documented.
-- [x] Structured GitHub Issue Forms for evidence, 3D, bugs and real-device benchmarks.
-- [x] GitHub Actions intentionally disabled by project-owner decision.
-
-## Completed — V5 navigation, provenance, QA & learning
-
-- [x] Local-only global atlas search across subsystems, evidence/unknowns, patents, fab cases, Assembly Explorer, learning levels, labs and glossary.
-- [x] EN/VI search labels, accent-insensitive tokenization and keyboard Arrow/Enter/Escape navigation.
-- [x] Evidence claim → usage provenance trace for concept nodes, Assembly stages and fab cases without inferred relationships.
-- [x] Unified repository preflight separating invariant failures from external research readiness.
-- [x] Cross-dataset integrity audit for claim IDs, concept nodes, fab sources, review targets, dataset paths/IDs and patent subsystem IDs.
-- [x] Human-readable + JSON provenance coverage report by evidence class/component/source organization/domain/review state.
-- [x] Patent/fab/license-gap coverage in the provenance report with robust brace-aware TypeScript patent parsing.
-- [x] V5 normalized mirror-vs-transmission / vacuum-need educational concept lab using public evidence boundaries only.
-- [x] Evidence-aware EN/VI learning checkpoints covering L0→L5 with session-only progress and no telemetry/persistence.
-- [x] Machine-readable checkpoint dataset, validator, dataset-manifest registration and browser/unit coverage.
-- [x] Duplicate V5 search/source-coverage/browser-test implementations consolidated into canonical paths.
-
-## Completed — V6 accessibility, provenance UI & research export
-
-- [x] In-browser provenance overview reusing the same provenance summary helper as the CLI.
-- [x] Evidence-class, review-state, open-unknown, patent-completeness, fab-source and data/license-gap overview with deep links to existing sections.
-- [x] Privacy-safe research snapshot schema/helper containing repository-public claims, unknowns, fab cases, dataset manifest metadata, review readiness and provenance coverage.
-- [x] Browser copy/download snapshot flow with no upload or telemetry.
-- [x] Reproducible `npm run research:snapshot -- --generated-at ...` CLI export requiring an explicit timestamp.
-- [x] Case/format-insensitive filtering/rejection for private client fields such as user-agent, IP, device-memory, hardware concurrency, credentials and browser storage/history keys.
+- [x] In-browser provenance overview using the same provenance summary helper as CLI.
+- [x] Evidence/review/unknown/patent/fab/data-gap coverage with deep links.
+- [x] Privacy-safe browser research snapshot export with deterministic schema/validation.
+- [x] Reproducible CLI research snapshot with explicit caller-supplied timestamp.
+- [x] Case/format-insensitive stripping/rejection of client/private snapshot fields.
 - [x] Visible-on-focus skip link and separate semantic header/main landmarks.
-- [x] Reduced-motion-aware search navigation plus global CSS guard for nonessential smooth scrolling/animation.
-- [x] Keyboard-only checkpoint/search coverage and snapshot download browser coverage.
-- [x] V6 documentation registered in repository preflight.
-- [x] Package version advanced to `0.8.0`.
+- [x] Reduced-motion-aware search navigation and CSS reduced-motion guard.
+- [x] Keyboard-only search/checkpoint and snapshot-download browser coverage.
 
-See `docs/V6_ACCESSIBILITY_EXPORT.md`.
+## Completed — V7 release provenance, offline portability and accessibility QA
 
-## Open external dependency — #27 real renderer measurements
+- [x] Package version advanced to `0.9.0`.
+- [x] Build-time public metadata resolver for package version + optional short commit SHA.
+- [x] Recognized SHA sources limited to `OPENEUV_COMMIT_SHA`, `CF_PAGES_COMMIT_SHA` and `VERCEL_GIT_COMMIT_SHA`, with safe `unknown` fallback.
+- [x] Footer exposes public version/commit; build metadata is not user telemetry.
+- [x] Research snapshot schema v2 includes the same public build provenance.
+- [x] Web app manifest + original OpenEUV SVG icon.
+- [x] Production-only module service worker; Vite development mode remains uncached.
+- [x] Same-origin GET-only offline policy; cross-origin, `/api/`, Authorization and non-GET traffic are excluded.
+- [x] Network-first runtime behavior and explicit offline fallback.
+- [x] Versioned OpenEUV cache namespace with old OpenEUV-cache cleanup on activation.
+- [x] `private` / `no-store` responses excluded from both install and runtime cache writes.
+- [x] Deterministic service-worker policy + shell-contract tests.
+- [x] Static accessibility contract audit wired into repository preflight.
+- [x] Accessibility contract covers skip/main/search/status/reduced-motion and duplicate literal shell IDs.
 
-Software/methodology is complete. Remaining acceptance work requires **real hardware**:
+See `docs/V7_RELEASE_OFFLINE_A11Y.md`.
 
-- [ ] Collect at least 3 paired WebGL/WebGPU raw results across at least 2 real laptop/mobile/desktop hardware classes.
-- [ ] Commit anonymized schema-valid captures.
-- [ ] Analyze startup time, median/p95 frame time and observable memory pressure.
-- [ ] Keep WebGL as production baseline unless reproducible multi-device evidence supports a change.
+## QA / deployment policy
 
-Synthetic, headless/emulated or invented values do not close this issue. The analyzer reports the exact remaining capture/device-class gap.
+GitHub Actions remains intentionally disabled by project-owner decision. A GitHub push is not proof that the project builds.
 
-See `benchmarks/README.md`.
-
-## Open external dependency — #29 first real evidence-review campaign
-
-Review machinery, queue tooling and readiness reporting are complete. Remaining work requires **real human reviewers**:
-
-- [ ] Review at least 10 high-impact claims/unknowns against the cited public sources.
-- [ ] Record only real public reviewer handles after actual review.
-- [ ] Correct/narrow/supersede claims where needed while preserving history.
-- [ ] Publish review coverage and unresolved questions.
-
-Generated identities or synthetic review state do not close this issue. The review report shows reviewed `current/10`, missing count and category coverage.
-
-See `docs/EVIDENCE_REVIEW_CAMPAIGN.md`.
-
-## Future contributor depth — evidence first
-
-These are directions, not promises that private information will become available:
-
-- [ ] Improve original concept geometry only where lawful public evidence supports higher fidelity.
-- [ ] Add more first-party foundry/mask-lifecycle cases with explicit boundaries.
-- [ ] Expand academic electromagnetic-mask and computational-imaging learning modules.
-- [ ] Add more language packs while preserving shared claim/source IDs.
-- [ ] Expand public patent/literature coverage without becoming an uncurated scrape.
-- [ ] Add further lawfully redistributable optical datasets when license/provenance can be pinned.
-
-## Verification policy
-
-There is no automatic GitHub Actions gate. Before deployment or claiming a change is verified, run locally:
+Before deployment or a verified claim, run locally:
 
 ```bash
 npm install
 npm run check
 npx playwright install chromium
 npm run e2e
+```
+
+Useful audits/reports:
+
+```bash
+npm run preflight
+npm run audit:integrity
+npm run audit:a11y
+npm run provenance:report
+npm run evidence:review-report
 ```
 
 Manual Cloudflare deployment:
@@ -187,4 +100,38 @@ npm run deploy:cloudflare:dry
 npm run deploy:cloudflare
 ```
 
-Do not re-enable GitHub Actions without an explicit project decision.
+Vercel static SPA configuration also exists in `vercel.json`.
+
+## Open external dependency — #27 real renderer measurements
+
+Software/methodology is complete. Remaining work requires **real hardware**:
+
+- [ ] Collect at least 3 paired WebGL/WebGPU captures across at least 2 real laptop/mobile/desktop classes.
+- [ ] Commit anonymized schema-valid method-v2 captures.
+- [ ] Analyze startup/median/p95/memory observations.
+- [ ] Keep WebGL as baseline unless real multi-device evidence meets the existing adoption threshold.
+
+Synthetic, headless, emulator or invented data does not close #27.
+
+## Open external dependency — #29 real evidence-review campaign
+
+Queue/validator/report/readiness tooling is complete. Remaining work requires **real reviewers**:
+
+- [ ] Review at least 10 high-impact claims/unknowns against cited public sources.
+- [ ] Record only real public reviewer handles after actual review.
+- [ ] Correct/narrow/supersede wording where evidence requires it while preserving history.
+- [ ] Publish review coverage and unresolved questions.
+
+Generated identities or synthetic review records do not close #29.
+
+## Future evidence-first directions
+
+These are contributor directions, not promises that private information will become available:
+
+- [ ] Improve original concept geometry only where lawful public evidence supports higher fidelity.
+- [ ] Add more first-party fab/mask-lifecycle cases with explicit boundaries.
+- [ ] Expand academic electromagnetic-mask/computational-imaging learning modules.
+- [ ] Add more language packs while preserving shared evidence identity.
+- [ ] Expand curated patent/literature coverage without becoming an unreviewed scrape.
+- [ ] Add more lawfully redistributable optical datasets when license/provenance/range can be pinned.
+- [ ] Continue accessibility/manual assistive-technology testing beyond the static/browser regression contracts.
