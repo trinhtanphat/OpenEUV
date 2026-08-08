@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { readFile } from 'node:fs/promises'
+import { resolveBuildMetadata } from '../src/lib/buildMetadata.mjs'
 import { summarizeEvidenceReviewReadiness } from '../src/lib/evidenceReviewReadiness.mjs'
 import { auditPatentRecords } from '../src/lib/patentAudit.mjs'
 import { parsePatentRecordsFromTypeScript } from '../src/lib/patentSourceParser.mjs'
@@ -14,13 +15,14 @@ if (!generatedAt || Number.isNaN(Date.parse(generatedAt))) {
 }
 
 const readJson = async (path) => JSON.parse(await readFile(new URL(`../${path}`, import.meta.url), 'utf8'))
-const [claims, unknowns, reviews, fabCases, manifest, dataGap, patentSource] = await Promise.all([
+const [claims, unknowns, reviews, fabCases, manifest, dataGap, packageJson, patentSource] = await Promise.all([
   readJson('evidence/claims.json'),
   readJson('evidence/unknowns.json'),
   readJson('evidence/reviews.json'),
   readJson('evidence/fab-cases.json'),
   readJson('datasets/manifest.json'),
   readJson('evidence/optical-data-gaps.json'),
+  readJson('package.json'),
   readFile(new URL('../src/data/patents.ts', import.meta.url), 'utf8'),
 ])
 const patents = parsePatentRecordsFromTypeScript(patentSource)
@@ -31,5 +33,6 @@ if (!patents.length) {
 const patentAudit = auditPatentRecords(patents)
 const reviewCoverage = summarizeEvidenceReviewReadiness({ claims, unknowns, registry: reviews, minimumReviewedRecords: 10 })
 const provenanceCoverage = summarizeProvenance({ claims, unknowns, reviews, patents, patentAudit, fabCases, dataGaps: [dataGap] })
-const snapshot = buildResearchSnapshot({ generatedAt, claims, unknowns, fabCases, manifest, reviewCoverage, provenanceCoverage })
+const build = resolveBuildMetadata({ version: packageJson.version, env: process.env })
+const snapshot = buildResearchSnapshot({ generatedAt, build, claims, unknowns, fabCases, manifest, reviewCoverage, provenanceCoverage })
 process.stdout.write(serializeResearchSnapshot(snapshot))
